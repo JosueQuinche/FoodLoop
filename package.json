@@ -1,0 +1,21 @@
+{
+  "name": "foodloop",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "dominio",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "semilla": "npm run semilla --workspace=@foodloop/backend",
+    "dev:backend": "npm run dev --workspace=@foodloop/backend",
+    "dev:frontend": "npm run dev --workspace=@foodloop/frontend",
+    "verificar": "node herramientas/verificar-arquitectura.mjs",
+    "build": "npm run verificar && npm run build --workspace=@foodloop/backend && npm run build --workspace=@foodloop/frontend",
+    "dev": "concurrently -n backend,frontend -c green,cyan \"npm:dev:backend\" \"npm:dev:frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
