@@ -9,28 +9,34 @@
 import { useCallback, useEffect, useState } from "react";
 import type {
   Resultado, Rol, ResumenOperacion, SalidaRecomendacion,
-  Estadisticas, EntradaMerma, Causa,
+  Estadisticas, EntradaMerma, Causa, Usuario,
 } from "@foodloop/dominio";
 import { ErrorDominio, PERFILES, AMBITO, permisosDe } from "@foodloop/dominio";
 import { api, fijarSesion } from "../../infraestructura/adaptadores/salida/http/repositorios";
-import type { Maestros } from "../../infraestructura/adaptadores/salida/http/repositorios";
+import type {
+  Maestros, InventarioItem, HistorialItem,
+} from "../../infraestructura/adaptadores/salida/http/repositorios";
 import { Logo, Icono, Distintivo, fmt } from "../componentes/UI";
 import { BarrasH, BarrasAgrupadas, Anillo, COLOR_ESTADO, ETIQUETA_CAUSA } from "../componentes/Graficas";
 
-type Pantalla = "panel" | "registro" | "recomendaciones" | "xai" | "receta" | "perfil";
+type Pantalla = "panel" | "registro" | "inventario" | "recomendaciones"
+  | "xai" | "receta" | "historial" | "perfil";
 
 const TITULOS: Record<Pantalla, string> = {
   panel: "Panel",
   registro: "Registrar merma",
   recomendaciones: "Recomendaciones",
   xai: "Explicación",
+  inventario: "Ingredientes disponibles",
   receta: "Receta",
+  historial: "Histórico",
   perfil: "Mi perfil",
 };
 
 const ICONOS: Record<Pantalla, Parameters<typeof Icono>[0]["n"]> = {
   panel: "panel", registro: "plus", recomendaciones: "chispa",
   xai: "cerebro", receta: "receta", perfil: "usuario",
+  inventario: "box", historial: "reloj",
 };
 
 const ETIQUETA_VIDA = {
@@ -54,17 +60,15 @@ const FILTROS = [
   { clave: "vencido", etiqueta: "Vencidos" },
 ] as const;
 
+/** Iniciales a partir del nombre real de la cuenta. */
+const iniciales = (nombre: string) =>
+  nombre.split(" ").filter(Boolean).slice(0, 2)
+    .map((p) => p[0]!.toUpperCase()).join("");
+
 const CAUSAS: Causa[] = [
   "sobreproduccion", "devolucion_linea", "error_porcionado",
   "caducidad_proxima", "defecto_calidad",
 ];
-
-const CORREOS: Record<Rol, string> = {
-  chef: "m.calderon@cateringandes.ec",
-  produccion: "l.ordonez@cateringandes.ec",
-  admin: "k.jimenez@cateringandes.ec",
-  calidad: "a.vega@cateringandes.ec",
-};
 
 /** Qué ve cada perfil. Se deriva de las atribuciones, no se declara aparte. */
 const PANTALLAS_ROL: Record<Rol, string[]> = {
@@ -98,23 +102,28 @@ const ATRIBUCIONES = [
 ];
 
 const FORM_INICIAL: EntradaMerma = {
-  ingredienteId: 0, areaId: 0, servicio: "", cantidad: 0,
+  ingredienteId: 0, areaId: 0, servicioId: 0, cantidad: 0,
   estadoProducto: "cocido", temperaturaC: 3.2,
   causa: "sobreproduccion", aptoReproceso: true,
 };
 
 export default function App(
-  { rolInicial, onSalir, tema, alternarTema, notificar }: {
-    rolInicial: Rol; onSalir: () => void; tema: string;
+  { usuario, onSalir, tema, alternarTema, notificar }: {
+    usuario: Usuario; onSalir: () => void; tema: string;
     alternarTema: () => void; notificar: (t: string) => void;
   },
 ) {
-  const [rol, setRol] = useState<Rol>(rolInicial);
+  // El rol viene de la cuenta, no de una lista del código.
+  const [rol, setRol] = useState<Rol>(usuario.rol);
   const [pantalla, setPantalla] = useState<Pantalla>("panel");
   const [resumen, setResumen] = useState<ResumenOperacion | null>(null);
   const [stats, setStats] = useState<Estadisticas | null>(null);
   const [maestros, setMaestros] = useState<Maestros | null>(null);
   const [salida, setSalida] = useState<SalidaRecomendacion | null>(null);
+  const [seleccion, setSeleccion] = useState<Set<number>>(new Set());
+  const [valorados, setValorados] = useState<Set<number>>(new Set());
+  const [inventario, setInventario] = useState<InventarioItem[] | null>(null);
+  const [historial, setHistorial] = useState<HistorialItem[] | null>(null);
   const [recSel, setRecSel] = useState<Resultado | null>(null);
   const [cargando, setCargando] = useState(false);
   const [form, setForm] = useState<EntradaMerma>(FORM_INICIAL);
@@ -137,6 +146,13 @@ export default function App(
   }, []);
 
   useEffect(() => { void refrescar(); }, [refrescar]);
+
+  useEffect(() => {
+    if (pantalla === "inventario" && !inventario)
+      api.inventario().then(setInventario).catch(() => notificar("No se pudo cargar el inventario."));
+    if (pantalla === "historial" && !historial)
+      api.historial().then(setHistorial).catch(() => notificar("No se pudo cargar el histórico."));
+  }, [pantalla, inventario, historial, notificar]);
   useEffect(() => { fijarSesion(rol, PERFILES[rol].nombre); }, [rol]);
 
   useEffect(() => {
@@ -147,26 +163,67 @@ export default function App(
         ...f,
         ingredienteId: m.ingredientes[0]?.id ?? 0,
         areaId: m.areas[0]?.id ?? 0,
-        servicio: m.servicios[0] ?? "",
+        servicioId: 0,
       }));
     }).catch(() => notificar("No se pudieron cargar los catálogos."));
   }, [pantalla, maestros, notificar]);
 
-  async function abrir(loteId: number) {
+  /** Evalúa el conjunto indicado. Uno o varios lotes, mismo camino. */
+  async function abrir(loteIds: number[]) {
+    if (loteIds.length === 0) return;
     setCargando(true); setRecSel(null); setPantalla("recomendaciones");
     try {
-      setSalida(await api.recomendaciones(loteId));
+      setSalida(await api.recomendaciones(loteIds));
     } catch (e) {
-      notificar(e instanceof ErrorDominio ? e.message : "No se pudo evaluar el lote.");
+      notificar(e instanceof ErrorDominio ? e.message : "No se pudo evaluar la selección.");
       setPantalla("panel");
     } finally { setCargando(false); }
+  }
+
+  function alternar(id: number) {
+    setSeleccion((s) => {
+      const n = new Set(s);
+      if (n.has(id)) n.delete(id); else n.add(id);
+      return n;
+    });
+  }
+
+  /** Añade un lote sugerido y vuelve a evaluar con el conjunto ampliado. */
+  async function incorporar(loteId: number) {
+    if (!salida) return;
+    const ids = [...salida.lotes.map((l) => l.id), loteId];
+    setSeleccion(new Set(ids));
+    await abrir(ids);
+    notificar("Lote incorporado. La propuesta se recalculó con el conjunto.");
+  }
+
+  async function valorar(
+    recomendacionId: number,
+    claridad: "clara" | "confusa" | "insuficiente",
+  ) {
+    try {
+      await api.feedback({ recomendacionId, claridad });
+      setValorados((v) => new Set(v).add(recomendacionId));
+      notificar(claridad === "clara"
+        ? "Gracias. Tu valoración alimenta la evaluación del modelo."
+        : "Registrado. Se revisará la redacción de esta explicación.");
+    } catch {
+      notificar("No se pudo registrar la valoración.");
+    }
   }
 
   async function aprobar(r: Resultado) {
     if (!salida) return;
     try {
-      await api.decidir({ loteId: salida.lote.id, recetaId: r.item.id, accion: "aprobada" });
+      if (!r.recomendacionId) {
+        notificar("La recomendación no se pudo identificar. Vuelve a evaluar.");
+        return;
+      }
+      await api.decidir({
+        recomendacionId: r.recomendacionId, recetaId: r.item.id, accion: "aprobada",
+      });
       notificar(`«${r.item.nombre}» aprobada y enviada a producción.`);
+      setSeleccion(new Set());
       await refrescar();
       setPantalla("panel");
     } catch (e) {
@@ -177,7 +234,7 @@ export default function App(
   async function guardarMerma() {
     const err: Record<string, string> = {};
     if (!form.cantidad || form.cantidad <= 0) err.cantidad = "Indica una cantidad mayor que cero.";
-    if (!form.servicio) err.servicio = "Selecciona el servicio.";
+    if (form.servicioId < 0) err.servicioId = "Selecciona el servicio.";
     if (Number.isNaN(form.temperaturaC)) err.temperaturaC = "Indica la temperatura medida.";
     setErrores(err);
     if (Object.keys(err).length) return;
@@ -187,7 +244,7 @@ export default function App(
       notificar(`Lote ${l.codigo} registrado. Vence en `
         + `${Math.round((l.venceEn.getTime() - Date.now()) / 3_600_000)} horas.`);
       setForm({ ...FORM_INICIAL, ingredienteId: form.ingredienteId,
-        areaId: form.areaId, servicio: form.servicio });
+        areaId: form.areaId, servicioId: form.servicioId });
       await refrescar();
       setPantalla("panel");
     } catch (e) {
@@ -221,7 +278,8 @@ export default function App(
           (l) => l.estadoVida !== "vencido" && l.estadoVida !== "sin_dictamen").length
       : (resumen?.lotes ?? []).filter((l) => l.estadoVida === clave).length;
 
-  const pantallas: Pantalla[] = ["panel", "registro", "recomendaciones", "xai", "receta", "perfil"];
+  const pantallas: Pantalla[] = ["panel", "registro", "inventario",
+    "recomendaciones", "xai", "receta", "historial", "perfil"];
 
   return (
     <div className="app">
@@ -250,7 +308,7 @@ export default function App(
         </nav>
         <div className="lateral-pie">
           <div className="fila" style={{ gap: 9 }}>
-            <div className="avatar">{perfil.ini}</div>
+            <div className="avatar">{iniciales(usuario.nombre)}</div>
             <div style={{ minWidth: 0, flex: 1 }}>
               <div className="pequeno" style={{ fontWeight: 500 }}>{perfil.nombre}</div>
               <div className="rotulo">{perfil.titulo}</div>
@@ -275,7 +333,7 @@ export default function App(
               title="Ver mi perfil y permisos"
               style={{ cursor: "pointer", font: "inherit" }}>
               <span className="pequeno apagado">{perfil.titulo}</span>
-              <div className="avatar">{perfil.ini}</div>
+              <div className="avatar">{iniciales(usuario.nombre)}</div>
             </button>
             <button className="btn btn-icono" onClick={alternarTema}
               aria-label="Cambiar entre modo claro y oscuro">
@@ -290,7 +348,11 @@ export default function App(
             <span className="txt">
               {pantalla === "perfil"
                 ? "Consulta tus datos y las atribuciones de tu perfil."
-                : AMBITO[rol][pantalla] ?? AMBITO[rol].panel}
+                : pantalla === "inventario"
+                  ? "Excedente vigente agrupado por ingrediente, ordenado por urgencia."
+                  : pantalla === "historial"
+                    ? "Trazabilidad de lo propuesto, lo decidido y lo valorado."
+                    : AMBITO[rol][pantalla] ?? AMBITO[rol].panel}
             </span>
           </div>
 
@@ -410,6 +472,24 @@ export default function App(
                   </span>
                 </div>
 
+                {seleccion.size > 0 && (
+                  <div className="barra-seleccion">
+                    <span className="pequeno">
+                      <b>{seleccion.size}</b> lote(s) seleccionado(s)
+                      {seleccion.size > 1 && " · se evaluarán como un conjunto"}
+                    </span>
+                    <span className="espacio" />
+                    <button className="btn btn-sm btn-fantasma"
+                      onClick={() => setSeleccion(new Set())}>
+                      Limpiar
+                    </button>
+                    <button className="btn btn-sm btn-primario"
+                      onClick={() => void abrir([...seleccion])}>
+                      <Icono n="chispa" s={15} /> Analizar la selección
+                    </button>
+                  </div>
+                )}
+
                 <div className="barra-filtros">
                   <div className="buscador">
                     <Icono n="buscar" s={16} />
@@ -439,13 +519,21 @@ export default function App(
                 <table>
                   <thead>
                     <tr>
+                      <th style={{ width: 34 }}><span className="sr-only">Seleccionar</span></th>
                       <th>Lote</th><th>Ingrediente</th><th className="num">Cantidad</th>
                       <th className="num">Vida útil</th><th>Estado</th><th></th>
                     </tr>
                   </thead>
                   <tbody>
                     {lotesVisibles.map(({ lote, horasRestantes, estadoVida }) => (
-                      <tr key={lote.id}>
+                      <tr key={lote.id} className={seleccion.has(lote.id) ? "marcada" : ""}>
+                        <td>
+                          <input type="checkbox" className="casilla"
+                            checked={seleccion.has(lote.id)}
+                            disabled={estadoVida === "vencido"}
+                            onChange={() => alternar(lote.id)}
+                            aria-label={`Seleccionar lote ${lote.codigo}`} />
+                        </td>
                         <td className="mono">{lote.codigo}</td>
                         <td>{lote.ingrediente}{" "}
                           <span className="pequeno apagado">({lote.estadoProducto})</span></td>
@@ -465,14 +553,14 @@ export default function App(
                             aria-disabled={estadoVida === "vencido"}
                             onClick={() => estadoVida === "vencido"
                               ? notificar("El lote superó su vida útil: ninguna alternativa es viable.")
-                              : void abrir(lote.id)}>
+                              : void abrir([lote.id])}>
                             Analizar
                           </button>
                         </td>
                       </tr>
                     ))}
                     {lotesVisibles.length === 0 && (
-                      <tr><td colSpan={6} className="apagado pequeno" style={{ padding: 20 }}>
+                      <tr><td colSpan={7} className="apagado pequeno" style={{ padding: 20 }}>
                         {resumen.lotes.length === 0
                           ? "No hay lotes pendientes. Registra uno para empezar."
                           : "Ningún lote coincide con el filtro."}
@@ -557,12 +645,13 @@ export default function App(
                         <div className="campo">
                           <label htmlFor="f-serv">Servicio <span className="req">*</span></label>
                           <div className="select-envoltura">
-                            <select className="entrada" id="f-serv" value={form.servicio}
-                              onChange={(e) => setForm({ ...form, servicio: e.target.value })}>
-                              {maestros.servicios.map((s) => <option key={s} value={s}>{s}</option>)}
+                            <select className="entrada" id="f-serv" value={form.servicioId}
+                              onChange={(e) => setForm({ ...form, servicioId: Number(e.target.value) })}>
+                              {maestros.servicios.map((s, i) =>
+                                <option key={s} value={i}>{s}</option>)}
                             </select>
                           </div>
-                          {errores.servicio && <span className="error-campo">{errores.servicio}</span>}
+                          {errores.servicioId && <span className="error-campo">{errores.servicioId}</span>}
                         </div>
                       </div>
 
@@ -662,10 +751,13 @@ export default function App(
                     <div>
                       <h1>Recomendaciones</h1>
                       <p>
-                        Lote {salida.lote.codigo} · {salida.lote.estadoProducto} ·{" "}
-                        {fmt(salida.lote.cantidad)} {salida.lote.unidad}. El modelo
-                        devolvió {salida.resultados.length} alternativa(s) viable(s)
-                        y descartó {salida.descartes.length}.
+                        {salida.lotes.length === 1
+                          ? `Lote ${salida.lotes[0].codigo} · ${salida.lotes[0].estadoProducto} · `
+                            + `${fmt(salida.lotes[0].cantidad)} ${salida.lotes[0].unidad}.`
+                          : `Conjunto de ${salida.lotes.length} lotes: `
+                            + salida.lotes.map((l) => l.codigo).join(", ") + "."}
+                        {" "}El modelo devolvió {salida.resultados.length} alternativa(s)
+                        viable(s) y descartó {salida.descartes.length}.
                       </p>
                     </div>
                     <div className="espacio" />
@@ -679,11 +771,14 @@ export default function App(
                       <div className="aviso">
                         <Icono n="alerta" s={17} />
                         <div>
-                          <b>Ninguna alternativa viable para este lote.</b>
+                          <b>Ninguna alternativa viable para esta selección.</b>
                           <div className="pequeno apagado" style={{ marginTop: 6 }}>
-                            {salida.lote.aptoReproceso
-                              ? "Los filtros sanitarios descartaron el catálogo completo."
-                              : "El lote no tiene dictamen sanitario favorable."}
+                            {salida.lotes.every((l) => l.aptoReproceso)
+                              ? salida.lotes.length > 1
+                                ? "Ninguna receta del catálogo admite esta combinación "
+                                  + "de ingredientes. Prueba seleccionando menos lotes."
+                                : "Los filtros sanitarios descartaron el catálogo completo."
+                              : "Alguno de los lotes no tiene dictamen sanitario favorable."}
                           </div>
                         </div>
                       </div>
@@ -699,12 +794,35 @@ export default function App(
                               {r.item.area} · {r.item.minutos} min · {r.item.codigo}
                             </p>
                             <div className="rec-meta">
-                              <span>Usa del lote{" "}
-                                <b>{fmt(r.kgAprovechados)} {salida.lote.unidad}</b></span>
+                              <span>Aprovecha <b>{fmt(r.kgAprovechados)} kg</b></span>
                               <span>Rinde <b>{r.porciones} porciones</b></span>
                               {permisos.veCostos &&
                                 <span>Costo recuperado <b>$ {fmt(r.costoRecuperado, 2)}</b></span>}
                             </div>
+
+                            {r.aportes.length > 0 && (
+                              <div className="aportes">
+                                <span className="rotulo">
+                                  {r.aportes.length > 1
+                                    ? `Combina ${r.aportes.length} lotes`
+                                    : "Procede de"}
+                                </span>
+                                <div className="aportes-lista">
+                                  {r.aportes.map((a) => (
+                                    <span className="aporte" key={a.lote.id}>
+                                      <b className="mono">{a.lote.codigo}</b>
+                                      {a.lote.ingrediente}
+                                      <span className="mono">
+                                        {fmt(a.cantidadUsada)} {a.lote.unidad}
+                                      </span>
+                                      {a.esPrincipal && (
+                                        <span className="marca-principal">principal</span>
+                                      )}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                           </div>
                           <div className="rec-punt">
                             <div className="v">{r.aptitud}</div>
@@ -736,6 +854,30 @@ export default function App(
                         </div>
                       </article>
                     ))}
+
+                    {salida.sugerencias.length > 0 && (
+                      <div className="tarjeta sugerencias">
+                        <div className="tarjeta-cab">
+                          <h3>Lotes que mejorarían la propuesta</h3>
+                          <span className="rotulo">decides tú si combinarlos</span>
+                        </div>
+                        <div className="pila" style={{ gap: 10 }}>
+                          {salida.sugerencias.map((s) => (
+                            <div className="sugerencia" key={s.lote.id}>
+                              <span className="ganancia">+{fmt(s.gananciaAptitud, 1)}</span>
+                              <div style={{ flex: 1 }}>
+                                <b className="mono pequeno">{s.lote.codigo}</b>
+                                <div className="pequeno apagado">{s.motivo}</div>
+                              </div>
+                              <button className="btn btn-sm"
+                                onClick={() => void incorporar(s.lote.id)}>
+                                Incorporar
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     {salida.descartes.length > 0 && (
                       <div className="aviso">
@@ -822,12 +964,177 @@ export default function App(
                       posterior.
                     </p>
                   </div>
+
+                  {/* Valoración de la explicación. Se registra aparte de la
+                      decisión: alguien puede aprobar la recomendación y aun
+                      así no entender por qué se le propuso. */}
+                  <div className="tarjeta">
+                    <div className="tarjeta-cab"><h3>¿Se entiende esta explicación?</h3></div>
+                    {recSel.recomendacionId && valorados.has(recSel.recomendacionId) ? (
+                      <p className="pequeno apagado">
+                        <Icono n="check" s={14} /> Ya valoraste esta explicación.
+                      </p>
+                    ) : (
+                      <>
+                        <p className="pequeno apagado" style={{ marginBottom: 12 }}>
+                          Tu respuesta no cambia la recomendación: alimenta la
+                          evaluación del componente de explicabilidad.
+                        </p>
+                        <div className="fila" style={{ gap: 8, flexWrap: "wrap" }}>
+                          {([
+                            ["clara", "Sí, la entiendo"],
+                            ["confusa", "Es confusa"],
+                            ["insuficiente", "Falta información"],
+                          ] as const).map(([clave, texto]) => (
+                            <button key={clave} className="btn btn-sm"
+                              onClick={() => recSel.recomendacionId
+                                ? void valorar(recSel.recomendacionId, clave)
+                                : notificar("Vuelve a evaluar para poder valorar.")}>
+                              {texto}
+                            </button>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
                   <button className="btn btn-primario" style={{ justifyContent: "center" }}
                     onClick={() => setPantalla("receta")}>
                     Continuar a la receta <Icono n="flecha" s={16} />
                   </button>
                 </div>
               </div>
+            </>
+          )}
+
+          {/* ---------------- Ingredientes disponibles (Fase 2) ---------------- */}
+          {pantalla === "inventario" && (
+            <>
+              <div className="cabecera">
+                <div>
+                  <h1>Ingredientes disponibles</h1>
+                  <p>
+                    Excedente vigente agrupado por ingrediente. Lo relevante en
+                    cocina no es cuántos lotes hay, sino cuánto producto hay y
+                    para cuándo.
+                  </p>
+                </div>
+                <div className="espacio" />
+                <button className="btn btn-sm"
+                  onClick={() => { setInventario(null); notificar("Actualizando…"); }}>
+                  <Icono n="refrescar" s={15} /> Actualizar
+                </button>
+              </div>
+
+              {!inventario ? (
+                <div className="tarjeta"><p className="apagado">Cargando…</p></div>
+              ) : inventario.length === 0 ? (
+                <div className="aviso">
+                  <Icono n="alerta" s={17} />
+                  <span>No hay excedente vigente. Todo está comprometido o vencido.</span>
+                </div>
+              ) : (
+                <div className="tarjeta" style={{ padding: "20px 7px 7px" }}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Ingrediente</th><th>Categoría</th>
+                        <th className="num">Lotes</th>
+                        <th className="num">Disponible</th>
+                        <th className="num">Vence en</th>
+                        {permisos.veCostos && <th className="num">Valor</th>}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {inventario.map((i) => (
+                        <tr key={i.ingredienteId}>
+                          <td>{i.ingrediente}</td>
+                          <td className="apagado pequeno">{i.categoria}</td>
+                          <td className="num">{i.lotes}</td>
+                          <td className="num">{fmt(i.disponible)} {i.unidad}</td>
+                          <td className="num">
+                            <Distintivo tipo={i.horasMinimas <= 12 ? "critico"
+                              : i.horasMinimas <= 24 ? "aviso" : "ok"}>
+                              {i.horasMinimas.toFixed(0)} h
+                            </Distintivo>
+                          </td>
+                          {permisos.veCostos &&
+                            <td className="num">$ {fmt(i.valor, 2)}</td>}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* ---------------- Histórico de aprovechamiento (Fase 2) ---------------- */}
+          {pantalla === "historial" && (
+            <>
+              <div className="cabecera">
+                <div>
+                  <h1>Histórico de aprovechamiento</h1>
+                  <p>
+                    Qué propuso el modelo, con qué lotes, quién decidió y cómo
+                    valoró la explicación. Es la traza que permite auditar el
+                    comportamiento del sistema.
+                  </p>
+                </div>
+              </div>
+
+              {!historial ? (
+                <div className="tarjeta"><p className="apagado">Cargando…</p></div>
+              ) : (
+                <div className="tarjeta" style={{ padding: "20px 7px 7px" }}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Fecha</th><th>Receta</th>
+                        <th className="num">Aptitud</th>
+                        <th>Lotes</th><th>Decisión</th><th>Responsable</th>
+                        <th>Explicación</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {historial.map((x) => (
+                        <tr key={x.recomendacionId}>
+                          <td className="mono pequeno">
+                            {x.generadaEn.slice(0, 10)}
+                          </td>
+                          <td>{x.receta}</td>
+                          <td className="num">{fmt(x.aptitud, 1)}</td>
+                          <td className="mono pequeno">
+                            {x.nLotes > 1
+                              ? <Distintivo tipo="ok">{x.nLotes} lotes</Distintivo>
+                              : x.lotes}
+                          </td>
+                          <td>
+                            {x.accion === "aprobada"
+                              ? <Distintivo tipo="ok">Aprobada</Distintivo>
+                              : x.accion === "descartada"
+                                ? <Distintivo tipo="critico">Descartada</Distintivo>
+                                : <Distintivo tipo="neutro">Sin decidir</Distintivo>}
+                          </td>
+                          <td className="pequeno apagado">{x.usuario ?? "—"}</td>
+                          <td className="pequeno apagado">
+                            {x.claridad
+                              ? x.claridad === "clara"
+                                ? <Distintivo tipo="ok">Clara</Distintivo>
+                                : <Distintivo tipo="aviso">{x.claridad}</Distintivo>
+                              : "—"}
+                          </td>
+                        </tr>
+                      ))}
+                      {historial.length === 0 && (
+                        <tr><td colSpan={7} className="apagado pequeno"
+                          style={{ padding: 20 }}>
+                          Todavía no hay recomendaciones registradas.
+                        </td></tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </>
           )}
 
@@ -848,9 +1155,9 @@ export default function App(
                 <div className="pila">
                   <div className="tarjeta">
                     <div className="perfil-cab">
-                      <div className="avatar-grande">{perfil.ini}</div>
+                      <div className="avatar-grande">{iniciales(usuario.nombre)}</div>
                       <div>
-                        <h2>{perfil.nombre}</h2>
+                        <h2>{usuario.nombre}</h2>
                         <p className="apagado pequeno" style={{ marginTop: 2 }}>
                           {perfil.titulo}
                         </p>
@@ -861,7 +1168,10 @@ export default function App(
                       <li><span>Centro</span><span className="mono">Planta Loja</span></li>
                       <li><span>Perfil</span><span className="mono">{rol}</span></li>
                       <li><span>Correo</span><span className="mono pequeno">
-                        {CORREOS[rol]}
+                        {usuario.correo}
+                      </span></li>
+                      <li><span>Cuenta creada</span><span className="mono pequeno">
+                        {usuario.creadoEn.toLocaleDateString("es-EC")}
                       </span></li>
                       <li><span>Sesión iniciada</span><span className="mono">
                         {new Date().toLocaleTimeString("es-EC", {
@@ -951,7 +1261,10 @@ export default function App(
                   <h1>{recSel.item.nombre}</h1>
                   <p>
                     Receta {recSel.item.codigo}, escalada a {recSel.porciones} porciones
-                    de {recSel.item.pesoPorcionG} g a partir del lote {salida.lote.codigo}.
+                    de {recSel.item.pesoPorcionG} g a partir de{" "}
+                    {recSel.aportes.length === 1
+                      ? `el lote ${recSel.aportes[0].lote.codigo}`
+                      : `${recSel.aportes.length} lotes de merma`}.
                   </p>
                 </div>
                 <div className="espacio" />
@@ -974,9 +1287,9 @@ export default function App(
                   <div className="kpi"><div className="l">Costo recuperado</div>
                     <div className="v">$ {fmt(recSel.costoRecuperado, 2)}</div></div>
                 ) : (
-                  <div className="kpi"><div className="l">Del lote</div>
+                  <div className="kpi"><div className="l">Merma aprovechada</div>
                     <div className="v">{fmt(recSel.kgAprovechados)}{" "}
-                      <span className="pequeno apagado">{salida.lote.unidad}</span></div></div>
+                      <span className="pequeno apagado">kg</span></div></div>
                 )}
               </div>
 

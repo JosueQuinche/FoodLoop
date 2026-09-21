@@ -7,7 +7,9 @@
     "dev": "tsx watch src/servidor.ts",
     "start": "tsx src/servidor.ts",
     "semilla": "tsx src/infraestructura/adaptadores/salida/postgres/semilla.ts",
-    "build": "tsc --noEmit"
+    "build": "tsc --noEmit",
+    "validar": "tsx src/infraestructura/adaptadores/salida/postgres/validar.ts",
+    "evaluar": "tsx src/infraestructura/adaptadores/salida/postgres/evaluar.ts"
   },
   "dependencies": {
     "@foodloop/dominio": "1.0.0",

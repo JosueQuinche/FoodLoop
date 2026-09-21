@@ -1,8 +1,46 @@
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
-/** Isotipo: bucle infinito con punta de flecha, verde a naranja. */
-export function Logo({ tam = 34, mono = false }: { tam?: number; mono?: boolean }) {
+/**
+ * Isotipo del cliente.
+ *
+ * Se usan dos representaciones según el tamaño, y no por capricho: el
+ * logotipo completo incluye frutas de pocos píxeles que a 30 px se
+ * convierten en manchas de color ilegibles. Por encima de 64 px se
+ * muestra la imagen original; por debajo, una reducción vectorial del
+ * bucle que conserva la forma y los dos colores de marca.
+ *
+ * La variante clara del archivo lleva el texto en oscuro, de modo que
+ * sobre fondo oscuro se sustituye por la versión aclarada.
+ */
+export function Logo(
+  { tam = 34, mono = false, completo = false }:
+  { tam?: number; mono?: boolean; completo?: boolean },
+) {
+  const [oscuro, setOscuro] = useState(
+    () => document.documentElement.dataset.tema === "oscuro");
+
+  useEffect(() => {
+    const obs = new MutationObserver(() =>
+      setOscuro(document.documentElement.dataset.tema === "oscuro"));
+    obs.observe(document.documentElement, {
+      attributes: true, attributeFilter: ["data-tema"],
+    });
+    return () => obs.disconnect();
+  }, []);
+
+  if (completo || tam >= 64) {
+    return (
+      <img
+        src={oscuro ? "./foodloop-oscuro.png" : "./foodloop.png"}
+        alt="FoodLoop"
+        width={tam}
+        style={{ height: "auto", display: "block", flex: "none" }}
+      />
+    );
+  }
+
+  // Reducción vectorial: el bucle y la punta de flecha, sin las frutas.
   const v = mono ? "currentColor" : "var(--verde)";
   const n = mono ? "currentColor" : "var(--naranja)";
   return (
@@ -13,6 +51,27 @@ export function Logo({ tam = 34, mono = false }: { tam?: number; mono?: boolean 
         stroke={n} strokeWidth="5.5" strokeLinecap="round" />
       <polygon points="36,10 47,4 47,16" fill={n} />
     </svg>
+  );
+}
+
+/**
+ * Logotipo en horizontal: el icono del cliente, con sus frutas, y el
+ * nombre al lado. Es el formato del boceto para la barra de navegación,
+ * donde el logotipo vertical quedaría demasiado pequeño para leerse.
+ */
+export function MarcaHorizontal({ alto = 40 }: { alto?: number }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+      <img src="./foodloop-icono.png" alt="" height={alto}
+        style={{ height: alto, width: "auto", display: "block" }} />
+      <span style={{
+        fontFamily: "Archivo, system-ui, sans-serif", fontWeight: 700,
+        fontSize: alto * 0.62, letterSpacing: "-0.03em", lineHeight: 1,
+      }}>
+        <span style={{ color: "var(--marca-texto)" }}>Food</span>
+        <span style={{ color: "var(--naranja)" }}>Loop</span>
+      </span>
+    </span>
   );
 }
 
@@ -39,6 +98,11 @@ const trazos: Record<string, string> = {
   refrescar: "M20 11.5A8 8 0 1 0 18 17M20 6v5.5h-5.5",
   x: "M6 6l12 12M18 6L6 18",
   buscar: "M11 17.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM16 16l4 4",
+  box: "M3 7.5 12 3l9 4.5v9L12 21l-9-4.5zM3 7.5 12 12l9-4.5M12 12v9",
+  reloj: "M12 20.5a8.5 8.5 0 1 0 0-17 8.5 8.5 0 0 0 0 17zM12 7.5V12l3 2",
+  hoja: "M5 19c0-8 5-14 15-14 0 10-6 15-14 15zM5 19l8-8",
+  globo: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9",
+  grupo: "M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20a6.5 6.5 0 0 1 13 0M16 4.3a3.5 3.5 0 0 1 0 6.4M17.5 13.4a6.5 6.5 0 0 1 4 6.6",
   "flecha-izq": "M19 12H5M11 6l-6 6 6 6",
   usuario: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20a7.5 7.5 0 0 1 15 0",
   escudo: "M12 3l7 3v5.5c0 4.2-2.9 7.6-7 8.5-4.1-.9-7-4.3-7-8.5V6z",

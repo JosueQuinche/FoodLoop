@@ -23,14 +23,16 @@ primera carga puede tardar hasta un minuto. Las siguientes son inmediatas.
 
 ### 0. Requisitos
 
-| Programa | Versión | Dónde |
-|---|---|---|
-| Node.js | 18 o superior | nodejs.org, versión LTS |
-| PostgreSQL | 15 o superior, recomendada la 18 | postgresql.org/download |
+Necesitas **Node.js 18 o superior** (nodejs.org, versión LTS) y una base de
+datos PostgreSQL. Para la base hay dos caminos:
 
-Durante la instalación de PostgreSQL **anota la contraseña del usuario
-`postgres`**: se necesita en el paso 3. Deja el puerto 5432 y marca la
-instalación de pgAdmin.
+**Con Supabase, sin instalar nada.** Es lo recomendado: creas un proyecto
+gratuito, copias la cadena de conexión y listo. Los pasos están en
+`SUPABASE.md`. Si eliges esta vía, salta al paso 3.
+
+**Con PostgreSQL local.** Descarga la versión 15 o superior desde
+postgresql.org/download y **anota la contraseña del usuario `postgres`**
+durante la instalación.
 
 ### 1. Clonar el proyecto
 
@@ -39,7 +41,7 @@ git clone https://github.com/JosueQuinche/FoodLoop.git
 cd FoodLoop
 ```
 
-### 2. Crear la base de datos
+### 2. Crear la base de datos (solo si usas PostgreSQL local)
 
 ```bash
 createdb foodloop
@@ -100,6 +102,22 @@ Si prefieres verlos por separado, en dos terminales:
 | `EADDRINUSE :3001` | Otro proceso ocupa el puerto; ciérralo o cambia `PORT` en el `.env` |
 
 ---
+
+## Cuentas de ejemplo
+
+La semilla crea una cuenta por perfil. La contraseña es `foodloop2026`
+en todas:
+
+| Correo | Perfil |
+|---|---|
+| m.calderon@cateringandes.ec | Chef ejecutivo |
+| l.ordonez@cateringandes.ec | Jefa de producción |
+| k.jimenez@cateringandes.ec | Analista administrativa |
+| a.vega@cateringandes.ec | Supervisor de calidad |
+
+También se pueden crear cuentas nuevas desde la pestaña **Crear cuenta**
+del inicio de sesión. Las contraseñas se guardan con hash y sal mediante
+pgcrypto, nunca en claro.
 
 ## Qué probar
 
@@ -204,6 +222,31 @@ manipule la petición, porque la comprobación vive en el dominio y no en la
 interfaz.
 
 ---
+
+## Fases 3 y 4 de la metodología
+
+```bash
+npm run validar    # Fase 3: contraste contra el histórico
+npm run evaluar    # Fase 4: indicadores del artefacto
+```
+
+`validar` verifica cinco propiedades del artefacto: que nunca viola una
+restricción sanitaria, su cobertura, que es determinista, que combinar
+lotes compatibles no empeora la propuesta, y que el orden de las
+recomendaciones no depende de haber acertado los pesos con precisión.
+
+No mide acierto predictivo contra el histórico, y el propio script
+explica por qué: el conjunto de datos actual es sintético y sus
+decisiones se generaron al azar, de modo que cualquier cifra de acierto
+sería ruido. Esa comparación requiere los datos reales del caso.
+
+`evaluar` agrupa los indicadores en operación, modelo y explicabilidad,
+y muestra cómo la aceptación de cada receta se recalcula a partir de las
+decisiones reales.
+
+La parte cualitativa está en `INSTRUMENTO-EVALUACION.md`: recorrido de
+la sesión, cuestionario de 21 ítems en escala de Likert, preguntas
+abiertas y el análisis previsto.
 
 ## Verificar la arquitectura
 

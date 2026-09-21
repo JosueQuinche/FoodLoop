@@ -12,18 +12,21 @@
 import type {
   RepositorioLotes, RepositorioCatalogo, RepositorioCargas,
   RepositorioDecisiones, RepositorioTrazas, Reloj, ProveedorSesion,
-  RepositorioMaestros, RepositorioEstadisticas,
+  RepositorioMaestros, RepositorioEstadisticas, RepositorioFeedback,
+  RepositorioUsuarios,
 } from "../puertos/salida/repositorios";
 import type {
   ConsultarOperacion, ResumenOperacion, LotePendiente,
   ObtenerRecomendaciones, SalidaRecomendacion,
   RegistrarDecision, ConsultarPermisos, Permisos,
   RegistrarMerma, EntradaMerma, ConsultarEstadisticas, Estadisticas,
-  ConsultarMaestros,
+  ConsultarMaestros, RegistrarFeedback, IniciarSesion, RegistrarUsuario,
 } from "../puertos/entrada/casos-uso";
 import { ErrorDominio } from "../puertos/entrada/casos-uso";
-import type { Decision, Rol, Lote } from "../modelo/tipos";
-import { recomendar, horasRestantes, VERSION_MODELO } from "../servicios/motor";
+import type { Decision, Rol, Lote, Usuario } from "../modelo/tipos";
+import {
+  recomendar, sugerirLotes, horasRestantes, VERSION_MODELO,
+} from "../servicios/motor";
 import { permisosDe } from "../servicios/autorizacion";
 
 // ---------------------------------------------------------------------
@@ -36,15 +39,15 @@ export class ConsultarOperacionUC implements ConsultarOperacion {
   ) {}
 
   async ejecutar(): Promise<ResumenOperacion> {
-    const [pendientes, decisiones] = await Promise.all([
+    const [pendientes, decisiones, comprometidos] = await Promise.all([
       this.lotes.listarPendientes(),
       this.decisiones.listar(),
+      this.decisiones.lotesDecididos(),
     ]);
     const ahora = this.reloj.ahora();
-    const decididos = new Set(decisiones.map((d) => d.loteId));
 
     const items: LotePendiente[] = pendientes
-      .filter((l) => !decididos.has(l.id))
+      .filter((l) => !comprometidos.has(l.id))
       .map((lote) => ({
         lote,
         horasRestantes: horasRestantes(lote, ahora),
@@ -88,32 +91,72 @@ export class ObtenerRecomendacionesUC implements ObtenerRecomendaciones {
     private readonly topN = 3,
   ) {}
 
-  async ejecutar(loteId: number): Promise<SalidaRecomendacion> {
-    const lote = await this.lotes.obtenerPorId(loteId);
-    if (!lote)
-      throw new ErrorDominio(`No existe el lote ${loteId}.`, "LOTE_NO_ENCONTRADO");
+  /**
+   * Acepta uno o varios lotes. El usuario elige la combinación; el
+   * sistema evalúa el conjunto como una unidad y devuelve además los
+   * lotes que mejorarían la propuesta si se incorporaran.
+   */
+  async ejecutar(loteIds: number | number[]): Promise<SalidaRecomendacion> {
+    const ids = Array.isArray(loteIds) ? loteIds : [loteIds];
+    if (ids.length === 0)
+      throw new ErrorDominio("Selecciona al menos un lote.", "SELECCION_VACIA");
 
-    const [items, disponibles, cargas] = await Promise.all([
+    const lotes = await Promise.all(ids.map((id) => this.lotes.obtenerPorId(id)));
+    const faltante = ids.find((_id, i) => lotes[i] === null);
+    if (faltante !== undefined)
+      throw new ErrorDominio(
+        `No existe el lote ${faltante}.`, "LOTE_NO_ENCONTRADO");
+    const seleccion = lotes as Lote[];
+
+    const [items, disponibles, cargas, pendientes] = await Promise.all([
       this.catalogo.listarActivos(),
       this.lotes.inventarioDisponible(),
       this.cargas.cargasPorArea(),
+      this.lotes.listarPendientes(),
     ]);
 
     const ahora = this.reloj.ahora();
     const { resultados, descartes } =
-      recomendar(lote, items, disponibles, cargas, ahora, this.topN);
+      recomendar(seleccion, items, disponibles, cargas, ahora, this.topN);
+
+    // Qué otros lotes elevarían la aptitud. No se combinan solos: la
+    // decisión de qué mezclar es del chef, que conoce restricciones de
+    // cocina que el modelo no observa.
+    const sugerencias = sugerirLotes(
+      seleccion, pendientes, items, disponibles, cargas, ahora);
 
     // La traza se persiste siempre, incluso sin resultados: la Fase 3
-    // necesita conocer los lotes para los que el modelo no propuso nada.
-    await this.trazas.guardar({
-      loteId, generadaEn: ahora, versionModelo: VERSION_MODELO,
+    // necesita conocer los casos para los que el modelo no propuso nada.
+    // Los identificadores que devuelve son los que la interfaz usará
+    // para registrar la decisión y el feedback.
+    const idsPropuestas = await this.trazas.guardar({
+      loteIds: seleccion.map((l) => l.id),
+      generadaEn: ahora,
+      versionModelo: VERSION_MODELO,
+      descartes,
       propuestas: resultados.map((r, i) => ({
-        recetaId: r.item.id, aptitud: r.aptitud, posicion: i + 1,
+        recetaId: r.item.id,
+        posicion: i + 1,
+        aptitud: r.aptitud,
+        porciones: r.porciones,
+        kgAprovechados: r.kgAprovechados,
+        costoRecuperado: r.costoRecuperado,
+        factores: r.factores,
+        contrafactuales: r.contrafactuales,
+        aportes: r.aportes.map((a) => ({
+          mermaId: a.lote.id,
+          cantidadUsada: a.cantidadUsada,
+          esPrincipal: a.esPrincipal,
+        })),
       })),
-      descartes: descartes.length,
     });
 
-    return { lote, resultados, descartes, versionModelo: VERSION_MODELO };
+    return {
+      lotes: seleccion,
+      resultados: resultados.map((r, i) => ({ ...r, recomendacionId: idsPropuestas[i] })),
+      descartes, sugerencias,
+      versionModelo: VERSION_MODELO,
+    };
   }
 }
 
@@ -126,7 +169,7 @@ export class RegistrarDecisionUC implements RegistrarDecision {
   ) {}
 
   async ejecutar(e: {
-    loteId: number; recetaId: number;
+    recomendacionId: number; recetaId: number;
     accion: Decision["accion"]; motivo?: string;
   }): Promise<Decision> {
     const rol = this.sesion.rolActual();
@@ -139,7 +182,8 @@ export class RegistrarDecisionUC implements RegistrarDecision {
         "SIN_ATRIBUCION");
 
     return this.decisiones.registrar({
-      loteId: e.loteId, recetaId: e.recetaId, accion: e.accion,
+      recomendacionId: e.recomendacionId, recetaId: e.recetaId,
+      accion: e.accion, motivo: e.motivo,
       rol, usuario: this.sesion.usuarioActual(),
     });
   }
@@ -197,7 +241,7 @@ export class RegistrarMermaUC implements RegistrarMerma {
     return this.lotes.crear({
       ingredienteId: e.ingredienteId,
       areaId: e.areaId,
-      servicio: e.servicio,
+      servicioId: e.servicioId,
       cantidad: e.cantidad,
       estadoProducto: e.estadoProducto,
       temperaturaC: e.temperaturaC,
@@ -269,5 +313,99 @@ export class ConsultarMaestrosUC implements ConsultarMaestros {
       areas: areas.map((a) => ({ id: a.id, nombre: a.nombre })),
       servicios,
     };
+  }
+}
+
+
+// ---------------------------------------------------------------------
+
+/**
+ * Valoración de la claridad de una explicación.
+ *
+ * Se registra con el rol de quien valora, porque el interés está en si
+ * la comprensión varía entre quien decide en cocina y quien controla
+ * desde escritorio. Cualquier perfil puede valorar, incluso los que no
+ * aprueban: entender la propuesta y tener atribución para ejecutarla
+ * son cosas distintas.
+ */
+export class RegistrarFeedbackUC implements RegistrarFeedback {
+  constructor(
+    private readonly feedback: RepositorioFeedback,
+    private readonly sesion: ProveedorSesion,
+  ) {}
+
+  async ejecutar(e: {
+    recomendacionId: number;
+    claridad: "clara" | "confusa" | "insuficiente";
+    factorConfuso?: string;
+    comentario?: string;
+  }): Promise<void> {
+    await this.feedback.registrar({
+      recomendacionId: e.recomendacionId,
+      rol: this.sesion.rolActual(),
+      usuario: this.sesion.usuarioActual(),
+      claridad: e.claridad,
+      factorConfuso: e.factorConfuso,
+      comentario: e.comentario,
+    });
+  }
+}
+
+
+// ---------------------------------------------------------------------
+
+/**
+ * Inicio de sesión.
+ *
+ * El mensaje de error no distingue entre correo inexistente y clave
+ * incorrecta. Decir cuál de los dos falló permitiría averiguar qué
+ * cuentas existen probando correos, que es lo que se quiere evitar.
+ */
+export class IniciarSesionUC implements IniciarSesion {
+  constructor(private readonly usuarios: RepositorioUsuarios) {}
+
+  async ejecutar(e: { correo: string; clave: string }): Promise<Usuario> {
+    const correo = e.correo.trim().toLowerCase();
+    if (!correo || !e.clave)
+      throw new ErrorDominio("Indica correo y contraseña.", "DATOS_INCOMPLETOS");
+
+    const usuario = await this.usuarios.verificar(correo, e.clave);
+    if (!usuario)
+      throw new ErrorDominio("Correo o contraseña incorrectos.", "CREDENCIALES");
+    if (!usuario.activo)
+      throw new ErrorDominio("La cuenta está desactivada.", "CUENTA_INACTIVA");
+
+    await this.usuarios.registrarAcceso(usuario.id);
+    return usuario;
+  }
+}
+
+/**
+ * Alta de cuenta.
+ *
+ * La validación de la contraseña vive aquí y no en la interfaz: un
+ * adaptador de entrada distinto quedaría cubierto por la misma regla.
+ */
+export class RegistrarUsuarioUC implements RegistrarUsuario {
+  constructor(private readonly usuarios: RepositorioUsuarios) {}
+
+  async ejecutar(e: {
+    correo: string; nombre: string; rol: Rol; clave: string;
+  }): Promise<Usuario> {
+    const correo = e.correo.trim().toLowerCase();
+    const nombre = e.nombre.trim();
+
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(correo))
+      throw new ErrorDominio("El correo no tiene un formato válido.", "CORREO_INVALIDO");
+    if (nombre.length < 3)
+      throw new ErrorDominio("Escribe el nombre completo.", "NOMBRE_CORTO");
+    if (e.clave.length < 8)
+      throw new ErrorDominio(
+        "La contraseña debe tener al menos 8 caracteres.", "CLAVE_CORTA");
+
+    if (await this.usuarios.buscarPorCorreo(correo))
+      throw new ErrorDominio("Ya existe una cuenta con ese correo.", "CORREO_DUPLICADO");
+
+    return this.usuarios.crear({ correo, nombre, rol: e.rol, clave: e.clave });
   }
 }

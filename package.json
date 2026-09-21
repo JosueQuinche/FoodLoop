@@ -13,7 +13,9 @@
     "dev:frontend": "npm run dev --workspace=@foodloop/frontend",
     "verificar": "node herramientas/verificar-arquitectura.mjs",
     "build": "npm run verificar && npm run build --workspace=@foodloop/backend && npm run build --workspace=@foodloop/frontend",
-    "dev": "concurrently -n backend,frontend -c green,cyan \"npm:dev:backend\" \"npm:dev:frontend\""
+    "dev": "concurrently -n backend,frontend -c green,cyan \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "validar": "npm run validar --workspace=@foodloop/backend",
+    "evaluar": "npm run evaluar --workspace=@foodloop/backend"
   },
   "devDependencies": {
     "concurrently": "^9.1.0"

@@ -9,16 +9,18 @@
 import {
   ConsultarOperacionUC, ObtenerRecomendacionesUC, RegistrarDecisionUC,
   ConsultarPermisosUC, RegistrarMermaUC, ConsultarEstadisticasUC,
-  ConsultarMaestrosUC,
+  ConsultarMaestrosUC, RegistrarFeedbackUC,
+  IniciarSesionUC, RegistrarUsuarioUC,
 } from "@foodloop/dominio";
 import type {
   ConsultarOperacion, ObtenerRecomendaciones, RegistrarDecision,
   ConsultarPermisos, RegistrarMerma, ConsultarEstadisticas,
-  ConsultarMaestros, Reloj, ProveedorSesion, Rol,
+  ConsultarMaestros, RegistrarFeedback, IniciarSesion, RegistrarUsuario,
+  Reloj, ProveedorSesion, Rol,
 } from "@foodloop/dominio";
 import {
   crearPiscina, aplicarEsquema, LotesPg, CatalogoPg, CargasPg,
-  DecisionesPg, TrazasPg, MaestrosPg, EstadisticasPg,
+  DecisionesPg, TrazasPg, MaestrosPg, EstadisticasPg, FeedbackPg, UsuariosPg,
 } from "../adaptadores/salida/postgres/repositorios";
 import type { Piscina } from "../adaptadores/salida/postgres/repositorios";
 
@@ -42,6 +44,9 @@ export interface Contenedor {
   registrarMerma: RegistrarMerma;
   consultarEstadisticas: ConsultarEstadisticas;
   consultarMaestros: ConsultarMaestros;
+  registrarFeedback: RegistrarFeedback;
+  iniciarSesion: IniciarSesion;
+  registrarUsuario: RegistrarUsuario;
   sesion: Sesion;
   piscina: Piscina;
 }
@@ -60,6 +65,8 @@ export async function crearContenedor(cadena: string): Promise<Contenedor> {
   const trazas = new TrazasPg(piscina);
   const maestros = new MaestrosPg(piscina);
   const stats = new EstadisticasPg(piscina);
+  const feedback = new FeedbackPg(piscina);
+  const usuarios = new UsuariosPg(piscina);
 
   return {
     consultarOperacion: new ConsultarOperacionUC(lotes, decisiones, reloj),
@@ -70,6 +77,9 @@ export async function crearContenedor(cadena: string): Promise<Contenedor> {
     registrarMerma: new RegistrarMermaUC(lotes, maestros, reloj),
     consultarEstadisticas: new ConsultarEstadisticasUC(stats, lotes, reloj),
     consultarMaestros: new ConsultarMaestrosUC(maestros),
+    registrarFeedback: new RegistrarFeedbackUC(feedback, sesion),
+    iniciarSesion: new IniciarSesionUC(usuarios),
+    registrarUsuario: new RegistrarUsuarioUC(usuarios),
     sesion, piscina,
   };
 }

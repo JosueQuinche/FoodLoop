@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { Logo, Marca, Icono } from "../componentes/UI";
+import { Logo, Icono, MarcaHorizontal } from "../componentes/UI";
 
 /** El id enlaza cada entrada del menú con su sección en la página. */
+/** El id enlaza cada entrada del menú con su sección en la página. */
 const SECCIONES = [
-  { id: "contexto", t: "Contexto" },
-  { id: "metodo", t: "Método" },
-  { id: "proceso", t: "Proceso" },
-  { id: "acceso", t: "Acceso" },
+  { id: "inicio", t: "Inicio" },
+  { id: "contexto", t: "Cómo funciona" },
+  { id: "impacto", t: "Impacto" },
+  { id: "proceso", t: "Recomendaciones" },
+  { id: "acceso", t: "Contacto" },
 ];
 
 const PILARES = [
@@ -72,7 +74,7 @@ export default function Portada({ onEntrar }: { onEntrar: () => void }) {
         <span className="orbe o3" />
       </div>
       <nav className="p-nav">
-        <span className="marca"><Marca /></span>
+        <span className="marca"><MarcaHorizontal alto={42} /></span>
         <div className="enlaces">
           {SECCIONES.map((s) => (
             <button key={s.id} onClick={() => irA(s.id)}
@@ -80,46 +82,64 @@ export default function Portada({ onEntrar }: { onEntrar: () => void }) {
               {s.t}
             </button>
           ))}
-          <button className="btn btn-sm btn-primario" onClick={onEntrar}>
-            Entrar
-          </button>
         </div>
+        <button className="btn btn-primario btn-pildora" onClick={onEntrar}>
+          Iniciar sesión <Icono n="usuario" s={16} />
+        </button>
       </nav>
 
-      <header className="hero">
-        <span className="rotulo">Catering industrial · Loja, Ecuador</span>
-        <h1>De la merma a <em>nuevas recetas</em></h1>
-        <div className="hero-pie">
+      <header className="hero" id="inicio">
+        <div className="hero-texto">
+          <span className="antetitulo">Unidos contra el desperdicio</span>
+          <h1>
+            <span className="linea">De la merma a</span>
+            <span className="linea"><em>nuevas recetas</em></span>
+          </h1>
           <p>
-            Un modelo de apoyo a la decisión que convierte los registros históricos
-            de producción y residuos en recomendaciones concretas de reaprovechamiento
-            culinario, con la explicación de cada propuesta.
+            Un modelo de apoyo a la decisión que convierte el excedente de
+            cocina en recomendaciones concretas de reaprovechamiento, y explica
+            en qué se basa cada propuesta antes de que la apruebes.
           </p>
+          <div className="hero-acciones">
+            <button className="btn btn-primario btn-grande btn-pildora"
+              onClick={onEntrar}>
+              Ver panel <Icono n="flecha" s={18} />
+            </button>
+            <button className="btn btn-grande btn-pildora btn-contorno"
+              onClick={() => irA("proceso")}>
+              Ver una recomendación <Icono n="chispa" s={17} />
+            </button>
+          </div>
         </div>
-        <div className="fila" style={{ gap: 12, marginTop: 28 }}>
-          <button className="btn btn-primario btn-grande" onClick={onEntrar}>
-            Abrir el panel <Icono n="flecha" s={18} />
-          </button>
-          <button className="btn btn-grande" onClick={() => onEntrar()}>
-            Ver una recomendación
-          </button>
+
+        <div className="hero-arte" aria-hidden="true">
+          <img src="./hero-foodloop.jpg" alt="" />
         </div>
       </header>
 
-      <div className="cifras">
-        <div>
-          <div className="n">939 000</div>
-          <div className="l">Toneladas perdidas al año en Ecuador</div>
+      <section className="franja-cifras" id="impacto">
+        <div className="cifra">
+          <span className="cifra-icono"><Icono n="hoja" s={26} /></span>
+          <div>
+            <div className="n">939 000</div>
+            <div className="l">Toneladas perdidas al año en Ecuador</div>
+          </div>
         </div>
-        <div>
-          <div className="n">8–10 %</div>
-          <div className="l">De las emisiones globales atribuidas al desperdicio</div>
+        <div className="cifra">
+          <span className="cifra-icono"><Icono n="globo" s={26} /></span>
+          <div>
+            <div className="n">8–10 %</div>
+            <div className="l">De las emisiones globales atribuidas al desperdicio</div>
+          </div>
         </div>
-        <div>
-          <div className="n">7</div>
-          <div className="l">Factores que el modelo evalúa y explica</div>
+        <div className="cifra">
+          <span className="cifra-icono"><Icono n="grupo" s={26} /></span>
+          <div>
+            <div className="n">7</div>
+            <div className="l">Factores que el modelo evalúa y explica</div>
+          </div>
         </div>
-      </div>
+      </section>
 
       <section className="seccion" id="contexto">
         <div className="seccion-cab">
@@ -209,8 +229,8 @@ export default function Portada({ onEntrar }: { onEntrar: () => void }) {
       </section>
 
       <footer className="pie">
-        <Logo tam={22} />
-        <span>FoodLoop · Prototipo funcional v1.0</span>
+        <Logo tam={96} completo />
+        <span>Prototipo funcional v1.0</span>
         <span style={{ marginLeft: "auto" }}>
           Modelo para el aprovechamiento de mermas alimentarias en operaciones de
           catering industrial

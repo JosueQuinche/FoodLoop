@@ -6,7 +6,7 @@
  */
 import { StrictMode, useState, useCallback, useRef } from "react";
 import { createRoot } from "react-dom/client";
-import type { Rol } from "@foodloop/dominio";
+import type { Usuario } from "@foodloop/dominio";
 import Portada from "./ui/paginas/Portada";
 import Login from "./ui/paginas/Login";
 import App from "./ui/paginas/App";
@@ -17,7 +17,7 @@ type Vista = "portada" | "login" | "app";
 
 function Raiz() {
   const [vista, setVista] = useState<Vista>("portada");
-  const [rol, setRol] = useState<Rol>("chef");
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [aviso, setAviso] = useState<string | null>(null);
   const { tema, alternar } = useTema();
   const temp = useRef<number>();
@@ -35,13 +35,13 @@ function Raiz() {
       {vista === "login" && (
         <Login
           onVolver={() => setVista("portada")}
-          onEntrar={(r) => { setRol(r); setVista("app"); }}
+          onEntrar={(u) => { setUsuario(u); setVista("app"); }}
         />
       )}
 
-      {vista === "app" && (
+      {vista === "app" && usuario && (
         <App
-          rolInicial={rol}
+          usuario={usuario}
           onSalir={() => setVista("login")}
           tema={tema}
           alternarTema={alternar}

@@ -16,7 +16,9 @@
  * introducir el adaptador HTTP.
  */
 
-import type { Lote, ItemCatalogo, Decision, Rol } from "../../modelo/tipos";
+import type {
+  Lote, ItemCatalogo, Decision, Rol, Descarte, Usuario,
+} from "../../modelo/tipos";
 
 /** Acceso a los elementos disponibles. Aquí, las mermas registradas. */
 export interface RepositorioLotes {
@@ -32,7 +34,7 @@ export interface RepositorioLotes {
 export interface NuevoLote {
   ingredienteId: number;
   areaId: number;
-  servicio: string;
+  servicioId: number;
   cantidad: number;
   estadoProducto: "crudo" | "cocido";
   temperaturaC: number;
@@ -78,6 +80,19 @@ export interface RepositorioCargas {
 export interface RepositorioDecisiones {
   registrar(d: Omit<Decision, "id" | "decididaEn">): Promise<Decision>;
   listar(): Promise<Decision[]>;
+  /** Lotes ya comprometidos en recomendaciones aprobadas. */
+  lotesDecididos(): Promise<Set<number>>;
+}
+
+/** Valoración de la explicación. Alimenta la evaluación del XAI. */
+export interface RepositorioFeedback {
+  registrar(f: {
+    recomendacionId: number; rol: Rol; usuario: string;
+    claridad: "clara" | "confusa" | "insuficiente";
+    factorConfuso?: string; comentario?: string;
+  }): Promise<void>;
+  claridadPorReceta(): Promise<
+    { receta: string; valoraciones: number; claras: number; pctClaras: number }[]>;
 }
 
 /**
@@ -86,16 +101,52 @@ export interface RepositorioDecisiones {
  * sobre ella, y la Fase 3 necesita justamente esos casos.
  */
 export interface RepositorioTrazas {
-  guardar(traza: TrazaRecomendacion): Promise<void>;
+  /** Devuelve el id asignado a cada propuesta, en orden de posición. */
+  guardar(traza: TrazaRecomendacion): Promise<number[]>;
   listar(): Promise<TrazaRecomendacion[]>;
 }
 
+/**
+ * Lo que el modelo propuso en una evaluación. Se persiste siempre,
+ * incluso cuando no propuso nada: la Fase 3 necesita esos casos.
+ */
 export interface TrazaRecomendacion {
-  loteId: number;
+  loteIds: number[];
   generadaEn: Date;
   versionModelo: string;
-  propuestas: { recetaId: number; aptitud: number; posicion: number }[];
-  descartes: number;
+  descartes: Descarte[];
+  propuestas: PropuestaPersistida[];
+}
+
+/** Una alternativa concreta, con los lotes que consumiría. */
+export interface PropuestaPersistida {
+  recetaId: number;
+  posicion: number;
+  aptitud: number;
+  porciones: number;
+  kgAprovechados: number;
+  costoRecuperado: number;
+  factores: { nombre: string; valorObservado: string; peso: number; contribucion: number }[];
+  contrafactuales: string[];
+  aportes: { mermaId: number; cantidadUsada: number; esPrincipal: boolean }[];
+}
+
+/**
+ * Acceso a las cuentas.
+ *
+ * El dominio nunca ve contraseñas en claro más allá del momento de
+ * verificarlas: el hash y su comprobación son responsabilidad del
+ * adaptador, que es quien conoce el algoritmo.
+ */
+export interface RepositorioUsuarios {
+  buscarPorCorreo(correo: string): Promise<Usuario | null>;
+  /** Devuelve el usuario si la contraseña coincide, null si no. */
+  verificar(correo: string, clave: string): Promise<Usuario | null>;
+  crear(datos: {
+    correo: string; nombre: string; rol: Rol; clave: string;
+  }): Promise<Usuario>;
+  registrarAcceso(id: string): Promise<void>;
+  listar(): Promise<Usuario[]>;
 }
 
 /** Reloj. Inyectarlo hace el dominio determinista y testeable. */

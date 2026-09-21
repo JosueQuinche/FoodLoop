@@ -9,7 +9,9 @@
  * permite montar la interfaz contra dobles de prueba sin levantar nada.
  */
 
-import type { Lote, Resultado, Descarte, Rol, Decision } from "../../modelo/tipos";
+import type {
+  Lote, Resultado, Descarte, Rol, Decision, Sugerencia, Usuario,
+} from "../../modelo/tipos";
 
 export interface LotePendiente {
   lote: Lote;
@@ -33,25 +35,38 @@ export interface ConsultarOperacion {
 }
 
 export interface SalidaRecomendacion {
-  lote: Lote;
+  /** Los lotes que el usuario seleccionó para esta evaluación. */
+  lotes: Lote[];
   resultados: Resultado[];
   descartes: Descarte[];
+  /** Lotes no seleccionados que elevarían la aptitud. */
+  sugerencias: Sugerencia[];
   versionModelo: string;
 }
 
-/** Caso de uso 2: obtener recomendaciones para un lote. */
+/** Caso de uso 2: obtener recomendaciones para uno o varios lotes. */
 export interface ObtenerRecomendaciones {
-  ejecutar(loteId: number): Promise<SalidaRecomendacion>;
+  ejecutar(loteIds: number | number[]): Promise<SalidaRecomendacion>;
 }
 
 /** Caso de uso 3: registrar la decisión del responsable. */
 export interface RegistrarDecision {
   ejecutar(entrada: {
-    loteId: number;
+    recomendacionId: number;
     recetaId: number;
     accion: Decision["accion"];
     motivo?: string;
   }): Promise<Decision>;
+}
+
+/** Caso de uso 8: valorar la claridad de una explicación. */
+export interface RegistrarFeedback {
+  ejecutar(entrada: {
+    recomendacionId: number;
+    claridad: "clara" | "confusa" | "insuficiente";
+    factorConfuso?: string;
+    comentario?: string;
+  }): Promise<void>;
 }
 
 /**
@@ -76,7 +91,7 @@ export interface ConsultarPermisos {
 export interface EntradaMerma {
   ingredienteId: number;
   areaId: number;
-  servicio: string;
+  servicioId: number;
   cantidad: number;
   estadoProducto: "crudo" | "cocido";
   temperaturaC: number;
@@ -118,6 +133,18 @@ export interface ConsultarMaestros {
     areas: { id: number; nombre: string }[];
     servicios: string[];
   }>;
+}
+
+/** Caso de uso 9: autenticar a una persona. */
+export interface IniciarSesion {
+  ejecutar(entrada: { correo: string; clave: string }): Promise<Usuario>;
+}
+
+/** Caso de uso 10: dar de alta una cuenta. */
+export interface RegistrarUsuario {
+  ejecutar(entrada: {
+    correo: string; nombre: string; rol: Rol; clave: string;
+  }): Promise<Usuario>;
 }
 
 /** Error de dominio. La UI lo distingue de un fallo de infraestructura. */

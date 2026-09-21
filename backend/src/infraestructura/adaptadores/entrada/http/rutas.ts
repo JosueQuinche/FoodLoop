@@ -28,6 +28,34 @@ export function crearRutas(c: Contenedor): Router {
     next();
   });
 
+  /**
+   * Autenticación. El prototipo devuelve los datos del usuario y la
+   * interfaz los conserva en memoria; una implantación real emitiría un
+   * token firmado y este archivo sería el único que cambiaría.
+   */
+  r.post("/sesion", async (req, res, next) => {
+    try {
+      const u = await c.iniciarSesion.ejecutar({
+        correo: String(req.body.correo ?? ""),
+        clave: String(req.body.clave ?? ""),
+      });
+      c.sesion.cambiar(u.rol, u.nombre);
+      res.json(u);
+    } catch (e) { next(e); }
+  });
+
+  r.post("/usuarios", async (req, res, next) => {
+    try {
+      const u = await c.registrarUsuario.ejecutar({
+        correo: String(req.body.correo ?? ""),
+        nombre: String(req.body.nombre ?? ""),
+        rol: req.body.rol,
+        clave: String(req.body.clave ?? ""),
+      });
+      res.status(201).json(u);
+    } catch (e) { next(e); }
+  });
+
   r.get("/salud", (_req, res) => {
     res.json({ estado: "ok", version: "1.0.0" });
   });
@@ -51,9 +79,87 @@ export function crearRutas(c: Contenedor): Router {
     } catch (e) { next(e); }
   });
 
+  /**
+   * Evaluación de varios lotes a la vez. Los identificadores viajan en
+   * el cuerpo y no en la ruta porque una selección puede ser larga y las
+   * URL tienen límite de longitud.
+   */
+  r.post("/recomendaciones", async (req, res, next) => {
+    try {
+      const ids = (req.body.loteIds as unknown[] ?? []).map(Number);
+      res.json(await c.obtenerRecomendaciones.ejecutar(ids));
+    } catch (e) { next(e); }
+  });
+
+  r.post("/feedback", async (req, res, next) => {
+    try {
+      await c.registrarFeedback.ejecutar({
+        recomendacionId: Number(req.body.recomendacionId),
+        claridad: req.body.claridad,
+        factorConfuso: req.body.factorConfuso,
+        comentario: req.body.comentario,
+      });
+      res.status(201).json({ estado: "registrado" });
+    } catch (e) { next(e); }
+  });
+
   r.get("/estadisticas", async (_req, res, next) => {
     try {
       res.json(await c.consultarEstadisticas.ejecutar());
+    } catch (e) { next(e); }
+  });
+
+  /**
+   * Disponibilidad de ingredientes. Agrupa los lotes vigentes por
+   * ingrediente, que es como lo consulta una cocina: no importa cuántos
+   * lotes de pollo hay, importa cuánto pollo hay y para cuándo.
+   */
+  r.get("/inventario", async (_req, res, next) => {
+    try {
+      const { rows } = await c.piscina.query(`
+        SELECT
+          v.ingrediente_id, v.ingrediente, i.categoria, v.unidad,
+          COUNT(*)::int AS lotes,
+          ROUND(SUM(v.cantidad_disponible), 2) AS disponible,
+          ROUND(SUM(v.valor), 2) AS valor,
+          ROUND(MIN(v.horas_restantes)::numeric, 1) AS horas_minimas
+        FROM v_lote_disponible v
+        JOIN ingrediente i ON i.id = v.ingrediente_id
+        WHERE v.cantidad_disponible > 0 AND v.apto_reproceso
+        GROUP BY v.ingrediente_id, v.ingrediente, i.categoria, v.unidad
+        ORDER BY horas_minimas ASC`);
+      res.json(rows.map((r2) => ({
+        ingredienteId: Number(r2.ingrediente_id),
+        ingrediente: String(r2.ingrediente),
+        categoria: String(r2.categoria),
+        unidad: String(r2.unidad),
+        lotes: Number(r2.lotes),
+        disponible: Number(r2.disponible),
+        valor: Number(r2.valor),
+        horasMinimas: Number(r2.horas_minimas),
+      })));
+    } catch (e) { next(e); }
+  });
+
+  /** Histórico de aprovechamiento: qué se propuso y qué se decidió. */
+  r.get("/historial", async (_req, res, next) => {
+    try {
+      const { rows } = await c.piscina.query(
+        "SELECT * FROM v_trazabilidad LIMIT 60");
+      res.json(rows.map((f) => ({
+        recomendacionId: Number(f.recomendacion_id),
+        generadaEn: String(f.generada_en),
+        receta: String(f.receta),
+        aptitud: Number(f.aptitud),
+        lotes: String(f.lotes ?? ""),
+        nLotes: Number(f.lotes_usados ?? 0),
+        kgAprovechados: 0,
+        costoRecuperado: 0,
+        accion: f.accion ? String(f.accion) : null,
+        usuario: f.usuario ? String(f.usuario) : null,
+        rol: f.rol ? String(f.rol) : null,
+        claridad: f.claridad_explicacion ? String(f.claridad_explicacion) : null,
+      })));
     } catch (e) { next(e); }
   });
 
@@ -68,7 +174,7 @@ export function crearRutas(c: Contenedor): Router {
       const l = await c.registrarMerma.ejecutar({
         ingredienteId: Number(req.body.ingredienteId),
         areaId: Number(req.body.areaId),
-        servicio: String(req.body.servicio),
+        servicioId: Number(req.body.servicioId),
         cantidad: Number(req.body.cantidad),
         estadoProducto: req.body.estadoProducto,
         temperaturaC: Number(req.body.temperaturaC),
@@ -82,7 +188,7 @@ export function crearRutas(c: Contenedor): Router {
   r.post("/decisiones", async (req, res, next) => {
     try {
       res.status(201).json(await c.registrarDecision.ejecutar({
-        loteId: Number(req.body.loteId),
+        recomendacionId: Number(req.body.recomendacionId),
         recetaId: Number(req.body.recetaId),
         accion: req.body.accion,
         motivo: req.body.motivo,
@@ -107,7 +213,9 @@ export function crearRutas(c: Contenedor): Router {
   r.use((err: unknown, _req: unknown, res: any, _next: unknown) => {
     if (err instanceof ErrorDominio) {
       const estado = err.codigo.endsWith("_NO_ENCONTRADO") ? 404
-        : err.codigo === "SIN_ATRIBUCION" ? 403 : 400;
+        : err.codigo === "SIN_ATRIBUCION" ? 403
+        : err.codigo === "CREDENCIALES" || err.codigo === "CUENTA_INACTIVA" ? 401
+        : err.codigo === "CORREO_DUPLICADO" ? 409 : 400;
       res.status(estado).json({ error: err.message, codigo: err.codigo });
       return;
     }

@@ -81,6 +81,14 @@ export interface ItemCatalogo {
   pasos: string[];
 }
 
+/** Porción de un lote que una recomendación consume. */
+export interface AporteLote {
+  lote: Lote;
+  cantidadUsada: number;
+  /** Cubre el ingrediente principal de la receta o uno complementario. */
+  esPrincipal: boolean;
+}
+
 export interface Factor {
   nombre: string;
   valorObservado: string;
@@ -89,15 +97,30 @@ export interface Factor {
 }
 
 export interface Resultado {
+  /** Asignado al persistir la traza; la interfaz lo usa para decidir. */
+  recomendacionId?: number;
   item: ItemCatalogo;
   aptitud: number;
   factores: Factor[];
+  /** Qué lotes consume y en qué cantidad. Antes era un único lote. */
+  aportes: AporteLote[];
   kgAprovechados: number;
   porciones: number;
   costoRecuperado: number;
   escala: number;
   contrafactuales: string[];
   resumen: string;
+}
+
+/**
+ * Lote que el usuario no seleccionó pero que mejoraría la propuesta.
+ * La selección la decide el chef; el sistema solo señala la oportunidad.
+ */
+export interface Sugerencia {
+  lote: Lote;
+  motivo: string;
+  /** Cuánto subiría la aptitud si se incorporara. */
+  gananciaAptitud: number;
 }
 
 export interface Descarte {
@@ -107,10 +130,30 @@ export interface Descarte {
 
 export interface Decision {
   id: string;
-  loteId: number;
+  /** La decisión aprueba una recomendación completa, no un lote suelto. */
+  recomendacionId: number;
   recetaId: number;
   rol: Rol;
   usuario: string;
   accion: "aprobada" | "modificada" | "descartada";
+  motivo?: string;
   decididaEn: Date;
+}
+
+
+/** Cuenta de una persona que opera el sistema. */
+export interface Usuario {
+  id: string;
+  correo: string;
+  nombre: string;
+  rol: Rol;
+  activo: boolean;
+  creadoEn: Date;
+  ultimoAcceso?: Date;
+}
+
+/** Sesión abierta tras autenticarse. */
+export interface Sesion {
+  usuario: Usuario;
+  token: string;
 }

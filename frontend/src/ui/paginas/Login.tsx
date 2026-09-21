@@ -10,8 +10,9 @@
  */
 
 import { useState } from "react";
-import type { Rol } from "@foodloop/dominio";
-import { PERFILES, permisosDe } from "@foodloop/dominio";
+import type { Rol, Usuario } from "@foodloop/dominio";
+import { ErrorDominio, PERFILES, permisosDe } from "@foodloop/dominio";
+import { api } from "../../infraestructura/adaptadores/salida/http/repositorios";
 import { Logo, Icono } from "../componentes/UI";
 
 const CORREOS: Record<Rol, string> = {
@@ -30,36 +31,58 @@ const ALCANCE: Record<Rol, string> = {
 
 export default function Login(
   { onEntrar, onVolver }: {
-    onEntrar: (rol: Rol) => void;
+    onEntrar: (u: Usuario) => void;
     onVolver: () => void;
   },
 ) {
+  const [modo, setModo] = useState<"entrar" | "registro">("entrar");
   const [rol, setRol] = useState<Rol>("chef");
+  const [correo, setCorreo] = useState(CORREOS.chef);
+  const [nombre, setNombre] = useState("");
   const [clave, setClave] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [cargando, setCargando] = useState(false);
   const permisos = permisosDe(rol);
 
-  function entrar() {
-    if (!clave.trim()) {
-      setError("Escribe tu contraseña para continuar.");
-      return;
-    }
+  function cambiarRol(r: Rol) {
+    setRol(r);
+    // En alta de cuenta el correo lo escribe la persona; al entrar se
+    // propone el de la cuenta de ejemplo de ese perfil.
+    if (modo === "entrar") setCorreo(CORREOS[r]);
     setError(null);
-    onEntrar(rol);
+  }
+
+  async function enviar() {
+    setError(null);
+    setCargando(true);
+    try {
+      const usuario = modo === "entrar"
+        ? await api.iniciarSesion(correo, clave)
+        : await (async () => {
+            await api.registrar({ correo, nombre, rol, clave });
+            return api.iniciarSesion(correo, clave);
+          })();
+      onEntrar(usuario);
+    } catch (e) {
+      setError(e instanceof ErrorDominio
+        ? e.message
+        : "No hay conexión con el servidor. Comprueba que esté corriendo.");
+    } finally {
+      setCargando(false);
+    }
   }
 
   return (
     <div className="auth">
       <section className="auth-lado">
-        <div className="fila" style={{ gap: 12 }}>
-          <Logo tam={38} mono />
-          <div>
-            <div style={{ fontFamily: "Archivo", fontWeight: 700, fontSize: 18 }}>
-              Food<span style={{ color: "#FBC490" }}>Loop</span>
-            </div>
-            <div className="rotulo" style={{ color: "inherit", opacity: 0.75 }}>
-              Lo que sobra, inspira algo nuevo
-            </div>
+        <div>
+          {/* El logotipo ya contiene el nombre, de modo que repetirlo en
+              texto al lado sería redundante. */}
+          <div className="logo-caja">
+            <Logo tam={190} completo />
+          </div>
+          <div className="rotulo" style={{ color: "inherit", opacity: 0.8, marginTop: 14 }}>
+            Lo que sobra, inspira algo nuevo
           </div>
         </div>
 
@@ -87,21 +110,36 @@ export default function Login(
       <section className="auth-form">
         <div className="auth-caja">
           <button className="btn btn-sm btn-fantasma" onClick={onVolver}
-            style={{ marginBottom: 24, marginLeft: -11 }}>
+            style={{ marginBottom: 20, marginLeft: -11 }}>
             <Icono n="flecha-izq" s={15} /> Volver
           </button>
 
-          <h1>Inicia sesión</h1>
-          <p className="apagado" style={{ marginTop: 6, marginBottom: 24 }}>
-            Usa tu cuenta corporativa del centro de producción.
+          <div className="pestanas">
+            <button className={modo === "entrar" ? "activa" : ""}
+              onClick={() => { setModo("entrar"); setCorreo(CORREOS[rol]); setError(null); }}>
+              Iniciar sesión
+            </button>
+            <button className={modo === "registro" ? "activa" : ""}
+              onClick={() => { setModo("registro"); setCorreo(""); setError(null); }}>
+              Crear cuenta
+            </button>
+          </div>
+
+          <h1 style={{ marginTop: 20 }}>
+            {modo === "entrar" ? "Inicia sesión" : "Crea tu cuenta"}
+          </h1>
+          <p className="apagado" style={{ marginTop: 6, marginBottom: 22 }}>
+            {modo === "entrar"
+              ? "Usa tu cuenta corporativa del centro de producción."
+              : "El perfil que elijas define qué podrás hacer en el sistema."}
           </p>
 
-          <div className="pila" style={{ gap: 16 }}>
+          <div className="pila" style={{ gap: 15 }}>
             <div className="campo">
-              <label htmlFor="au-perfil">Perfil de acceso <span className="req">*</span></label>
+              <label htmlFor="au-perfil">Perfil <span className="req">*</span></label>
               <div className="select-envoltura">
                 <select className="entrada" id="au-perfil" value={rol}
-                  onChange={(e) => setRol(e.target.value as Rol)}>
+                  onChange={(e) => cambiarRol(e.target.value as Rol)}>
                   {Object.entries(PERFILES).map(([k, v]) =>
                     <option key={k} value={k}>{v.titulo}</option>)}
                 </select>
@@ -109,23 +147,42 @@ export default function Login(
               <span className="ayuda">{ALCANCE[rol]}</span>
             </div>
 
+            {modo === "registro" && (
+              <div className="campo">
+                <label htmlFor="au-nombre">Nombre completo <span className="req">*</span></label>
+                <input className="entrada" id="au-nombre" value={nombre}
+                  autoComplete="name" placeholder="Nombre y apellido"
+                  onChange={(e) => { setNombre(e.target.value); setError(null); }} />
+              </div>
+            )}
+
             <div className="campo">
-              <label htmlFor="au-correo">Correo corporativo</label>
-              <input className="entrada" id="au-correo" type="email"
-                value={CORREOS[rol]} readOnly
-                style={{ color: "var(--texto-2)" }} />
-              <span className="ayuda">Se completa según el perfil seleccionado.</span>
+              <label htmlFor="au-correo">Correo corporativo <span className="req">*</span></label>
+              <input className="entrada" id="au-correo" type="email" value={correo}
+                autoComplete="username" placeholder="nombre@empresa.ec"
+                onChange={(e) => { setCorreo(e.target.value); setError(null); }} />
             </div>
 
             <div className="campo">
               <label htmlFor="au-clave">Contraseña <span className="req">*</span></label>
-              <input className="entrada" id="au-clave" type="password"
-                value={clave} autoComplete="current-password"
-                placeholder="prototipo2026"
+              <input className="entrada" id="au-clave" type="password" value={clave}
+                autoComplete={modo === "entrar" ? "current-password" : "new-password"}
+                placeholder={modo === "entrar" ? "" : "Mínimo 8 caracteres"}
                 onChange={(e) => { setClave(e.target.value); setError(null); }}
-                onKeyDown={(e) => { if (e.key === "Enter") entrar(); }} />
-              {error && <span className="error-campo">{error}</span>}
+                onKeyDown={(e) => { if (e.key === "Enter") void enviar(); }} />
+              {modo === "entrar" && (
+                <span className="ayuda">
+                  Cuentas de ejemplo: la contraseña es <b>foodloop2026</b>.
+                </span>
+              )}
             </div>
+
+            {error && (
+              <div className="aviso" style={{ borderColor: "var(--critico-linea)" }}>
+                <Icono n="alerta" s={16} />
+                <span className="pequeno">{error}</span>
+              </div>
+            )}
 
             <div className="auth-resumen">
               <span className="rotulo">Con este perfil podrás</span>
@@ -150,12 +207,17 @@ export default function Login(
             </div>
 
             <button className="btn btn-primario btn-grande"
-              style={{ justifyContent: "center" }} onClick={entrar}>
-              Entrar como {PERFILES[rol].titulo.toLowerCase()}
+              style={{ justifyContent: "center" }}
+              aria-disabled={cargando}
+              onClick={() => void enviar()}>
+              {cargando ? "Conectando…"
+                : modo === "entrar"
+                  ? `Entrar como ${PERFILES[rol].titulo.toLowerCase()}`
+                  : "Crear cuenta y entrar"}
             </button>
 
             <p className="pequeno apagado" style={{ textAlign: "center" }}>
-              Prototipo de validación académica. Los datos mostrados son simulados.
+              Prototipo de validación académica. Los datos son simulados.
             </p>
           </div>
         </div>
