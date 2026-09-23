@@ -1,9 +1,9 @@
 /**
  * FoodLoop · Contenedor de dependencias del backend
  *
- * Único punto que conoce implementaciones concretas. Sustituir PostgreSQL
- * por otro motor es reescribir la carpeta de adaptadores y cambiar las
- * instanciaciones de aquí abajo; el dominio no se entera.
+ * Único punto que conoce implementaciones concretas. La migración de
+ * PostgreSQL a MongoDB consistió en reescribir la carpeta de adaptadores
+ * y cambiar las instanciaciones de aquí abajo; el dominio no se enteró.
  */
 
 import {
@@ -18,11 +18,12 @@ import type {
   ConsultarMaestros, RegistrarFeedback, IniciarSesion, RegistrarUsuario,
   Reloj, ProveedorSesion, Rol,
 } from "@foodloop/dominio";
+import type { Db } from "mongodb";
+import { conectar, aplicarEsquema } from "../adaptadores/salida/mongo/conexion";
 import {
-  crearPiscina, aplicarEsquema, LotesPg, CatalogoPg, CargasPg,
-  DecisionesPg, TrazasPg, MaestrosPg, EstadisticasPg, FeedbackPg, UsuariosPg,
-} from "../adaptadores/salida/postgres/repositorios";
-import type { Piscina } from "../adaptadores/salida/postgres/repositorios";
+  LotesMongo, CatalogoMongo, CargasMongo, DecisionesMongo, TrazasMongo,
+  MaestrosMongo, EstadisticasMongo, FeedbackMongo, UsuariosMongo, ConsultasMongo,
+} from "../adaptadores/salida/mongo/repositorios";
 
 class RelojSistema implements Reloj {
   ahora() { return new Date(); }
@@ -48,25 +49,28 @@ export interface Contenedor {
   iniciarSesion: IniciarSesion;
   registrarUsuario: RegistrarUsuario;
   sesion: Sesion;
-  piscina: Piscina;
+  db: Db;
+  consultas: ConsultasMongo;
 }
 
-export async function crearContenedor(cadena: string): Promise<Contenedor> {
-  const piscina = crearPiscina(cadena);
-  await aplicarEsquema(piscina);
+export async function crearContenedor(
+  uri: string, nombreDb = "foodloop",
+): Promise<Contenedor> {
+  const { db } = await conectar(uri, nombreDb);
+  await aplicarEsquema(db);
 
   const reloj = new RelojSistema();
   const sesion = new Sesion();
 
-  const lotes = new LotesPg(piscina);
-  const catalogo = new CatalogoPg(piscina);
-  const cargas = new CargasPg(piscina);
-  const decisiones = new DecisionesPg(piscina);
-  const trazas = new TrazasPg(piscina);
-  const maestros = new MaestrosPg(piscina);
-  const stats = new EstadisticasPg(piscina);
-  const feedback = new FeedbackPg(piscina);
-  const usuarios = new UsuariosPg(piscina);
+  const lotes = new LotesMongo(db);
+  const catalogo = new CatalogoMongo(db);
+  const cargas = new CargasMongo(db);
+  const decisiones = new DecisionesMongo(db);
+  const trazas = new TrazasMongo(db);
+  const maestros = new MaestrosMongo(db);
+  const stats = new EstadisticasMongo(db);
+  const feedback = new FeedbackMongo(db);
+  const usuarios = new UsuariosMongo(db);
 
   return {
     consultarOperacion: new ConsultarOperacionUC(lotes, decisiones, reloj),
@@ -80,6 +84,7 @@ export async function crearContenedor(cadena: string): Promise<Contenedor> {
     registrarFeedback: new RegistrarFeedbackUC(feedback, sesion),
     iniciarSesion: new IniciarSesionUC(usuarios),
     registrarUsuario: new RegistrarUsuarioUC(usuarios),
-    sesion, piscina,
+    sesion, db,
+    consultas: new ConsultasMongo(db, lotes),
   };
 }

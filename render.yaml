@@ -1,16 +1,10 @@
 # FoodLoop · despliegue en Render
 #
-# Un solo archivo describe las tres piezas: base de datos, backend y
-# frontend. Render lo lee al conectar el repositorio y las crea todas.
+# Describe el backend y el frontend. La base de datos es MongoDB Atlas,
+# que se crea aparte. Render lo lee al conectar el repositorio y las crea todas.
 #
 # La ventaja frente a configurarlas a mano es que el despliegue queda
 # versionado: si algo se rompe, se ve en el historial qué cambió.
-
-databases:
-  - name: foodloop-db
-    databaseName: foodloop
-    user: foodloop
-    plan: free
 
 services:
   # ---------------------------------------------------------------
@@ -26,10 +20,12 @@ services:
     startCommand: npm run start --workspace=@foodloop/backend
     healthCheckPath: /api/salud
     envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: foodloop-db
-          property: connectionString
+      # La base vive en MongoDB Atlas. Pega aquí la cadena de conexión
+      # desde el panel de Render; no se escribe en este archivo.
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB
+        value: foodloop
       - key: NODE_VERSION
         value: "22"
 

@@ -114,53 +114,18 @@ export function crearRutas(c: Contenedor): Router {
    * ingrediente, que es como lo consulta una cocina: no importa cuántos
    * lotes de pollo hay, importa cuánto pollo hay y para cuándo.
    */
+  /**
+   * Disponibilidad de ingredientes agrupada, ordenada por urgencia. La
+   * consulta vive en el adaptador de la base, no aquí: este archivo solo
+   * traduce HTTP.
+   */
   r.get("/inventario", async (_req, res, next) => {
-    try {
-      const { rows } = await c.piscina.query(`
-        SELECT
-          v.ingrediente_id, v.ingrediente, i.categoria, v.unidad,
-          COUNT(*)::int AS lotes,
-          ROUND(SUM(v.cantidad_disponible), 2) AS disponible,
-          ROUND(SUM(v.valor), 2) AS valor,
-          ROUND(MIN(v.horas_restantes)::numeric, 1) AS horas_minimas
-        FROM v_lote_disponible v
-        JOIN ingrediente i ON i.id = v.ingrediente_id
-        WHERE v.cantidad_disponible > 0 AND v.apto_reproceso
-        GROUP BY v.ingrediente_id, v.ingrediente, i.categoria, v.unidad
-        ORDER BY horas_minimas ASC`);
-      res.json(rows.map((r2) => ({
-        ingredienteId: Number(r2.ingrediente_id),
-        ingrediente: String(r2.ingrediente),
-        categoria: String(r2.categoria),
-        unidad: String(r2.unidad),
-        lotes: Number(r2.lotes),
-        disponible: Number(r2.disponible),
-        valor: Number(r2.valor),
-        horasMinimas: Number(r2.horas_minimas),
-      })));
-    } catch (e) { next(e); }
+    try { res.json(await c.consultas.inventario()); } catch (e) { next(e); }
   });
 
   /** Histórico de aprovechamiento: qué se propuso y qué se decidió. */
   r.get("/historial", async (_req, res, next) => {
-    try {
-      const { rows } = await c.piscina.query(
-        "SELECT * FROM v_trazabilidad LIMIT 60");
-      res.json(rows.map((f) => ({
-        recomendacionId: Number(f.recomendacion_id),
-        generadaEn: String(f.generada_en),
-        receta: String(f.receta),
-        aptitud: Number(f.aptitud),
-        lotes: String(f.lotes ?? ""),
-        nLotes: Number(f.lotes_usados ?? 0),
-        kgAprovechados: 0,
-        costoRecuperado: 0,
-        accion: f.accion ? String(f.accion) : null,
-        usuario: f.usuario ? String(f.usuario) : null,
-        rol: f.rol ? String(f.rol) : null,
-        claridad: f.claridad_explicacion ? String(f.claridad_explicacion) : null,
-      })));
-    } catch (e) { next(e); }
+    try { res.json(await c.consultas.historial()); } catch (e) { next(e); }
   });
 
   r.get("/maestros", async (_req, res, next) => {
@@ -215,7 +180,7 @@ export function crearRutas(c: Contenedor): Router {
       const estado = err.codigo.endsWith("_NO_ENCONTRADO") ? 404
         : err.codigo === "SIN_ATRIBUCION" ? 403
         : err.codigo === "CREDENCIALES" || err.codigo === "CUENTA_INACTIVA" ? 401
-        : err.codigo === "CORREO_DUPLICADO" ? 409 : 400;
+        : err.codigo === "CORREO_DUPLICADO" || err.codigo === "YA_DECIDIDA" ? 409 : 400;
       res.status(estado).json({ error: err.message, codigo: err.codigo });
       return;
     }

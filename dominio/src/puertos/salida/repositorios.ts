@@ -7,7 +7,7 @@
  * hacia adentro.
  *
  * Ninguna firma menciona SQL, HTTP, localStorage ni React. Si mañana el
- * repositorio pasa de memoria a PostgreSQL, cambia el adaptador y no
+ * repositorio pasa de PostgreSQL a MongoDB, cambia el adaptador y no
  * cambia ni el dominio ni la interfaz de usuario.
  *
  * Todas las operaciones son asíncronas aunque el adaptador en memoria

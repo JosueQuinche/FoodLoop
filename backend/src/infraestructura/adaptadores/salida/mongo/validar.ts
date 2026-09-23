@@ -41,12 +41,13 @@
  */
 
 import "dotenv/config";
-import { crearPiscina, aplicarEsquema, LotesPg, CatalogoPg, CargasPg } from "./repositorios";
+import { conectar, aplicarEsquema } from "./conexion";
+import { LotesMongo, CatalogoMongo, CargasMongo } from "./repositorios";
 import { recomendar, filtrosDuros, horasRestantes, VERSION_MODELO } from "@foodloop/dominio";
 import type { Lote, ItemCatalogo, Resultado } from "@foodloop/dominio";
 
-const CADENA = process.env.DATABASE_URL
-  ?? "postgres://postgres:postgres@localhost:5432/foodloop";
+const URI = process.env.MONGODB_URI ?? "mongodb://localhost:27017";
+const NOMBRE_DB = process.env.MONGODB_DB ?? "foodloop";
 
 const pct = (a: number, b: number) => b ? `${(a / b * 100).toFixed(1)} %` : "—";
 const fila = (t: string, v: string, n = "") =>
@@ -57,14 +58,15 @@ function crearAzar(semilla: number) {
   return () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
 }
 
-async function principal() {
-  const p = crearPiscina(CADENA);
-  await aplicarEsquema(p);
+export async function validar(dbExterna?: import("mongodb").Db) {
+  const propia = dbExterna ? null : await conectar(URI, NOMBRE_DB);
+  const db = dbExterna ?? propia!.db;
+  await aplicarEsquema(db);
 
-  const repoLotes = new LotesPg(p);
-  const catalogo = await new CatalogoPg(p).listarActivos();
+  const repoLotes = new LotesMongo(db);
+  const catalogo = await new CatalogoMongo(db).listarActivos();
   const disponibles = await repoLotes.inventarioDisponible();
-  const cargas = await new CargasPg(p).cargasPorArea();
+  const cargas = await new CargasMongo(db).cargasPorArea();
   const lotes = await repoLotes.listarPendientes();
   const ahora = new Date();
 
@@ -264,10 +266,10 @@ async function principal() {
   console.log("  el conjunto de datos reales del caso de estudio y la");
   console.log("  evaluación con usuarios de la Fase 4.\n");
 
-  await p.end();
+  if (propia) await propia.cliente.close();
 }
 
-principal().catch((e) => {
+if (process.argv[1]?.includes("validar")) validar().catch((e) => {
   console.error("\n  No se pudo validar:\n ", e.message, "\n");
   process.exit(1);
 });
