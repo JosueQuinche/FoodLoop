@@ -48,11 +48,16 @@ export interface DocMerma {
   registradoEn: Date; venceEn: Date;
 }
 export interface DocDecision {
-  id: string; rol: Rol; usuario: string;
+  id: string; rol: Rol;
+  /** Referencia a usuarios._id, para consultar el historial por persona. */
+  usuarioId: string;
+  /** Nombre en el momento de decidir; se conserva aunque la cuenta cambie. */
+  usuario: string;
   accion: Decision["accion"]; motivo?: string; decididaEn: Date;
 }
 export interface DocFeedback {
-  rol: Rol; usuario: string; claridad: "clara" | "confusa" | "insuficiente";
+  rol: Rol; usuarioId: string; usuario: string;
+  claridad: "clara" | "confusa" | "insuficiente";
   factorConfuso?: string; comentario?: string; registradoEn: Date;
 }
 export interface DocRecomendacion {
@@ -343,7 +348,8 @@ export class DecisionesMongo implements RepositorioDecisiones {
    */
   async registrar(d: Omit<Decision, "id" | "decididaEn">): Promise<Decision> {
     const decision: DocDecision = {
-      id: randomUUID(), rol: d.rol, usuario: d.usuario,
+      id: randomUUID(), rol: d.rol,
+      usuarioId: d.usuarioId, usuario: d.usuario,
       accion: d.accion, decididaEn: new Date(),
       ...(d.motivo ? { motivo: d.motivo } : {}),
     };
@@ -372,6 +378,7 @@ export class DecisionesMongo implements RepositorioDecisiones {
       recomendacionId: r._id,
       recetaId: r.recetaId,
       rol: r.decision!.rol,
+      usuarioId: r.decision!.usuarioId,
       usuario: r.decision!.usuario,
       accion: r.decision!.accion,
       motivo: r.decision!.motivo,
@@ -398,12 +405,13 @@ export class FeedbackMongo implements RepositorioFeedback {
   constructor(private readonly db: Db) {}
 
   async registrar(f: {
-    recomendacionId: number; rol: Rol; usuario: string;
+    recomendacionId: number; rol: Rol; usuarioId: string; usuario: string;
     claridad: "clara" | "confusa" | "insuficiente";
     factorConfuso?: string; comentario?: string;
   }): Promise<void> {
     const entrada: DocFeedback = {
-      rol: f.rol, usuario: f.usuario, claridad: f.claridad, registradoEn: new Date(),
+      rol: f.rol, usuarioId: f.usuarioId, usuario: f.usuario,
+      claridad: f.claridad, registradoEn: new Date(),
       ...(f.factorConfuso ? { factorConfuso: f.factorConfuso } : {}),
       ...(f.comentario ? { comentario: f.comentario } : {}),
     };
@@ -644,8 +652,12 @@ export class ConsultasMongo {
     }>();
 
     for (const l of pendientes) {
+      // Un lote vencido o sin dictamen no está disponible para cocinar,
+      // aunque siga registrado. Mostrarlo en esta pantalla induciría a
+      // seleccionarlo, y el motor lo rechazaría después.
       if (!l.aptoReproceso) continue;
       const h = (l.venceEn.getTime() - ahora) / 3_600_000;
+      if (h <= 0) continue;
       const g = grupos.get(l.ingredienteId) ?? {
         ingredienteId: l.ingredienteId, ingrediente: l.ingrediente,
         categoria: categoria.get(l.ingredienteId) ?? "—", unidad: l.unidad,

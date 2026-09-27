@@ -1,7 +1,11 @@
 /**
- * FoodLoop · Fase 3 · Validación del modelo
+ * FoodLoop · Fase 2 · Evaluación del modelo construido
  *
- * POR QUÉ ESTA VALIDACIÓN NO MIDE "ACIERTO"
+ * Una vez preparados los datos y construido el modelo, esta evaluación
+ * comprueba que el modelo se comporta como declara. Verifica cinco
+ * propiedades sobre el conjunto cargado.
+ *
+ * POR QUÉ NO SE MIDE "ACIERTO" CONTRA EL HISTÓRICO
  *
  * La forma habitual de validar un recomendador es comprobar cuántas de
  * sus propuestas coinciden con lo que ocurrió después. Aquí eso no se
@@ -58,7 +62,7 @@ function crearAzar(semilla: number) {
   return () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
 }
 
-export async function validar(dbExterna?: import("mongodb").Db) {
+export async function fase2(dbExterna?: import("mongodb").Db) {
   const propia = dbExterna ? null : await conectar(URI, NOMBRE_DB);
   const db = dbExterna ?? propia!.db;
   await aplicarEsquema(db);
@@ -70,7 +74,7 @@ export async function validar(dbExterna?: import("mongodb").Db) {
   const lotes = await repoLotes.listarPendientes();
   const ahora = new Date();
 
-  console.log(`\n  FASE 3 · VALIDACIÓN DEL MODELO · versión ${VERSION_MODELO}`);
+  console.log(`\n  FASE 2 · EVALUACIÓN DEL MODELO · versión ${VERSION_MODELO}`);
   console.log("  " + "═".repeat(66));
   fila("Lotes en el conjunto de prueba", String(lotes.length));
   fila("Recetas en el catálogo", String(catalogo.length));
@@ -262,14 +266,14 @@ export async function validar(dbExterna?: import("mongodb").Db) {
   console.log();
   console.log("  QUÉ NO");
   console.log("  " + "─".repeat(66));
-  console.log("  Que sus recomendaciones sean las mejores posibles. Eso exige");
-  console.log("  el conjunto de datos reales del caso de estudio y la");
-  console.log("  evaluación con usuarios de la Fase 4.\n");
+  console.log("  Que sus recomendaciones sean las mejores posibles. Eso se");
+  console.log("  aborda en la experimentación de la Fase 3 y en el análisis");
+  console.log("  de resultados de la Fase 4, con la evaluación de usuarios.\n");
 
   if (propia) await propia.cliente.close();
 }
 
-if (process.argv[1]?.includes("validar")) validar().catch((e) => {
+if (process.argv[1]?.endsWith("mongo/fase2.ts")) fase2().catch((e) => {
   console.error("\n  No se pudo validar:\n ", e.message, "\n");
   process.exit(1);
 });

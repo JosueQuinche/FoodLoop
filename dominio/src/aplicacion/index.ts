@@ -183,8 +183,9 @@ export class RegistrarDecisionUC implements RegistrarDecision {
 
     return this.decisiones.registrar({
       recomendacionId: e.recomendacionId, recetaId: e.recetaId,
-      accion: e.accion, motivo: e.motivo,
-      rol, usuario: this.sesion.usuarioActual(),
+      accion: e.accion, motivo: e.motivo, rol,
+      usuarioId: this.sesion.usuarioIdActual(),
+      usuario: this.sesion.usuarioActual(),
     });
   }
 }
@@ -343,6 +344,7 @@ export class RegistrarFeedbackUC implements RegistrarFeedback {
     await this.feedback.registrar({
       recomendacionId: e.recomendacionId,
       rol: this.sesion.rolActual(),
+      usuarioId: this.sesion.usuarioIdActual(),
       usuario: this.sesion.usuarioActual(),
       claridad: e.claridad,
       factorConfuso: e.factorConfuso,

@@ -115,7 +115,11 @@ const VALIDADORES: Record<string, object> = {
           bsonType: "object",
           required: ["ingredienteId", "cantidad", "esPrincipal", "admiteEstado"],
           properties: {
+            ingredienteId: numero,
+            nombre: { bsonType: "string" },
+            unidad: { enum: ["kg", "L", "unid"] },
             cantidad: { ...numero, minimum: 0, exclusiveMinimum: true },
+            esPrincipal: { bsonType: "bool" },
             admiteEstado: { enum: ["crudo", "cocido", "ambos"] },
           },
         },
@@ -155,7 +159,7 @@ const VALIDADORES: Record<string, object> = {
       },
       decision: {
         bsonType: "object",
-        required: ["id", "rol", "usuario", "accion", "decididaEn"],
+        required: ["id", "rol", "usuarioId", "usuario", "accion", "decididaEn"],
         properties: {
           rol: { enum: ["chef", "produccion", "admin", "calidad"] },
           accion: { enum: ["aprobada", "modificada", "descartada"] },
@@ -165,7 +169,7 @@ const VALIDADORES: Record<string, object> = {
         bsonType: "array",
         items: {
           bsonType: "object",
-          required: ["rol", "usuario", "claridad", "registradoEn"],
+          required: ["rol", "usuarioId", "usuario", "claridad", "registradoEn"],
           properties: { claridad: { enum: ["clara", "confusa", "insuficiente"] } },
         },
       },

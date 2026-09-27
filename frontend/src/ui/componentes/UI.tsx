@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { ReactNode } from "react";
+import type { ReactNode, CSSProperties } from "react";
 
 /**
  * Isotipo del cliente.
@@ -75,6 +75,91 @@ export function MarcaHorizontal({ alto = 40 }: { alto?: number }) {
   );
 }
 
+/**
+ * Imagen de una preparación.
+ *
+ * Cada receta puede tener dos archivos en `public/recetas`:
+ *
+ *   REC-005.jpg        panorámico, para la ficha de la receta
+ *   REC-005-mini.jpg   cuadrado, para la lista de recomendaciones
+ *
+ * Son dos porque los encuadres no son intercambiables: la miniatura de
+ * la lista es un cuadrado de 76 px y, recortando ahí una imagen 21:9,
+ * del plato quedaría una franja central. Cuando el archivo cuadrado no
+ * existe se usa el panorámico, y si tampoco está se dibuja una carátula
+ * con un color estable por receta y el icono de su tipo de proceso, de
+ * modo que la interfaz nunca muestra un hueco ni una imagen rota.
+ *
+ * En la lista se mantiene en tamaño contenido a propósito: sirve para
+ * reconocer el plato de un vistazo, no para persuadir. En una
+ * herramienta de apoyo a la decisión, una imagen apetitosa que dominara
+ * la tarjeta competiría con los factores que el modelo expone.
+ */
+export function FotoReceta({
+  codigo, nombre, tipoProceso, tam = 76, ancho, panoramica = false,
+}: {
+  codigo: string; nombre: string; tipoProceso?: string;
+  tam?: number; ancho?: number | string;
+  /** Formato ancho, para mostrar el plato terminado en la ficha. */
+  panoramica?: boolean;
+}) {
+  // Orden de intentos: el recorte que corresponde a este sitio, luego
+  // el otro, y por último la carátula generada.
+  const fuentes = panoramica
+    ? [`./recetas/${codigo}.jpg`]
+    : [`./recetas/${codigo}-mini.jpg`, `./recetas/${codigo}.jpg`];
+  const [intento, setIntento] = useState(0);
+  const falla = intento >= fuentes.length;
+
+  // Tono estable por receta: el mismo código produce siempre el mismo
+  // color. Se multiplica por 31 en lugar de sumar los caracteres porque
+  // los códigos del recetario se diferencian en pocos dígitos y una
+  // suma simple los agruparía todos en el mismo rango de color.
+  let semilla = 0;
+  for (const c of codigo) semilla = (semilla * 31 + c.charCodeAt(0)) % 100_000;
+  const tono = (semilla * 47) % 360;
+  const glifo = tipoProceso === "conservacion" ? "copo"
+    : tipoProceso === "panaderia" ? "pan"
+    : tipoProceso === "ensamblaje_frio" ? "hoja" : "olla";
+
+  const estilo: CSSProperties = panoramica
+    ? { width: "100%", height: "100%", objectFit: "cover", display: "block" }
+    : {
+        width: ancho ?? tam, height: tam, flex: "none",
+        borderRadius: "var(--r)", objectFit: "cover", display: "block",
+      };
+
+  if (!falla)
+    return (
+      <img key={fuentes[intento]} src={fuentes[intento]} alt={nombre}
+        style={estilo} onError={() => setIntento((i) => i + 1)}
+        loading="lazy" />
+    );
+
+  return (
+    <div style={{
+      ...estilo,
+      display: "grid", placeItems: "center", textAlign: "center",
+      background: `linear-gradient(135deg, hsl(${tono} 42% 88%), hsl(${(tono + 40) % 360} 50% 78%))`,
+      color: `hsl(${tono} 45% 32%)`,
+      border: panoramica ? "none" : "1px solid var(--borde)",
+    }} role="img" aria-label={`Sin fotografía de ${nombre}`}>
+      <div>
+        <Icono n={glifo} s={panoramica ? 56 : Math.round(tam * 0.34)} />
+        {panoramica && (
+          <div style={{
+            marginTop: 12, fontSize: 12.5, opacity: .75, maxWidth: "30ch",
+            lineHeight: 1.45,
+          }}>
+            Sin imagen del plato. Se muestra al añadir el archivo{" "}
+            <b style={{ fontFamily: "IBM Plex Mono, monospace" }}>{codigo}.jpg</b>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function Marca({ claro = false }: { claro?: boolean }) {
   return (
     <>
@@ -101,6 +186,9 @@ const trazos: Record<string, string> = {
   box: "M3 7.5 12 3l9 4.5v9L12 21l-9-4.5zM3 7.5 12 12l9-4.5M12 12v9",
   reloj: "M12 20.5a8.5 8.5 0 1 0 0-17 8.5 8.5 0 0 0 0 17zM12 7.5V12l3 2",
   hoja: "M5 19c0-8 5-14 15-14 0 10-6 15-14 15zM5 19l8-8",
+  olla: "M4 10h16v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM4 10H2.5M20 10h1.5M9 6.5c0-1.2 1-1.6 1-2.8M12 6.5c0-1.2 1-1.6 1-2.8M15 6.5c0-1.2 1-1.6 1-2.8",
+  copo: "M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9M12 7l2.5-2.5M12 7L9.5 4.5M12 17l2.5 2.5M12 17l-2.5 2.5",
+  pan: "M5 10.5c0-2.5 3.1-4.5 7-4.5s7 2 7 4.5v5c0 1.4-1.1 2.5-2.5 2.5h-9A2.5 2.5 0 0 1 5 15.5zM9 6.6V18M15 6.6V18",
   globo: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9",
   grupo: "M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20a6.5 6.5 0 0 1 13 0M16 4.3a3.5 3.5 0 0 1 0 6.4M17.5 13.4a6.5 6.5 0 0 1 4 6.6",
   "flecha-izq": "M19 12H5M11 6l-6 6 6 6",

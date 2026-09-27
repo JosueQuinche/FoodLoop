@@ -208,24 +208,46 @@ interfaz.
 
 ---
 
-## Fases 3 y 4 de la metodología
+## Las cuatro fases de la metodología
+
+Cada fase tiene su propio comando. Se ejecutan en orden.
 
 ```bash
-npm run validar    # Fase 3: contraste contra el histórico
-npm run evaluar    # Fase 4: indicadores del artefacto
+npm run fase1    # Definición y validación de requerimientos
+npm run importar -- ./datos    # Fase 2 · preparación de datos reales
+npm run fase2    # Fase 2 · evaluación del modelo construido
+npm run fase3    # Experimentación: pruebas del prototipo y demostración XAI
+npm run fase4    # Análisis de resultados
 ```
 
-`validar` verifica cinco propiedades del artefacto: que nunca viola una
-restricción sanitaria, su cobertura, que es determinista, que combinar
-lotes compatibles no empeora la propuesta, y que el orden de las
-recomendaciones no depende de haber acertado los pesos con precisión.
+**Fase 1.** Verifica quince requerimientos, diez funcionales y cinco no
+funcionales, ejecutando el comportamiento contra la base en lugar de
+inspeccionar el código. Cada uno declara su origen: el objetivo del
+trabajo, la normativa sanitaria o una observación recogida en las
+sesiones.
 
-No mide acierto predictivo contra el histórico, y el propio script
-explica por qué: el conjunto de datos actual es sintético y sus
-decisiones se generaron al azar, de modo que cualquier cifra de acierto
-sería ruido. Esa comparación requiere los datos reales del caso.
+**Fase 2.** Se compone de dos pasos. El primero, `importar`, carga los
+registros reales del centro de producción desde archivos CSV y emite un
+informe de preparación con cuántas filas entraron, cuántas se
+descartaron y por qué motivo; ninguna fila descartada se sustituye por
+un valor estimado. El segundo, `fase2`, evalúa el modelo construido
+verificando cinco propiedades: inocuidad, cobertura, determinismo,
+monotonía al combinar lotes y sensibilidad a los pesos.
 
-`evaluar` agrupa los indicadores en operación, modelo y explicabilidad,
+El formato de los CSV está en `datos-plantilla/`, con un archivo de
+ejemplo por cada uno. Mientras no se carguen datos reales, `npm run
+semilla` genera un conjunto de ejemplo que permite recorrer el
+prototipo, pero la fase de preparación de datos no queda cumplida con
+él.
+
+**Fase 3.** Ejecuta el recorrido completo del prototipo integrado, el
+mismo que realizan los participantes en las sesiones, y demuestra el
+componente XAI sobre un caso real en seis pasos: qué se descartó por
+filtros sanitarios, cómo se compone la puntuación factor a factor, por
+qué esa alternativa y no la siguiente, qué tendría que cambiar para otra
+salida, la explicación en lenguaje natural y lo que queda registrado.
+
+**Fase 4.** Reúne los indicadores de operación, modelo y explicabilidad,
 y muestra cómo la aceptación de cada receta se recalcula a partir de las
 decisiones reales.
 
@@ -233,7 +255,7 @@ La parte cualitativa está en `INSTRUMENTO-EVALUACION.md`: recorrido de
 la sesión, cuestionario de 21 ítems en escala de Likert, preguntas
 abiertas y el análisis previsto.
 
-## Verificar la arquitectura
+## Verificar la arquitectura## Verificar la arquitectura
 
 ```bash
 npm run verificar

@@ -16,7 +16,7 @@ import { api, fijarSesion } from "../../infraestructura/adaptadores/salida/http/
 import type {
   Maestros, InventarioItem, HistorialItem,
 } from "../../infraestructura/adaptadores/salida/http/repositorios";
-import { Logo, Icono, Distintivo, fmt } from "../componentes/UI";
+import { Logo, Icono, Distintivo, fmt, FotoReceta } from "../componentes/UI";
 import { BarrasH, BarrasAgrupadas, Anillo, COLOR_ESTADO, ETIQUETA_CAUSA } from "../componentes/Graficas";
 
 type Pantalla = "panel" | "registro" | "inventario" | "recomendaciones"
@@ -788,6 +788,8 @@ export default function App(
                       <article className={`rec ${i === 0 ? "top" : ""}`} key={r.item.id}>
                         <div className="rec-cab">
                           <div className="rec-pos">{i + 1}</div>
+                          <FotoReceta codigo={r.item.codigo} nombre={r.item.nombre}
+                            tipoProceso={r.item.tipoProceso} tam={76} />
                           <div style={{ flex: 1 }}>
                             <h2>{r.item.nombre}</h2>
                             <p className="pequeno apagado" style={{ marginTop: 4 }}>
@@ -1006,7 +1008,7 @@ export default function App(
             </>
           )}
 
-          {/* ---------------- Ingredientes disponibles (Fase 2) ---------------- */}
+          {/* ---------------- Ingredientes disponibles ---------------- */}
           {pantalla === "inventario" && (
             <>
               <div className="cabecera">
@@ -1068,7 +1070,7 @@ export default function App(
             </>
           )}
 
-          {/* ---------------- Histórico de aprovechamiento (Fase 2) ---------------- */}
+          {/* ---------------- Histórico de aprovechamiento ---------------- */}
           {pantalla === "historial" && (
             <>
               <div className="cabecera">
@@ -1256,7 +1258,7 @@ export default function App(
           {/* ---------------- Receta ---------------- */}
           {pantalla === "receta" && recSel && salida && (
             <>
-              <div className="cabecera">
+              <div className="cabecera" style={{ marginBottom: 14 }}>
                 <div>
                   <h1>{recSel.item.nombre}</h1>
                   <p>
@@ -1272,6 +1274,32 @@ export default function App(
                   Volver
                 </button>
               </div>
+
+              {/* El plato terminado. En la ficha técnica de una cocina la
+                  fotografía indica a qué resultado apunta la preparación:
+                  corte, montaje y textura que se esperan. Aquí ocupa el
+                  espacio que le corresponde, a diferencia de la pantalla
+                  de recomendaciones, donde solo sirve para reconocer el
+                  plato mientras se comparan alternativas. */}
+              <figure className="plato">
+                <FotoReceta codigo={recSel.item.codigo} nombre={recSel.item.nombre}
+                  tipoProceso={recSel.item.tipoProceso} panoramica />
+                <figcaption>
+                  <span className="rotulo">Resultado esperado</span>
+                  <div className="plato-datos">
+                    <span>
+                      <b>{recSel.item.pesoPorcionG} g</b> por porción
+                    </span>
+                    <span>
+                      Servir a <b>{recSel.item.tempProcesoC >= 74 ? "65 °C" : "4 °C"}</b>
+                    </span>
+                    <span>
+                      <b>{recSel.item.requisitos.filter((q) => q.esPrincipal).length}</b>{" "}
+                      ingrediente(s) principal(es)
+                    </span>
+                  </div>
+                </figcaption>
+              </figure>
 
               <div className="rejilla g4" style={{ marginBottom: 16 }}>
                 <div className="kpi"><div className="l">Rendimiento</div>
@@ -1293,6 +1321,53 @@ export default function App(
                 )}
               </div>
 
+              {/* Ingredientes de la receta, escalados al tamaño real de la
+                  preparación. Se marca cuáles salen de los lotes de merma
+                  seleccionados y cuáles hay que tomar del economato, que
+                  es la diferencia que decide si la propuesta conviene. */}
+              <div className="tarjeta">
+                <div className="tarjeta-cab">
+                  <h3>Ingredientes</h3>
+                  <span className="rotulo">
+                    para {recSel.porciones} porciones
+                  </span>
+                </div>
+                <ul className="ingredientes">
+                  {recSel.item.requisitos.map((q) => {
+                    const deMerma = recSel.aportes.find(
+                      (a) => a.lote.ingredienteId === q.ingredienteId);
+                    return (
+                      <li key={q.ingredienteId}>
+                        <span>
+                          {q.nombre
+                            ?? maestros?.ingredientes.find((i) => i.id === q.ingredienteId)?.nombre
+                            ?? `Ingrediente ${q.ingredienteId}`}
+                          {q.esPrincipal && (
+                            <span className="marca-principal" style={{ marginLeft: 8 }}>
+                              principal
+                            </span>
+                          )}
+                          {deMerma && (
+                            <span className="pequeno apagado" style={{ display: "block", marginTop: 2 }}>
+                              del lote {deMerma.lote.codigo}
+                            </span>
+                          )}
+                        </span>
+                        <span className="mono">
+                          {fmt(q.cantidad * recSel.escala, 2)} {q.unidad ?? "kg"}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div className="separador" />
+                <p className="pequeno apagado">
+                  Las cantidades están escaladas desde la receta estándar de{" "}
+                  {recSel.item.porcionesBase} porciones. Los ingredientes sin
+                  lote asociado se toman del economato.
+                </p>
+              </div>
+
               <div className="tarjeta">
                 <div className="tarjeta-cab">
                   <h3>Procedimiento</h3>
@@ -1308,7 +1383,7 @@ export default function App(
                   <span className="espacio" />
                   <button className="btn btn-sm" aria-disabled={!permisos.editaRecetario}
                     onClick={() => notificar(permisos.editaRecetario
-                      ? "La edición del recetario llega en la siguiente fase."
+                      ? "La edición del recetario no está incluida en este prototipo."
                       : "El recetario solo lo edita el chef ejecutivo.")}>
                     Editar estándar
                   </button>

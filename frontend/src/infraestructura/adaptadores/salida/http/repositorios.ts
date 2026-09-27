@@ -99,12 +99,12 @@ export const api = {
     });
   },
 
-  /** Inventario vigente, para el panel de disponibilidad (Fase 2). */
+  /** Inventario vigente, para el panel de disponibilidad. */
   inventario(): Promise<InventarioItem[]> {
     return pedir<InventarioItem[]>("/inventario");
   },
 
-  /** Histórico de aprovechamiento (Fase 2). */
+  /** Histórico de aprovechamiento y trazabilidad de decisiones. */
   historial(): Promise<HistorialItem[]> {
     return pedir<HistorialItem[]>("/historial");
   },

@@ -1,0 +1,75 @@
+Imágenes de las preparaciones
+=============================
+
+Cada receta usa DOS archivos, con el código de la receta como nombre:
+
+    REC-005.jpg        1400×600 (21:9)   ficha de la receta
+    REC-005-mini.jpg    400×400 (1:1)    lista de recomendaciones
+
+Son dos porque los encuadres no son intercambiables. La ficha muestra
+el plato a lo ancho; la lista lo muestra en un cuadrado de 76 px. Con
+un solo archivo panorámico, el cuadrado recortaría por los lados y del
+plato quedaría una franja central.
+
+No hay que tocar la base de datos ni el código: la aplicación busca los
+archivos por el código de la receta. Si falta el cuadrado usa el
+panorámico, y si faltan los dos dibuja una carátula con un color
+estable por receta y el icono de su tipo de proceso, de modo que nunca
+queda un hueco ni una imagen rota.
+
+ESTADO ACTUAL
+
+  Con fotografía:   REC-005 (puré gratinado)
+                    REC-011 (tortilla de papa y huevo)
+
+  Con ilustración:  REC-001, REC-002, REC-003, REC-004,
+                    REC-006, REC-007, REC-008, REC-010
+
+Las ilustraciones son vectoriales y originales del proyecto: están
+dibujadas con código en herramientas/fotos/platos.py, que puede
+volver a ejecutarse. Sirven de relleno mientras no haya fotografía, y
+ese guion no sobrescribe las recetas que ya la tienen (están listadas
+en la constante CON_FOTOGRAFIA, dentro del mismo archivo).
+
+AÑADIR UNA FOTOGRAFÍA
+
+1. Guarda la foto con el código de la receta como nombre, en una
+   carpeta aparte:  fotos-originales/REC-001.jpg
+
+2. Genera los dos recortes:
+
+       pip install pillow
+       python herramientas/fotos/preparar-fotos.py ./fotos-originales
+
+   El guion recorta a 21:9 y a 1:1, redimensiona, comprime y avisa si
+   la foto de origen es pequeña.
+
+3. Si el plato no queda centrado en el recorte, indica su posición en
+   el diccionario FOCOS de preparar-fotos.py, como fracción del ancho
+   y del alto. Por ejemplo, un plato desplazado a la derecha:
+
+       "REC-001": (0.66, 0.52),
+
+4. Añade el código a CON_FOTOGRAFIA en platos.py, para que al
+   regenerar las ilustraciones no se pise la fotografía.
+
+QUÉ FOTOS FUNCIONAN MEJOR
+
+  · Apaisadas, con el plato claramente separado del fondo.
+  · Desde arriba o en ángulo de 45 grados, que es como se fotografía un
+    plato en una ficha técnica.
+  · Al menos 1200 px de ancho. Por debajo de 900 px la imagen se ve
+    blanda al ampliarla a la ficha; el guion lo advierte.
+
+SOBRE EL ORIGEN DE LAS IMÁGENES
+
+Para un trabajo académico, lo más defendible son fotografías tomadas en
+el propio centro de producción: son del plato real, no hay duda de
+licencia y refuerzan que el caso de estudio existe.
+
+Si se usan imágenes de terceros hay que comprobar la licencia y
+citarlas en el documento. Las descargadas de sitios de recetas o de
+bancos de imágenes suelen estar protegidas por derechos de autor
+aunque se puedan descargar sin marca de agua. Alternativas con licencia
+libre: Pexels, Unsplash, Pixabay y Wikimedia Commons (esta última
+exige atribución según la licencia de cada archivo).

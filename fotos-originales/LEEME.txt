@@ -1,0 +1,9 @@
+Fotografías originales, antes de procesar.
+
+Guarda aquí cada foto con el código de la receta como nombre
+(REC-001.jpg, REC-004.png, ...) y luego ejecuta:
+
+    python herramientas/fotos/preparar-fotos.py ./fotos-originales
+
+Esa orden genera, en frontend/public/recetas, los dos recortes que usa
+la aplicación: el panorámico de la ficha y el cuadrado de la lista.

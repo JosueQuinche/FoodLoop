@@ -1,0 +1,4 @@
+codigo,nombre,categoria,unidad,costo_unitario,vida_util_crudo_h,vida_util_cocido_h,temp_max_c
+ING-001,Pechuga de pollo,Proteína animal,kg,5.85,72,24,4
+ING-005,Arroz blanco,Cereales,kg,1.15,4320,30,4
+ING-007,Brócoli,Vegetales,kg,2.30,96,42,4

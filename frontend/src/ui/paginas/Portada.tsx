@@ -26,11 +26,32 @@ const PILARES = [
   },
 ];
 
+/** Las cuatro fases de la metodología, en el orden en que se ejecutan. */
 const PASOS = [
-  { t: "Estructuración", d: "Producción, asistencia, mermas y recetario se integran en un esquema relacional cruzado por fecha, servicio e ingrediente." },
-  { t: "Correspondencia", d: "Filtros sanitarios duros primero; después, puntuación ponderada de siete factores observables." },
-  { t: "Explicabilidad", d: "La puntuación se calcula descompuesta, de modo que la explicación es la aritmética del modelo y no una reconstrucción." },
-  { t: "Decisión", d: "El responsable aprueba, modifica o descarta. Cada decisión queda registrada para auditoría y reentrenamiento." },
+  {
+    n: "01", t: "Requerimientos",
+    d: "Se definen los requerimientos funcionales y las restricciones sanitarias "
+      + "que el modelo debe respetar, y cada uno se valida ejecutando el "
+      + "comportamiento sobre el prototipo.",
+  },
+  {
+    n: "02", t: "Construcción del modelo",
+    d: "Los registros de producción, asistencia y mermas se preparan y se cruzan "
+      + "por fecha, servicio e ingrediente. Sobre ese conjunto se construye la "
+      + "lógica de correspondencia y se evalúan sus propiedades.",
+  },
+  {
+    n: "03", t: "Experimentación",
+    d: "El prototipo integra el modelo y se somete a pruebas. Cada recomendación "
+      + "se acompaña de los factores que la sustentan y de las condiciones que "
+      + "cambiarían la salida.",
+  },
+  {
+    n: "04", t: "Análisis de resultados",
+    d: "Se analizan los resultados de la operación, del modelo y de la "
+      + "explicabilidad, junto con la percepción recogida de los usuarios "
+      + "finales del centro de producción.",
+  },
 ];
 
 export default function Portada({ onEntrar }: { onEntrar: () => void }) {
@@ -168,14 +189,14 @@ export default function Portada({ onEntrar }: { onEntrar: () => void }) {
           <h2>Cuatro fases</h2>
           <p>
             El artefacto sigue los principios de la investigación en ciencia del
-            diseño. Cada fase responde a un objetivo específico y produce una
-            salida verificable.
+            diseño. Cada fase responde a un objetivo específico del trabajo y
+            produce una salida verificable.
           </p>
         </div>
         <div className="pasos">
           {PASOS.map((p) => (
             <article className="paso" key={p.t}>
-              
+              <span className="paso-n">{p.n}</span>
               <h3>{p.t}</h3>
               <p>{p.d}</p>
             </article>

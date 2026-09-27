@@ -78,6 +78,11 @@ export async function sembrar(dbExterna?: Db) {
       } },
       { upsert: true });
 
+  // El historial se atribuye a la cuenta del chef, no solo a su nombre.
+  const chef = await db.collection<DocUsuario>("usuarios")
+    .findOne({ rol: "chef" });
+  if (!chef) throw new Error("No se pudo recuperar la cuenta del chef.");
+
   // ---------------- catálogos ----------------
   await db.collection<DocArea>("areas").insertMany(
     AREAS.map((a) => ({ _id: a.id, nombre: a.nombre, capacidadKg: a.capacidadKg })));
@@ -96,7 +101,14 @@ export async function sembrar(dbExterna?: Db) {
       porcionesBase: r.porcionesBase, pesoPorcionG: r.pesoPorcionG,
       minutos: r.minutos, tipoProceso: r.tipoProceso,
       tempProcesoC: r.tempProcesoC, aceptacionBase: r.aceptacion,
-      pasos: r.pasos, activa: true, requisitos: r.requisitos,
+      pasos: r.pasos, activa: true,
+      // La relación receta-ingrediente se embebe en el propio documento,
+      // con el nombre y la unidad copiados del catálogo para que la
+      // receta se lea completa sin consultar otra colección.
+      requisitos: r.requisitos.map((q) => {
+        const i = INGREDIENTES.find((x) => x.id === q.ingredienteId);
+        return { ...q, nombre: i?.nombre, unidad: i?.unidad };
+      }),
     })));
 
   // ---------------- seis meses de operación diaria ----------------
@@ -207,11 +219,12 @@ export async function sembrar(dbExterna?: Db) {
         mermaId: m._id, cantidadUsada: m.cantidad, esPrincipal: i === 0,
       })),
       decision: {
-        id: randomUUID(), rol: "chef", usuario: "Mateo Calderón",
+        id: randomUUID(), rol: "chef",
+        usuarioId: chef._id, usuario: chef.nombre,
         accion, decididaEn: new Date(docs[0].registradoEn.getTime() + 2 * 3_600_000),
       },
       feedback: conFeedback ? [{
-        rol: "chef", usuario: "Mateo Calderón", claridad,
+        rol: "chef", usuarioId: chef._id, usuario: chef.nombre, claridad,
         registradoEn: new Date(docs[0].registradoEn.getTime() + 2 * 3_600_000),
       }] : [],
     });
@@ -230,7 +243,7 @@ export async function sembrar(dbExterna?: Db) {
 }
 
 /** Solo se ejecuta cuando el archivo se invoca directamente. */
-if (process.argv[1]?.includes("semilla")) {
+if (process.argv[1]?.endsWith("mongo/semilla.ts")) {
   sembrar().catch((e) => {
     console.error("\n  No se pudo sembrar la base:\n ", e.message);
     console.error("\n  Comprueba que MongoDB esté corriendo y que MONGODB_URI");

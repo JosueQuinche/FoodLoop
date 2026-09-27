@@ -39,7 +39,7 @@ export function crearRutas(c: Contenedor): Router {
         correo: String(req.body.correo ?? ""),
         clave: String(req.body.clave ?? ""),
       });
-      c.sesion.cambiar(u.rol, u.nombre);
+      c.sesion.cambiar(u.rol, u.nombre, u.id);
       res.json(u);
     } catch (e) { next(e); }
   });

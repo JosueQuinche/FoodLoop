@@ -87,7 +87,7 @@ export interface RepositorioDecisiones {
 /** Valoración de la explicación. Alimenta la evaluación del XAI. */
 export interface RepositorioFeedback {
   registrar(f: {
-    recomendacionId: number; rol: Rol; usuario: string;
+    recomendacionId: number; rol: Rol; usuarioId: string; usuario: string;
     claridad: "clara" | "confusa" | "insuficiente";
     factorConfuso?: string; comentario?: string;
   }): Promise<void>;
@@ -157,5 +157,8 @@ export interface Reloj {
 /** Quién opera el sistema. La UI no decide permisos; los consulta. */
 export interface ProveedorSesion {
   rolActual(): Rol;
+  /** Identificador de la cuenta. Es la referencia con la que se consulta. */
+  usuarioIdActual(): string;
+  /** Nombre para mostrar. Se conserva junto al identificador. */
   usuarioActual(): string;
 }

@@ -31,10 +31,14 @@ class RelojSistema implements Reloj {
 
 class Sesion implements ProveedorSesion {
   private rol: Rol = "chef";
+  private usuarioId = "";
   private usuario = "Mateo Calderón";
   rolActual() { return this.rol; }
+  usuarioIdActual() { return this.usuarioId; }
   usuarioActual() { return this.usuario; }
-  cambiar(rol: Rol, usuario: string) { this.rol = rol; this.usuario = usuario; }
+  cambiar(rol: Rol, usuario: string, usuarioId = "") {
+    this.rol = rol; this.usuario = usuario; this.usuarioId = usuarioId;
+  }
 }
 
 export interface Contenedor {

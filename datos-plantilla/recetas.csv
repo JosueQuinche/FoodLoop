@@ -1,0 +1,3 @@
+codigo,nombre,area,porciones_base,peso_porcion_g,minutos,tipo_proceso,temp_proceso_c,aceptacion_base
+REC-0231,Arroz salteado con pollo y vegetales,Cocina caliente,40,280,35,reproceso_termico,78,4.4
+REC-0188,Crema de ave con vegetales,Cocina caliente,45,300,50,reproceso_termico,80,3.9

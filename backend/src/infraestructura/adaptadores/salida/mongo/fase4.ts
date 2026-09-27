@@ -1,5 +1,5 @@
 /**
- * FoodLoop · Fase 4 · Evaluación del artefacto
+ * FoodLoop · Fase 4 · Análisis de resultados
  *
  * Indicadores de desempeño calculados sobre lo que el sistema registró:
  * mermas, operación diaria, recomendaciones, decisiones y valoraciones.
@@ -23,7 +23,7 @@ const pct = (a: number, b: number) => b ? `${(a / b * 100).toFixed(1)} %` : "—
 const fila = (t: string, v: string, n = "") =>
   console.log(`  ${t.padEnd(38)} ${v.padStart(10)}   ${n}`);
 
-export async function evaluar(dbExterna?: import("mongodb").Db) {
+export async function fase4(dbExterna?: import("mongodb").Db) {
   const propia = dbExterna ? null : await conectar(URI, NOMBRE_DB);
   const db = dbExterna ?? propia!.db;
   await aplicarEsquema(db);
@@ -38,7 +38,7 @@ export async function evaluar(dbExterna?: import("mongodb").Db) {
   const ing = new Map(ingredientes.map((i) => [i._id, i]));
   const merma = new Map(mermas.map((m) => [m._id, m]));
 
-  console.log(`\n  FASE 4 · EVALUACIÓN DEL ARTEFACTO · versión ${VERSION_MODELO}`);
+  console.log(`\n  FASE 4 · ANÁLISIS DE RESULTADOS · modelo ${VERSION_MODELO}`);
   console.log("  " + "═".repeat(66));
 
   // ------------------------------------------------------------------
@@ -214,7 +214,7 @@ export async function evaluar(dbExterna?: import("mongodb").Db) {
   if (propia) await propia.cliente.close();
 }
 
-if (process.argv[1]?.includes("evaluar")) evaluar().catch((e) => {
+if (process.argv[1]?.endsWith("mongo/fase4.ts")) fase4().catch((e) => {
   console.error("\n  No se pudo evaluar:\n ", e.message, "\n");
   process.exit(1);
 });

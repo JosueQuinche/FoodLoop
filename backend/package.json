@@ -8,8 +8,11 @@
     "start": "tsx src/servidor.ts",
     "semilla": "tsx src/infraestructura/adaptadores/salida/mongo/semilla.ts",
     "build": "tsc --noEmit",
-    "validar": "tsx src/infraestructura/adaptadores/salida/mongo/validar.ts",
-    "evaluar": "tsx src/infraestructura/adaptadores/salida/mongo/evaluar.ts"
+    "importar": "tsx src/infraestructura/adaptadores/salida/mongo/importar.ts",
+    "fase1": "tsx src/infraestructura/adaptadores/salida/mongo/fase1.ts",
+    "fase2": "tsx src/infraestructura/adaptadores/salida/mongo/fase2.ts",
+    "fase3": "tsx src/infraestructura/adaptadores/salida/mongo/fase3.ts",
+    "fase4": "tsx src/infraestructura/adaptadores/salida/mongo/fase4.ts"
   },
   "dependencies": {
     "@foodloop/dominio": "1.0.0",

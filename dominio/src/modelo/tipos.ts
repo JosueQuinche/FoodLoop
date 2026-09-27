@@ -58,8 +58,20 @@ export interface Lote {
   causa: Causa;
 }
 
+/**
+ * Ingrediente que una receta requiere. Vive embebido dentro del
+ * documento de la receta: es la relación entre ambos.
+ *
+ * `nombre` y `unidad` se copian del catálogo de ingredientes a
+ * propósito. En un modelo documental esa duplicación es deliberada:
+ * permite leer una receta completa sin consultar otra colección, que
+ * es la razón de ser de embeber. `ingredienteId` sigue siendo la
+ * referencia autorizada para cualquier cálculo.
+ */
 export interface Requisito {
   ingredienteId: number;
+  nombre?: string;
+  unidad?: string;
   cantidad: number;
   esPrincipal: boolean;
   admiteEstado: AdmiteEstado;
@@ -134,6 +146,16 @@ export interface Decision {
   recomendacionId: number;
   recetaId: number;
   rol: Rol;
+  /**
+   * Referencia a la cuenta que decidió. Permite consultar el historial
+   * por persona, que con el nombre solo sería ambiguo.
+   */
+  usuarioId: string;
+  /**
+   * Nombre en el momento de decidir. Se conserva junto al identificador
+   * a propósito: un registro de trazabilidad debe seguir diciendo quién
+   * decidió aunque la cuenta cambie de nombre o se desactive.
+   */
   usuario: string;
   accion: "aprobada" | "modificada" | "descartada";
   motivo?: string;
