@@ -17,6 +17,7 @@ import type {
   Maestros, InventarioItem, HistorialItem,
 } from "../../infraestructura/adaptadores/salida/http/repositorios";
 import { Logo, Icono, Distintivo, fmt, FotoReceta } from "../componentes/UI";
+import Bienvenida from "../componentes/Bienvenida";
 import { BarrasH, BarrasAgrupadas, Anillo, COLOR_ESTADO, ETIQUETA_CAUSA } from "../componentes/Graficas";
 
 type Pantalla = "panel" | "registro" | "inventario" | "recomendaciones"
@@ -132,6 +133,19 @@ export default function App(
   const [filtro, setFiltro] = useState<string>("accionables");
   const [busqueda, setBusqueda] = useState("");
 
+  // La pantalla de propósito se muestra la primera vez que cada usuario
+  // entra y después queda a petición. Se recuerda por usuario, no por
+  // navegador, porque en una cocina el equipo suele ser compartido.
+  const CLAVE_BIENVENIDA = `foodloop.bienvenida.${usuario.id}`;
+  const [verBienvenida, setVerBienvenida] = useState(() => {
+    try { return localStorage.getItem(CLAVE_BIENVENIDA) !== "vista"; }
+    catch { return true; }   // modo privado o almacenamiento bloqueado
+  });
+  const cerrarBienvenida = useCallback(() => {
+    setVerBienvenida(false);
+    try { localStorage.setItem(CLAVE_BIENVENIDA, "vista"); } catch { /* no crítico */ }
+  }, [CLAVE_BIENVENIDA]);
+
   const permisos = permisosDe(rol);
   const perfil = PERFILES[rol];
 
@@ -141,7 +155,7 @@ export default function App(
       setResumen(op); setStats(st); setFallo(null);
     } catch {
       setFallo("No hay conexión con el backend. Comprueba que esté corriendo "
-        + "en el puerto 3001 y que PostgreSQL esté activo.");
+        + "en el puerto 3001 y que MongoDB esté activo.");
     }
   }, []);
 
@@ -325,6 +339,11 @@ export default function App(
         <header className="barra">
           <span className="miga">FoodLoop / <b>{TITULOS[pantalla]}</b></span>
           <div className="der">
+            <button className="btn btn-sm btn-fantasma"
+              onClick={() => setVerBienvenida(true)}
+              title="Qué hace el sistema y qué se espera de usted">
+              <Icono n="globo" s={15} /> ¿Qué es esto?
+            </button>
             <button className="btn btn-sm btn-fantasma" onClick={() => void refrescar()}
               title="Volver a consultar la base">
               <Icono n="refrescar" s={15} /> Actualizar
@@ -342,7 +361,13 @@ export default function App(
           </div>
         </header>
 
-        <main className="principal">
+        {/* `key` fuerza a React a montar de nuevo al cambiar de pantalla,
+            que es lo que vuelve a disparar la entrada. Es un fundido muy
+            corto y sin desplazamiento, a propósito: cambiar de pantalla
+            es la acción más repetida del turno y cualquier movimiento
+            aquí se percibe como lentitud. Si llega a estorbar, se quita
+            borrando la clase `entra` de esta línea. */}
+        <main className="principal entra" key={pantalla}>
           <div className="ambito">
             <span className="quien">{perfil.titulo}</span>
             <span className="txt">
@@ -926,12 +951,22 @@ export default function App(
                         return (
                           <div className="factor" key={f.nombre}>
                             <div>
-                              <div className="n">{f.nombre}</div>
+                              <div className="n">
+                                {f.nombre}
+                                {/* El peso, declarado junto al nombre: sin él
+                                    la barra solo dice cuánto sumó aquí, no
+                                    cuánta importancia tiene el factor. */}
+                                <span className="peso">
+                                  {Math.abs(Math.round(f.peso * 100))} %
+                                </span>
+                              </div>
                               <div className="v">{f.valorObservado}</div>
+                              <div className="porque">{f.porQue}</div>
                             </div>
                             <div className="pista">
                               <div className={`relleno ${f.contribucion < 0 ? "neg" : ""}`}
-                                style={{ width: `${Math.abs(f.contribucion) / max * 100}%` }} />
+                                style={{ transform:
+                                  `scaleX(${Math.abs(f.contribucion) / max})` }} />
                             </div>
                             <span className="pct">
                               {f.contribucion >= 0 ? "+" : ""}{fmt(f.contribucion, 1)}
@@ -1321,6 +1356,47 @@ export default function App(
                 )}
               </div>
 
+              {/* Valorización. Una sola cifra de costo recuperado no dice
+                  si la propuesta resuelve el problema: hay que verla
+                  contra lo que vale todo lo seleccionado. En la
+                  evaluación con usuarios, el único vacío funcional que
+                  alguien nombró por escrito fue precisamente «costeo». */}
+              {permisos.veCostos && recSel.valorEnRiesgo > 0 && (
+                <div className="valor">
+                  <div className="valor-cab">
+                    <span className="rotulo">Valorización de la propuesta</span>
+                    <span className="valor-pct">
+                      rescata el{" "}
+                      <b>{Math.round(
+                        recSel.costoRecuperado / recSel.valorEnRiesgo * 100)} %</b>
+                    </span>
+                  </div>
+                  <div className="valor-barra">
+                    <div className="valor-relleno" style={{
+                      transform: `scaleX(${Math.min(1,
+                        recSel.costoRecuperado / recSel.valorEnRiesgo)})`,
+                    }} />
+                  </div>
+                  <div className="valor-cifras">
+                    <div>
+                      <div className="l">En riesgo si se bota</div>
+                      <div className="v riesgo">$ {fmt(recSel.valorEnRiesgo, 2)}</div>
+                    </div>
+                    <div>
+                      <div className="l">Recupera esta receta</div>
+                      <div className="v bien">$ {fmt(recSel.costoRecuperado, 2)}</div>
+                    </div>
+                    <div>
+                      <div className="l">Materia prima por porción</div>
+                      <div className="v">
+                        $ {fmt(recSel.porciones
+                          ? recSel.costoRecuperado / recSel.porciones : 0, 2)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Ingredientes de la receta, escalados al tamaño real de la
                   preparación. Se marca cuáles salen de los lotes de merma
                   seleccionados y cuáles hay que tomar del economato, que
@@ -1397,6 +1473,10 @@ export default function App(
           )}
         </main>
       </div>
+
+      {verBienvenida && (
+        <Bienvenida rol={rol} nombre={usuario.nombre} onCerrar={cerrarBienvenida} />
+      )}
     </div>
   );
 }

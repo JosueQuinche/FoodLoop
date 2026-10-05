@@ -106,6 +106,14 @@ export interface Factor {
   valorObservado: string;
   peso: number;
   contribucion: number;
+  /**
+   * Por qué este factor pesa lo que pesa, en una frase.
+   *
+   * Mostrar el peso sin justificarlo deja al usuario ante un número
+   * arbitrario: en la evaluación con usuarios, «entiendo por qué unos
+   * factores pesan más que otros» quedó entre los ítems más bajos.
+   */
+  porQue: string;
 }
 
 export interface Resultado {
@@ -119,6 +127,13 @@ export interface Resultado {
   kgAprovechados: number;
   porciones: number;
   costoRecuperado: number;
+  /**
+   * Lo que valen los lotes seleccionados si terminaran en la basura.
+   * Puesto junto a `costoRecuperado` convierte la recomendación en una
+   * cifra que la administración puede leer: cuánto hay en juego y qué
+   * parte rescata esta preparación.
+   */
+  valorEnRiesgo: number;
   escala: number;
   contrafactuales: string[];
   resumen: string;

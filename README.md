@@ -148,6 +148,57 @@ existe una sola vez y no puede divergir entre cliente y servidor.
 
 ---
 
+## Tecnologías y por qué
+
+Cada capa usa lo que necesita y nada más. La distinción que suele
+preguntarse: **sí hay frameworks en el proyecto** —Express y React—, pero
+la capa de datos no usa ninguno.
+
+| Capa | Herramienta | Versión |
+| --- | --- | --- |
+| Núcleo de dominio | TypeScript, **cero dependencias** | 5.6 |
+| Base de datos | MongoDB, controlador oficial `mongodb` | 6.10 |
+| Servidor | Express | 4.21 |
+| Contraseñas | bcryptjs | 2.4 |
+| Configuración | dotenv | 16.4 |
+| Ejecución de TypeScript | tsx | 4.19 |
+| Interfaz | React | 18.3 |
+| Rutas de la interfaz | React Router | 6.26 |
+| Empaquetado | Vite | 5.4 |
+| Monorepo | npm workspaces, 3 paquetes | — |
+
+### Lo que no se usó, y por qué
+
+**Sin ODM ni ORM** (ni Mongoose, ni Prisma, ni TypeORM). Un ODM valida en
+la aplicación, de modo que la regla solo se cumple mientras la escritura
+pase por ella: una inserción desde MongoDB Compass o desde la consola se
+la salta. Aquí la validación vive dentro del servidor de base de datos,
+con validadores `$jsonSchema` por colección, y rechaza un documento mal
+formado venga de donde venga. Con criterios sanitarios de por medio
+—temperatura, estado del producto, caducidad— esa diferencia importa.
+
+Hay un segundo motivo, arquitectónico: un ODM impone sus propias clases de
+modelo y esos objetos se filtran al resto del programa. Sin él, el
+adaptador traduce entre documentos y los tipos del dominio, y el dominio
+no sabe qué base de datos hay debajo. No es teórico: **el proyecto ya
+migró de PostgreSQL a MongoDB** y solo se reescribió la carpeta de
+adaptadores.
+
+**Sin framework de backend pesado** (ni NestJS, ni Fastify). La API expone
+pocos endpoints y la lógica vive en el dominio; un framework con
+inyección de dependencias y decoradores añadiría estructura sin resolver
+ningún problema que el proyecto tenga.
+
+**Sin framework de CSS ni biblioteca de componentes** (ni Tailwind, ni
+Bootstrap, ni Material UI). La interfaz es CSS propio sobre variables, con
+tokens de color, espaciado y movimiento declarados en `:root`.
+
+**Sin biblioteca de animación** (ni Framer Motion, ni GSAP). El movimiento
+son transiciones y animaciones CSS, que se ejecutan fuera del hilo
+principal y no pierden fotogramas mientras el navegador carga.
+
+---
+
 ## Modelo de datos
 
 Base de datos no relacional orientada a documentos (MongoDB).
@@ -255,7 +306,7 @@ La parte cualitativa está en `INSTRUMENTO-EVALUACION.md`: recorrido de
 la sesión, cuestionario de 21 ítems en escala de Likert, preguntas
 abiertas y el análisis previsto.
 
-## Verificar la arquitectura## Verificar la arquitectura
+## Verificar la arquitectura
 
 ```bash
 npm run verificar

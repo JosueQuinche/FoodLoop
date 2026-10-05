@@ -238,6 +238,8 @@ export function evaluar(
     nombre: "Cobertura de la receta con los lotes elegidos",
     valorObservado: `${deMerma} de ${req.length} ingredientes salen de merma`,
     peso: PESOS.cobertura, contribucion: cobertura * PESOS.cobertura * 100,
+    porQue: "Es el que más pesa: si la receta no se puede armar con lo que "
+      + "hay, lo demás da igual.",
   });
 
   // --- factor 2: aporte de merma al peso final -----------------------
@@ -248,6 +250,8 @@ export function evaluar(
     valorObservado: `${Math.round(aporte * 100)} % del peso final`
       + (aportes.length > 1 ? `, combinando ${aportes.length} lotes` : ""),
     peso: PESOS.aporteMerma, contribucion: aporte * PESOS.aporteMerma * 100,
+    porQue: "Pesa alto porque mide cuánto excedente sale de verdad en el "
+      + "plato. Una receta que lleva una pizca no resuelve la merma.",
   });
 
   // --- factor 3: urgencia del conjunto -------------------------------
@@ -259,6 +263,7 @@ export function evaluar(
     nombre: "Vida útil del lote más comprometido",
     valorObservado: `${horas.toFixed(0)} h · ${masUrgente.codigo}`,
     peso: PESOS.urgencia, contribucion: urgencia * PESOS.urgencia * 100,
+    porQue: "Pesa alto porque lo que vence antes hay que resolverlo antes.",
   });
 
   // --- factor 4: absorción de lo seleccionado ------------------------
@@ -268,6 +273,8 @@ export function evaluar(
     nombre: "Parte de lo seleccionado que consume la preparación",
     valorObservado: `${kgUsados.toFixed(1)} de ${kgSeleccionados.toFixed(1)} kg`,
     peso: PESOS.absorcion, contribucion: absorcion * PESOS.absorcion * 100,
+    porQue: "Pesa menos: lo que sobre del lote todavía puede ir a otra "
+      + "preparación el mismo día.",
   });
 
   // --- factor 5: jerarquía de aprovechamiento ------------------------
@@ -278,6 +285,8 @@ export function evaluar(
       ? "Reutilización culinaria directa"
       : "Conservación; aplaza la decisión",
     peso: PESOS.jerarquia, contribucion: jer * PESOS.jerarquia * 100,
+    porQue: "Pesa menos: congelar también sirve, pero solo aplaza la "
+      + "decisión en lugar de resolverla.",
   });
 
   // --- factor 6: aceptación histórica --------------------------------
@@ -286,6 +295,8 @@ export function evaluar(
     nombre: "Aceptación histórica del plato",
     valorObservado: `${item.aceptacion.toFixed(1)} / 5`,
     peso: PESOS.aceptacion, contribucion: acept * PESOS.aceptacion * 100,
+    porQue: "Pesa poco: que el plato guste orienta, pero no decide si la "
+      + "merma se aprovecha o se bota.",
   });
 
   // --- factor 7: carga del área (penalización) -----------------------
@@ -293,6 +304,8 @@ export function evaluar(
     nombre: "Carga de trabajo del área",
     valorObservado: `${item.area} al ${Math.round(cargaArea * 100)} %`,
     peso: PESOS.cargaArea, contribucion: cargaArea * PESOS.cargaArea * 100,
+    porQue: "Es el único que resta: si el área está saturada, la "
+      + "preparación es menos realista para hoy.",
   });
 
   const aptitud = Math.round(Math.max(0, Math.min(100,
@@ -300,16 +313,19 @@ export function evaluar(
 
   const costo = aportes.reduce(
     (a, x) => a + x.cantidadUsada * x.lote.costoUnitario, 0);
+  const enRiesgo = usables.reduce(
+    (a, l) => a + l.cantidad * l.costoUnitario, 0);
 
   return {
     item, aptitud, factores, aportes,
     kgAprovechados: Math.round(kgUsados * 100) / 100,
     porciones: Math.round(item.porcionesBase * escala),
     costoRecuperado: Math.round(costo * 100) / 100,
+    valorEnRiesgo: Math.round(enRiesgo * 100) / 100,
     escala,
     resumen: resumir(aportes, item, horas, escala, aporte),
-    contrafactuales:
-      contrafactuales(usables, item, horas, req, porIngrediente, escala),
+    contrafactuales: contrafactuales(
+      usables, item, horas, req, porIngrediente, escala, masUrgente),
   };
 }
 
@@ -343,30 +359,44 @@ function resumir(
 function contrafactuales(
   lotes: Lote[], item: ItemCatalogo, horas: number,
   req: Requisito[], porIngrediente: Map<number, number>, escala: number,
+  masUrgente: Lote | undefined,
 ): string[] {
-  const out: string[] = [];
-  const minimo = item.minutos / 60 + 1;
+  // Se devuelve UNA sola frase, en el lenguaje de la cocina y con la
+  // consecuencia concreta. En la evaluación con usuarios este fue el
+  // ítem peor valorado: salían tres párrafos a la vez y en jerga
+  // ("ventana sanitaria", "elevaría la aptitud"), de modo que la
+  // explicación que debía dar confianza terminaba estorbando. Se
+  // conserva el arreglo por compatibilidad con la traza almacenada.
+  const margen = item.minutos / 60 + 1;
+  const holgura = horas - margen;   // horas de sobra sobre lo que exige el proceso
+  const sanitario = masUrgente
+    ? [`Si a ${masUrgente.codigo} le quedaran menos de ${margen.toFixed(0)} `
+      + `horas, esta receta ya no se propondría.`]
+    : null;
 
-  if (horas > minimo)
-    out.push(`Si el lote más comprometido bajara de ${minimo.toFixed(0)} horas `
-      + `de vida útil, esta alternativa quedaría descartada por no caber en la `
-      + `ventana sanitaria.`);
+  // El orden no es arbitrario: se muestra lo que el usuario puede usar
+  // ahora. El aviso sanitario solo informa cuando el margen está cerca;
+  // con holgura amplia es ruido, porque el filtro duro ya garantiza que
+  // el proceso cabe en la ventana del lote.
+  if (holgura < 3 && sanitario) return sanitario;
 
   const faltantes = req.filter((r) =>
     (porIngrediente.get(r.ingredienteId) ?? 0) < r.cantidad * escala);
-  out.push(faltantes.length === 0
-    ? "Todos los ingredientes de la receta salen de los lotes seleccionados. "
-      + "Retirar cualquiera de ellos bajaría la cobertura."
-    : `${faltantes.length} ingrediente(s) se toman del inventario y no de `
-      + `merma. Añadir lotes que los cubran elevaría la aptitud.`);
+  if (faltantes.length > 0)
+    return [faltantes.length === 1
+      ? "Un ingrediente sale de bodega y no de merma. Si añades un lote que "
+        + "lo cubra, esta receta sube de puesto."
+      : `${faltantes.length} ingredientes salen de bodega y no de merma. Si `
+        + `añades lotes que los cubran, esta receta sube de puesto.`];
 
-  out.push(lotes.length > 1
-    ? "Evaluando los lotes por separado, ninguno alcanzaría esta cobertura: "
-      + "la combinación es lo que hace viable la receta a esta escala."
-    : "Seleccionar más lotes compatibles permitiría cubrir una parte mayor "
-      + "de la receta con excedente.");
+  if (holgura < 8 && sanitario) return sanitario;
 
-  return out;
+  if (lotes.length > 1)
+    return ["Por separado, ninguno de estos lotes alcanza para la receta. "
+      + "Es la combinación la que la hace posible."];
+
+  return ["Si añades otro lote compatible, esta misma receta aprovecharía "
+    + "más excedente."];
 }
 
 // ---------------------------------------------------------------------

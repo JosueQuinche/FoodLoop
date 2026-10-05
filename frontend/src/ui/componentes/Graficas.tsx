@@ -25,8 +25,11 @@ export function BarrasH(
         <div className="barra-h" key={d.etiqueta}>
           <span className="pequeno">{d.etiqueta}</span>
           <div className="pista">
+            {/* Se escala en lugar de cambiar el ancho: `width` obliga al
+                navegador a recalcular el diseño en cada fotograma, y
+                `transform` no toca el diseño ni el pintado. */}
             <div className="relleno" style={{
-              width: `${(d.valor / tope) * 100}%`,
+              transform: `scaleX(${d.valor / tope})`,
               background: PALETA[i % PALETA.length],
             }} />
           </div>
@@ -52,16 +55,21 @@ export function BarrasAgrupadas(
         {datos.map((d) => (
           <div className="columna" key={d.etiqueta}>
             <div className="grupo">
+              {/* Cada barra vive dentro de una pista de altura completa y
+                  se escala contra ella. Antes se animaba `height` en
+                  catorce hijos de un contenedor flexible a la vez, lo que
+                  rehacía el diseño del gráfico entero en cada fotograma. */}
               {d.valores.map((v, j) => (
-                <div
-                  key={j}
-                  className="barra"
-                  style={{
-                    height: `${Math.max(2, (v / tope) * (alto - 26))}px`,
-                    background: series[j].color,
-                  }}
-                  title={`${series[j].nombre}: ${fmt(v)} kg`}
-                />
+                <div className="pista-v" key={j}
+                  title={`${series[j].nombre}: ${fmt(v)} kg`}>
+                  <div
+                    className="barra"
+                    style={{
+                      transform: `translateY(${(1 - Math.max(0.015, v / tope)) * 100}%)`,
+                      background: series[j].color,
+                    }}
+                  />
+                </div>
               ))}
             </div>
             <span className="eje">{d.etiqueta}</span>

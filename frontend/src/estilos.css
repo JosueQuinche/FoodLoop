@@ -35,6 +35,21 @@
   --r: 10px;
   --r-lg: 16px;
   --u: 8px;
+
+  /* ---- movimiento ----
+     La curva de la casa estaba escrita a mano once veces, con dos
+     ortografías distintas; aquí queda una sola vez. Las duraciones
+     siguen las bandas de referencia: el tacto de un botón por debajo
+     de 160 ms, lo demás de interfaz por debajo de 300 ms. Lo que
+     supera ese techo solo vive en la portada, que es una página de
+     presentación y admite un ritmo más narrado. */
+  --curva: cubic-bezier(.2, .7, .3, 1);          /* ease-out de la casa */
+  --curva-fuerte: cubic-bezier(.23, 1, .32, 1);  /* entradas y salidas */
+  --t-toque: .12s;      /* respuesta al pulsar */
+  --t-rapida: .15s;     /* color, borde, sombra */
+  --t-media: .22s;      /* paneles y emergentes */
+  --t-lenta: .28s;      /* superposiciones */
+  --t-relato: .6s;      /* solo portada */
 }
 
 :root[data-tema="oscuro"] {
@@ -213,9 +228,13 @@ button { font: inherit; color: inherit; }
   -webkit-backdrop-filter: blur(16px) saturate(1.5);
   border: 1px solid var(--borde); border-radius: var(--r-lg);
   padding: calc(var(--u) * 2.5); box-shadow: var(--sombra);
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s;
 }
-.celda:hover { transform: translateY(-2px); box-shadow: var(--sombra-alta); border-color: var(--borde-fuerte); }
+/* En táctil el :hover se dispara al tocar y el levantamiento se queda
+   pegado hasta que tocas en otro sitio. Por eso va tras la consulta de
+   puntero fino, aquí y en el resto de elevaciones del archivo. */
+@media (hover: hover) and (pointer: fine) {
+  .celda:hover { transform: translateY(-2px); box-shadow: var(--sombra-alta); border-color: var(--borde-fuerte); }
+}
 .celda .rotulo { display: block; margin-bottom: 12px; }
 .celda h3 { font-size: 17px; margin-bottom: 8px; }
 .celda p { color: var(--texto-2); font-size: 13.5px; }
@@ -443,16 +462,43 @@ tbody tr:hover { background: var(--vidrio-fuerte); }
   color: var(--naranja-texto); font-family: "Archivo", system-ui, sans-serif;
   font-weight: 600; font-size: 15px;
 }
+/* La primera columna lleva tres líneas —nombre con su peso, valor
+   observado y por qué pesa eso—, así que se alinea arriba y la barra
+   se baja para quedar a la altura del nombre. */
 .factor {
-  display: grid; grid-template-columns: 220px 1fr 62px;
-  gap: 14px; align-items: center;
-  padding: 11px 0; border-bottom: 1px solid var(--borde);
+  display: grid; grid-template-columns: 290px 1fr 62px;
+  gap: 14px; align-items: start;
+  padding: 13px 0; border-bottom: 1px solid var(--borde);
 }
 .factor:last-child { border-bottom: 0; }
-.factor .n { font-size: 13px; }
-.factor .v { font-size: 11px; color: var(--texto-3); font-family: "IBM Plex Mono", monospace; }
+.factor .n {
+  font-size: 13px; display: flex; gap: 10px;
+  align-items: baseline; justify-content: space-between;
+}
+.factor .peso {
+  flex: none; font-family: "IBM Plex Mono", monospace; font-size: 11px;
+  color: var(--texto-2); background: var(--vidrio-fuerte);
+  border: 1px solid var(--borde); border-radius: 999px; padding: 1px 7px;
+}
+.factor .v {
+  font-size: 11px; color: var(--texto-3);
+  font-family: "IBM Plex Mono", monospace; margin-top: 3px;
+}
+.factor .porque {
+  font-size: 11.5px; color: var(--texto-2);
+  line-height: 1.45; margin-top: 5px; max-width: 42ch;
+}
+.factor .pista { margin-top: 7px; }
+.factor .pct { margin-top: 2px; }
 .pista { height: 8px; border-radius: 4px; background: var(--vidrio-fuerte); border: 1px solid var(--borde); overflow: hidden; }
-.relleno { height: 100%; background: var(--naranja); transition: width .55s cubic-bezier(.2,.7,.3,1); }
+/* Igual que en las gráficas: se escala, no se cambia el ancho. La
+   duración baja de 550 ms a la banda de interfaz; 550 ms en un panel
+   que se consulta a diario se percibe como lentitud del sistema. */
+.relleno {
+  width: 100%; height: 100%; background: var(--naranja);
+  transform-origin: left;
+  transition: transform var(--t-media) var(--curva);
+}
 .relleno.neg { background: var(--critico); }
 .pct { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; text-align: right; font-variant-numeric: tabular-nums; }
 .contra {
@@ -521,11 +567,36 @@ tbody tr:hover { background: var(--vidrio-fuerte); }
   .principal { padding: calc(var(--u) * 2); }
   .g2, .g4, .rejilla-3, .pasos { grid-template-columns: 1fr; }
   .factor { grid-template-columns: 1fr; gap: 6px; }
+  .factor .pista, .factor .pct { margin-top: 0; }
+  .factor .porque { max-width: none; }
   .portada { padding: 0 var(--u) * 2; }
   .cifras { flex-direction: column; }
 }
 
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+/* Movimiento reducido no quiere decir "sin movimiento".
+   La regla anterior era `* { transition: none }`, que junto con los
+   adornos se llevaba por delante el anillo de foco del formulario de
+   merma, la fila marcada de la tabla y el elemento activo del menú. Son
+   justo las pistas que explican un cambio de estado, y quien activa
+   esta preferencia suele navegar con teclado.
+   Lo que se conserva: color, borde, sombra y opacidad. Lo que se
+   retira: todo desplazamiento y las animaciones de fondo. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-property: background-color, border-color, color,
+                         box-shadow, opacity, fill, stroke !important;
+    transition-duration: var(--t-rapida) !important;
+    /* No se anula la animación: se acorta. Varias entradas usan
+       `both`, y suprimirlas dejaría elementos en su estado inicial. */
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+  .celda:hover, .paso:hover, .cifra:hover .cifra-icono,
+  .portada .btn-primario:hover, .btn-contorno:hover,
+  .btn:active, .btn-primario:active { transform: none !important; }
+  .portada .btn-primario::after { display: none; }
+}
 
 /* ---------------- Gráficas ---------------- */
 
@@ -537,17 +608,33 @@ tbody tr:hover { background: var(--vidrio-fuerte); }
   height: 9px; border-radius: 5px;
   background: var(--vidrio-fuerte); border: 1px solid var(--borde); overflow: hidden;
 }
-.barra-h .relleno { height: 100%; border-radius: 5px; transition: width .5s cubic-bezier(.2,.7,.3,1); }
+/* Sin radio propio: la pista ya recorta, y al escalar el radio se
+   deformaría en el extremo derecho. */
+.barra-h .relleno {
+  width: 100%; height: 100%; transform-origin: left;
+  transition: transform var(--t-media) var(--curva);
+}
 
 .barras-v { display: flex; align-items: flex-end; gap: 10px; padding-top: 10px; }
 .barras-v .columna {
   flex: 1; display: flex; flex-direction: column;
   justify-content: flex-end; align-items: center; gap: 7px; height: 100%;
 }
-.barras-v .grupo { display: flex; gap: 3px; align-items: flex-end; width: 100%; justify-content: center; }
+.barras-v .grupo {
+  display: flex; gap: 3px; align-items: stretch;
+  width: 100%; height: 100%; justify-content: center;
+}
+/* La barra mide siempre el alto completo y se desliza hacia abajo
+   dentro de una pista que recorta: lo que asoma es el valor. Se
+   prefiere a escalarla porque `scaleY` aplastaría el redondeo
+   superior, que quedaría ovalado en las barras bajas. El movimiento
+   sigue siendo `transform`, que no toca el diseño ni el pintado. */
+.barras-v .pista-v {
+  flex: 1; max-width: 18px; height: 100%; overflow: hidden;
+}
 .barras-v .barra {
-  width: 100%; max-width: 18px; border-radius: 4px 4px 0 0;
-  transition: height .5s cubic-bezier(.2,.7,.3,1);
+  width: 100%; height: 100%; border-radius: 4px 4px 0 0;
+  transition: transform var(--t-media) var(--curva);
 }
 .barras-v .eje { font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--texto-3); }
 
@@ -601,7 +688,12 @@ select.entrada { appearance: none; cursor: pointer; padding-right: 34px; }
 .opcion span {
   display: block; padding: 9px 12px; text-align: center; font-size: 13px;
   border: 1px solid var(--borde-fuerte); border-radius: var(--r);
-  background: var(--vidrio-fuerte); transition: .15s;
+  background: var(--vidrio-fuerte);
+  /* Antes era `transition: .15s`, que equivale a `all`: al marcarse
+     cambia también el grosor de la letra, así que el texto se recolocaba
+     a mitad de la transición. Se nombran las propiedades. */
+  transition: background var(--t-rapida), border-color var(--t-rapida),
+              color var(--t-rapida);
 }
 .opcion input:checked + span {
   border-color: var(--accion); background: var(--verde-suave);
@@ -746,15 +838,18 @@ select.entrada { appearance: none; cursor: pointer; padding-right: 34px; }
 }
 .fondo-vivo .orbe { z-index: 1; }
 
-/* Entrada escalonada de los bloques de la portada. */
+/* Entrada escalonada de los bloques de la portada.
+   El escalonado estaba roto: apuntaba a `.cifras`, que no existe en el
+   marcado —la franja se llama `.franja-cifras`—, y a los hijos tercero
+   y cuarto de `.hero`, que solo tiene dos. El resultado era que la
+   franja de cifras, lo más visible tras el titular, entraba sin nada
+   mientras lo de arriba y lo de abajo sí se animaba. */
 .portada .hero > *,
-.portada .cifras,
+.portada .franja-cifras,
 .portada .seccion,
-.portada .cta { animation: subir .6s cubic-bezier(.2,.7,.3,1) both; }
+.portada .cta { animation: subir var(--t-relato) var(--curva) both; }
 .portada .hero > *:nth-child(2) { animation-delay: .06s; }
-.portada .hero > *:nth-child(3) { animation-delay: .12s; }
-.portada .hero > *:nth-child(4) { animation-delay: .18s; }
-.portada .cifras { animation-delay: .24s; }
+.portada .franja-cifras { animation-delay: .12s; }
 
 @keyframes subir {
   from { opacity: 0; transform: translateY(14px); }
@@ -774,13 +869,6 @@ select.entrada { appearance: none; cursor: pointer; padding-right: 34px; }
 
 html { scroll-behavior: smooth; scroll-padding-top: 96px; }
 
-@media (prefers-reduced-motion: reduce) {
-  .orbe { animation: none !important; }
-  .portada .hero > *, .portada .cifras,
-  .portada .seccion, .portada .cta { animation: none !important; }
-  html { scroll-behavior: auto; }
-}
-
 /* ---------------- Filtros de la tabla ---------------- */
 
 .barra-filtros {
@@ -797,7 +885,9 @@ html { scroll-behavior: smooth; scroll-padding-top: 96px; }
 .buscador .limpiar {
   position: absolute; right: 8px; top: 8px;
   width: 22px; height: 22px; border: 0; border-radius: 50%;
-  background: var(--superficie-3); color: var(--texto-2);
+  /* `--superficie-3` no estaba definida en ninguna parte, así que este
+     botón se dibujaba transparente sobre el campo de búsqueda. */
+  background: var(--vidrio-fuerte); color: var(--texto-2);
   display: grid; place-items: center; cursor: pointer;
 }
 .buscador .limpiar:hover { color: var(--texto); }
@@ -891,7 +981,9 @@ tbody tr.marcada:hover { background: var(--verde-suave); }
 .pestanas button {
   flex: 1; height: 34px; border: 0; border-radius: 8px;
   background: transparent; color: var(--texto-2);
-  font-size: 13.5px; cursor: pointer; transition: .15s;
+  font-size: 13.5px; cursor: pointer;
+  transition: background var(--t-rapida), color var(--t-rapida),
+              box-shadow var(--t-rapida);
 }
 .pestanas button:hover { color: var(--texto); }
 .pestanas button.activa {
@@ -966,41 +1058,61 @@ tbody tr.marcada:hover { background: var(--verde-suave); }
 /* ---------- botones: el efecto que faltaba ---------- */
 .btn-pildora { border-radius: 999px; }
 
+/* El adorno de este botón —el destello que lo recorre, el
+   levantamiento al pasar el cursor y el empujón del icono— nació para
+   la portada, pero el selector estaba suelto y se aplicaba también a
+   los seis botones primarios del panel. Ahí se pulsa decenas de veces
+   por turno: tres movimientos decorativos en un control de uso diario
+   cansan y hacen la herramienta más lenta de lo que es. El adorno
+   queda acotado a `.portada`; en el panel solo queda la respuesta al
+   pulsar, que es lo único que cumple una función. */
 .btn-primario {
   position: relative; overflow: hidden;
-  transition: transform .18s cubic-bezier(.2,.7,.3,1),
-              box-shadow .18s, background .18s;
+  transition: transform var(--t-toque) var(--curva),
+              box-shadow var(--t-rapida), background var(--t-rapida);
 }
-.btn-primario:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px -8px rgba(63,115,23,.55);
+/* Respuesta al pulsar, en todas partes. Antes solo existía en forma de
+   "deshacer el levantamiento", de modo que con teclado o en táctil
+   —sin hover previo— pulsar no devolvía ninguna señal. */
+.btn-primario:active { transform: scale(.97); }
+
+.portada .btn-primario:active { transform: translateY(0) scale(.97); }
+@media (hover: hover) and (pointer: fine) {
+  .portada .btn-primario:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -8px rgba(63,115,23,.55);
+  }
+  /* destello que recorre el botón al pasar el cursor */
+  .portada .btn-primario::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(110deg, transparent 30%,
+      rgba(255,255,255,.28) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform var(--t-relato) ease;
+  }
+  .portada .btn-primario:hover::after { transform: translateX(120%); }
+  .portada .btn-primario svg { transition: transform var(--t-media) var(--curva); }
+  .portada .btn-primario:hover svg { transform: translateX(3px); }
 }
-.btn-primario:active { transform: translateY(0); }
-/* destello que recorre el botón al pasar el cursor */
-.btn-primario::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(110deg, transparent 30%,
-    rgba(255,255,255,.28) 50%, transparent 70%);
-  transform: translateX(-120%);
-  transition: transform .6s ease;
-}
-.btn-primario:hover::after { transform: translateX(120%); }
-.btn-primario svg { transition: transform .2s; }
-.btn-primario:hover svg { transform: translateX(3px); }
 
 .btn-contorno {
   background: transparent;
   border: 1.5px solid var(--accion);
   color: var(--accion);
-  transition: transform .18s cubic-bezier(.2,.7,.3,1),
-              background .18s, box-shadow .18s;
+  transition: transform var(--t-toque) var(--curva),
+              background var(--t-rapida), box-shadow var(--t-rapida);
 }
-.btn-contorno:hover {
-  background: var(--verde-suave);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px -12px rgba(63,115,23,.4);
-  border-color: var(--accion);
+@media (hover: hover) and (pointer: fine) {
+  .btn-contorno:hover {
+    background: var(--verde-suave);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -12px rgba(63,115,23,.4);
+    border-color: var(--accion);
+  }
 }
+/* Respuesta al pulsar: antes el :hover la tapaba, porque con ratón el
+   puntero siempre está encima al pulsar y ambas reglas empataban. */
+.btn-contorno:active { transform: scale(.97); }
 :root[data-tema="oscuro"] .btn-contorno { color: var(--verde); border-color: var(--verde); }
 
 /* ---------- hero ---------- */
@@ -1046,7 +1158,7 @@ tbody tr.marcada:hover { background: var(--verde-suave); }
      verse como un rectángulo pegado */
   -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
           mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
-  animation: aparecer 1s cubic-bezier(.2,.7,.3,1) both .15s,
+  animation: aparecer 1s var(--curva) both .15s,
              levitar 7s ease-in-out infinite 1.2s;
 }
 :root[data-tema="oscuro"] .hero-arte img { filter: brightness(.92) saturate(1.05); }
@@ -1081,10 +1193,12 @@ tbody tr.marcada:hover { background: var(--verde-suave); }
   width: 68px; height: 68px; flex: none; border-radius: 50%;
   display: grid; place-items: center;
   background: var(--verde-suave); color: var(--accion);
-  transition: transform .3s cubic-bezier(.2,.7,.3,1);
+  transition: transform var(--t-lenta) var(--curva);
 }
 :root[data-tema="oscuro"] .cifra-icono { color: var(--verde); }
-.cifra:hover .cifra-icono { transform: scale(1.08) rotate(-6deg); }
+@media (hover: hover) and (pointer: fine) {
+  .cifra:hover .cifra-icono { transform: scale(1.08) rotate(-6deg); }
+}
 .cifra .n {
   font-family: "Archivo", system-ui, sans-serif; font-size: 32px; font-weight: 700;
   letter-spacing: -.025em; color: #1F3A14;
@@ -1094,8 +1208,8 @@ tbody tr.marcada:hover { background: var(--verde-suave); }
 
 /* ---------- tarjetas con elevación al pasar ---------- */
 .celda, .paso {
-  transition: transform .25s cubic-bezier(.2,.7,.3,1),
-              box-shadow .25s, border-color .25s;
+  transition: transform var(--t-media) var(--curva),
+              box-shadow var(--t-media), border-color var(--t-media);
 }
 .paso:hover {
   transform: translateY(-3px);
@@ -1110,11 +1224,6 @@ tbody tr.marcada:hover { background: var(--verde-suave); }
   .franja-cifras { grid-template-columns: 1fr; gap: 20px; }
   .cifra + .cifra { border-left: 0; border-top: 1px solid var(--borde); padding-top: 20px; }
   .p-nav .enlaces { display: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .portada::before, .portada::after, .hero-arte img { animation: none !important; }
-  .btn-primario::after { display: none; }
 }
 
 /* ---------------- Fotografía de la preparación ---------------- */
@@ -1184,3 +1293,191 @@ tbody tr.marcada:hover { background: var(--verde-suave); }
   .plato > img, .plato > [role="img"] { aspect-ratio: 16 / 10; }
   .plato-datos { gap: 16px; }
 }
+
+/* ---------------- Pantalla de propósito ---------------- */
+
+/* Se muestra al entrar por primera vez. Responde "qué hace esto" y
+   "qué se espera de mí" antes de que el usuario toque nada: en la
+   evaluación con usuarios, quienes usan poco los sistemas informáticos
+   puntuaron casi un punto por debajo del resto y uno señaló que lo más
+   confuso fue entender el propósito. */
+
+.velo {
+  position: fixed; inset: 0; z-index: 60;
+  display: grid; place-items: center;
+  padding: calc(var(--u) * 3);
+  background: rgba(16, 20, 15, .52);
+  backdrop-filter: blur(5px);
+  animation: velo-entra var(--t-media) var(--curva-fuerte) both;
+  overflow-y: auto;
+}
+@keyframes velo-entra { from { opacity: 0 } to { opacity: 1 } }
+
+.bienvenida {
+  position: relative;
+  width: min(640px, 100%);
+  background: var(--lienzo);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sombra-alta);
+  padding: calc(var(--u) * 4);
+  animation: bienvenida-entra var(--t-lenta) var(--curva-fuerte) both;
+}
+@keyframes bienvenida-entra {
+  from { opacity: 0; transform: translateY(12px) scale(.96) }
+  to { opacity: 1; transform: none }
+}
+
+.bienvenida .cerrar {
+  position: absolute; top: 14px; right: 14px;
+  display: grid; place-items: center;
+  width: 30px; height: 30px; padding: 0;
+  border: 1px solid var(--borde); border-radius: 999px;
+  background: var(--vidrio); color: var(--texto-2); cursor: pointer;
+}
+.bienvenida .cerrar:hover { color: var(--texto); border-color: var(--borde-fuerte); }
+
+.bienvenida h2 {
+  font-family: Archivo, system-ui, sans-serif;
+  font-size: 25px; font-weight: 600; margin: 6px 0 0;
+}
+.b-texto {
+  font-size: 14.5px; line-height: 1.6; color: var(--texto-2);
+  margin: 12px 0 0; max-width: 54ch;
+}
+
+.b-pasos {
+  display: grid; gap: 2px; margin: calc(var(--u) * 2.5) 0;
+  border: 1px solid var(--borde); border-radius: var(--r-lg);
+  overflow: hidden; background: var(--borde);
+}
+.b-paso {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px 16px; background: var(--lienzo);
+}
+.b-n {
+  flex: none; display: grid; place-items: center;
+  width: 34px; height: 34px; border-radius: 10px;
+  background: var(--naranja-suave); color: var(--naranja-texto);
+  border: 1px solid var(--naranja-linea);
+}
+.b-orden {
+  font-family: "IBM Plex Mono", monospace; font-size: 10.5px;
+  text-transform: uppercase; letter-spacing: .07em; color: var(--texto-3);
+}
+.b-paso p { margin: 3px 0 0; font-size: 13.5px; line-height: 1.5; }
+
+.b-rol {
+  border-left: 3px solid var(--verde);
+  background: var(--verde-suave);
+  border-radius: var(--r);
+  padding: 13px 16px; margin-bottom: calc(var(--u) * 2.5);
+}
+.b-rol p { margin: 5px 0 0; font-size: 13.5px; line-height: 1.55; }
+
+.bienvenida .btn-pri {
+  width: 100%; justify-content: center;
+  background: var(--accion); color: #fff; border-color: transparent;
+  font-size: 14px; padding: 12px;
+}
+.bienvenida .btn-pri:hover { background: var(--accion-hover); }
+
+.b-pie {
+  margin: 12px 0 0; text-align: center;
+  font-size: 11.5px; color: var(--texto-3);
+}
+
+@media (max-width: 620px) {
+  .velo { padding: var(--u); align-items: start; }
+  .bienvenida { padding: calc(var(--u) * 2.5); }
+  .bienvenida h2 { font-size: 21px; }
+}
+
+/* ---------------- Valorización de la propuesta ---------------- */
+
+/* Contrasta lo que valen los lotes seleccionados con lo que rescata la
+   preparación. Una cifra aislada de costo recuperado no permite juzgar
+   si la propuesta resuelve el problema o solo una parte. */
+
+.valor {
+  border: 1px solid var(--borde); border-radius: var(--r-lg);
+  padding: calc(var(--u) * 2); margin-bottom: 16px;
+  background: var(--vidrio-tenue); box-shadow: var(--sombra);
+}
+.valor-cab {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--u); margin-bottom: 10px;
+}
+.valor-pct { font-size: 12.5px; color: var(--texto-2); white-space: nowrap; }
+.valor-pct b { color: var(--texto); font-variant-numeric: tabular-nums; }
+
+.valor-barra {
+  height: 9px; border-radius: 5px; overflow: hidden;
+  background: var(--critico-suave); border: 1px solid var(--critico-linea);
+}
+.valor-relleno {
+  height: 100%; background: var(--verde);
+  transform-origin: left;
+  transition: transform var(--t-media) var(--curva);
+}
+
+.valor-cifras {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: var(--u); margin-top: 14px;
+}
+/* Las celdas se estiran a la misma altura y la cifra se empuja al
+   fondo, para que no se desalineen cuando un rótulo ocupa dos líneas. */
+.valor-cifras > div { display: flex; flex-direction: column; }
+.valor-cifras .l {
+  font-size: 11px; color: var(--texto-3);
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.valor-cifras .v {
+  font-family: Archivo, system-ui, sans-serif; font-size: 19px;
+  font-weight: 600; margin-top: auto; padding-top: 3px;
+  font-variant-numeric: tabular-nums;
+}
+.valor-cifras .v.riesgo { color: var(--critico); }
+.valor-cifras .v.bien { color: var(--verde); }
+
+@media (max-width: 760px) {
+  .valor-cifras { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------------- Respuesta al pulsar ---------------- */
+
+/* Los controles más usados del panel no devolvían ninguna señal al
+   pulsarlos: el menú lateral, los filtros, las pestañas de rol y los
+   botones de cerrar. En una cocina se trabaja de pie y con prisa, a
+   veces en una pantalla táctil, y la confirmación de que el toque se
+   registró es lo que evita el segundo toque por duda.
+   El valor es deliberadamente corto y pequeño: .97 y 120 ms quedan
+   dentro de la banda de respuesta táctil y pasan casi inadvertidos,
+   que es lo que se busca en algo que se repite todo el turno. */
+.nav-item,
+.ficha,
+.pestanas button,
+.p-nav .enlaces > button,
+.rolbar,
+.buscador .limpiar,
+.bienvenida .cerrar {
+  transition: transform var(--t-toque) var(--curva),
+              background var(--t-rapida), color var(--t-rapida),
+              border-color var(--t-rapida), box-shadow var(--t-rapida);
+}
+.nav-item:active,
+.ficha:active,
+.pestanas button:active,
+.p-nav .enlaces > button:active,
+.rolbar:active,
+.buscador .limpiar:active,
+.bienvenida .cerrar:active { transform: scale(.97); }
+
+/* ---------------- Cambio de pantalla ---------------- */
+
+/* Solo opacidad y 120 ms. Sin desplazamiento y por debajo del umbral
+   en que un cambio empieza a notarse como espera: el contenido ya es
+   utilizable mientras termina de aparecer. Se descartó mover el
+   contenido porque esta es la acción más repetida de la jornada. */
+.principal.entra { animation: pantalla-entra var(--t-toque) var(--curva-fuerte) both; }
+@keyframes pantalla-entra { from { opacity: 0 } to { opacity: 1 } }
