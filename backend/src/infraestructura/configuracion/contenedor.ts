@@ -10,13 +10,13 @@ import {
   ConsultarOperacionUC, ObtenerRecomendacionesUC, RegistrarDecisionUC,
   ConsultarPermisosUC, RegistrarMermaUC, ConsultarEstadisticasUC,
   ConsultarMaestrosUC, RegistrarFeedbackUC,
-  IniciarSesionUC, RegistrarUsuarioUC,
+  IniciarSesionUC, RegistrarUsuarioUC, InspeccionarModeloUC,
 } from "@foodloop/dominio";
 import type {
   ConsultarOperacion, ObtenerRecomendaciones, RegistrarDecision,
   ConsultarPermisos, RegistrarMerma, ConsultarEstadisticas,
   ConsultarMaestros, RegistrarFeedback, IniciarSesion, RegistrarUsuario,
-  Reloj, ProveedorSesion, Rol,
+  InspeccionarModelo, Reloj, ProveedorSesion, Rol,
 } from "@foodloop/dominio";
 import type { Db } from "mongodb";
 import { conectar, aplicarEsquema } from "../adaptadores/salida/mongo/conexion";
@@ -52,6 +52,7 @@ export interface Contenedor {
   registrarFeedback: RegistrarFeedback;
   iniciarSesion: IniciarSesion;
   registrarUsuario: RegistrarUsuario;
+  inspeccionarModelo: InspeccionarModelo;
   sesion: Sesion;
   db: Db;
   consultas: ConsultasMongo;
@@ -88,6 +89,7 @@ export async function crearContenedor(
     registrarFeedback: new RegistrarFeedbackUC(feedback, sesion),
     iniciarSesion: new IniciarSesionUC(usuarios),
     registrarUsuario: new RegistrarUsuarioUC(usuarios),
+    inspeccionarModelo: new InspeccionarModeloUC(lotes, catalogo, cargas, reloj),
     sesion, db,
     consultas: new ConsultasMongo(db, lotes),
   };

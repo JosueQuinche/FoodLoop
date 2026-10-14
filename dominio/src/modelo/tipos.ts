@@ -39,6 +39,17 @@ export interface Ingrediente {
   tempMaxC: number;
 }
 
+/**
+ * Estado del dictamen sanitario de un lote.
+ *
+ * El tercer valor existe porque los registros del centro de producción
+ * no traen el dictamen evaluado: declaran la condición que habría que
+ * comprobar. Decir «no apto» de un lote que nadie examinó sería tan
+ * falso como decir «apto», y con `aptoReproceso` a secas no se podía
+ * distinguir «se comprobó y no sirve» de «no se comprobó».
+ */
+export type Dictamen = "apto" | "no_apto" | "pendiente";
+
 export interface Lote {
   id: number;
   codigo: string;
@@ -50,6 +61,17 @@ export interface Lote {
   estadoProducto: EstadoProducto;
   temperaturaC: number;
   aptoReproceso: boolean;
+  /**
+   * Opcional por compatibilidad: ausente equivale a derivarlo de
+   * `aptoReproceso`, que es lo que hacen los registros anteriores.
+   */
+  dictamen?: Dictamen;
+  /**
+   * Campos cuyo valor no se midió sino que se derivó de una regla al
+   * importar. Viaja con el lote para que la explicación pueda decir
+   * sobre qué supuestos se calculó.
+   */
+  camposDerivados?: string[];
   registradoEn: Date;
   venceEn: Date;
   areaId: number;
@@ -57,6 +79,10 @@ export interface Lote {
   servicio: string;
   causa: Causa;
 }
+
+/** Dictamen efectivo de un lote, con el valor heredado si no lo declara. */
+export const dictamenDe = (l: Lote): Dictamen =>
+  l.dictamen ?? (l.aptoReproceso ? "apto" : "no_apto");
 
 /**
  * Ingrediente que una receta requiere. Vive embebido dentro del
@@ -137,6 +163,17 @@ export interface Resultado {
   escala: number;
   contrafactuales: string[];
   resumen: string;
+  /**
+   * Falso cuando la propuesta se calculó aplazando una regla sanitaria
+   * por falta de medición. El potencial de aprovechamiento es real; la
+   * autorización para ejecutarla, no.
+   *
+   * Ausente en el modo normal, donde toda propuesta es autorizable
+   * porque ninguna regla se aplazó.
+   */
+  autorizable?: boolean;
+  /** Qué habría que medir para poder autorizarla. Una línea por falta. */
+  faltaMedir?: string[];
 }
 
 /**

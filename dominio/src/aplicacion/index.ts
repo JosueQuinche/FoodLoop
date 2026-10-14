@@ -21,12 +21,16 @@ import type {
   RegistrarDecision, ConsultarPermisos, Permisos,
   RegistrarMerma, EntradaMerma, ConsultarEstadisticas, Estadisticas,
   ConsultarMaestros, RegistrarFeedback, IniciarSesion, RegistrarUsuario,
+  InspeccionarModelo, FichaModelo,
 } from "../puertos/entrada/casos-uso";
 import { ErrorDominio } from "../puertos/entrada/casos-uso";
 import type { Decision, Rol, Lote, Usuario } from "../modelo/tipos";
+import { dictamenDe } from "../modelo/tipos";
 import {
-  recomendar, sugerirLotes, horasRestantes, VERSION_MODELO,
-} from "../servicios/motor";
+  sugerirLotes, horasRestantes, VERSION_MODELO,
+  ejecutarModelo, ETAPAS, PENDIENTE, TIPO_MODELO,
+  PARAMETROS, CARACTERISTICAS, REGLAS, cotaSuperior,
+} from "../servicios/motor/index";
 import { permisosDe } from "../servicios/autorizacion";
 
 // ---------------------------------------------------------------------
@@ -59,7 +63,11 @@ export class ConsultarOperacionUC implements ConsultarOperacion {
     return {
       lotes: items,
       kgDisponibles: items.reduce((a, i) => a + i.lote.cantidad, 0),
-      enRiesgo: items.filter((i) => i.horasRestantes <= 24).length,
+      // Vencido no es «en riesgo»: el riesgo es perder algo que todavía
+      // se puede salvar. Contarlos juntos daba 1558 lotes en riesgo
+      // sobre un conjunto histórico en el que 1549 ya habían caducado.
+      enRiesgo: items.filter(
+        (i) => i.horasRestantes > 0 && i.horasRestantes <= 24).length,
       valorEnRiesgo: items.reduce((a, i) => a + i.valorEnRiesgo, 0),
       aptos: items.filter((i) => i.lote.aptoReproceso).length,
       decisiones: decisiones.length,
@@ -75,6 +83,7 @@ export class ConsultarOperacionUC implements ConsultarOperacion {
  */
 const clasificar = (l: Lote, h: number): LotePendiente["estadoVida"] =>
   h <= 0 ? "vencido"
+    : dictamenDe(l) === "pendiente" ? "pendiente"
     : !l.aptoReproceso ? "sin_dictamen"
     : h <= 12 ? "critico"
     : h <= 24 ? "por_vencer" : "apto";
@@ -96,7 +105,10 @@ export class ObtenerRecomendacionesUC implements ObtenerRecomendaciones {
    * sistema evalúa el conjunto como una unidad y devuelve además los
    * lotes que mejorarían la propuesta si se incorporaran.
    */
-  async ejecutar(loteIds: number | number[]): Promise<SalidaRecomendacion> {
+  async ejecutar(
+    loteIds: number | number[],
+    modo: "operacion" | "potencial" = "operacion",
+  ): Promise<SalidaRecomendacion> {
     const ids = Array.isArray(loteIds) ? loteIds : [loteIds];
     if (ids.length === 0)
       throw new ErrorDominio("Selecciona al menos un lote.", "SELECCION_VACIA");
@@ -116,8 +128,22 @@ export class ObtenerRecomendacionesUC implements ObtenerRecomendaciones {
     ]);
 
     const ahora = this.reloj.ahora();
-    const { resultados, descartes } =
-      recomendar(seleccion, items, disponibles, cargas, ahora, this.topN);
+    // Se usa `ejecutarModelo` y no `recomendar` porque la interfaz
+    // necesita saber qué reglas se aplazaron, no solo el resultado.
+    const { resultados, descartes, traza } = ejecutarModelo(
+      seleccion, items, disponibles, cargas, ahora, { topN: this.topN, modo });
+
+    // Lo que falta medir, una línea por lote y regla, sin repetir.
+    const aplazadas = [...new Map(
+      resultados
+        .flatMap((r) => r.faltaMedir ?? [])
+        .map((f) => {
+          const i = f.indexOf(":");
+          const lote = i > 0 ? f.slice(0, i).trim() : "";
+          const falta = i > 0 ? f.slice(i + 1).trim() : f;
+          return [`${lote}|${falta}`, { lote, falta }];
+        }),
+    ).values()];
 
     // Qué otros lotes elevarían la aptitud. No se combinan solos: la
     // decisión de qué mezclar es del chef, que conoce restricciones de
@@ -133,6 +159,7 @@ export class ObtenerRecomendacionesUC implements ObtenerRecomendaciones {
       loteIds: seleccion.map((l) => l.id),
       generadaEn: ahora,
       versionModelo: VERSION_MODELO,
+      modo,
       descartes,
       propuestas: resultados.map((r, i) => ({
         recetaId: r.item.id,
@@ -156,7 +183,88 @@ export class ObtenerRecomendacionesUC implements ObtenerRecomendaciones {
       resultados: resultados.map((r, i) => ({ ...r, recomendacionId: idsPropuestas[i] })),
       descartes, sugerencias,
       versionModelo: VERSION_MODELO,
+      modo, aplazadas,
+      // La traza se devuelve para que la pantalla del modelo pueda
+      // mostrar las seis etapas de ESTA recomendación sin volver a
+      // pedirla al servidor, que la recalcularía y podría dar otra
+      // cosa si el inventario cambió en el intervalo.
+      traza,
     };
+  }
+}
+
+// ---------------------------------------------------------------------
+
+/**
+ * Inspección del modelo.
+ *
+ * Existe porque la interfaz muestra el resultado del modelo pero no el
+ * modelo. Quien tenga que juzgar si esto es un modelo de decisión o un
+ * programa que ordena recetas necesita ver, de una recomendación
+ * concreta, qué datos entraron, qué reglas se aplicaron, qué se midió,
+ * con qué pesos se combinó y de dónde sale la frase que el usuario lee.
+ *
+ * La ficha no toca la base de datos: describe el artefacto y se
+ * construye a partir de las tablas que el propio motor declara. Si una
+ * etapa cambia de responsabilidad y la tabla no se actualiza, la
+ * discrepancia se ve en la pantalla.
+ */
+export class InspeccionarModeloUC implements InspeccionarModelo {
+  constructor(
+    private readonly lotes: RepositorioLotes,
+    private readonly catalogo: RepositorioCatalogo,
+    private readonly cargas: RepositorioCargas,
+    private readonly reloj: Reloj,
+  ) {}
+
+  ficha(): FichaModelo {
+    return {
+      version: VERSION_MODELO,
+      tipo: TIPO_MODELO,
+      etapas: ETAPAS.map((e) => ({ ...e })),
+      parametros: CARACTERISTICAS.map((eje) => ({
+        eje,
+        peso: PARAMETROS[eje].valor,
+        origen: PARAMETROS[eje].origen,
+        etiqueta: PARAMETROS[eje].etiqueta,
+        porQue: PARAMETROS[eje].porQue,
+        fundamento: PARAMETROS[eje].fundamento,
+      })),
+      reglas: Object.values(REGLAS).map((r) => ({
+        codigo: r.codigo, titulo: r.titulo, alcance: r.alcance,
+        motivo: r.motivo, fundamento: r.fundamento,
+      })),
+      cotaSuperior: cotaSuperior(),
+      pendiente: [...PENDIENTE],
+    };
+  }
+
+  async traza(loteIds: number[]) {
+    if (loteIds.length === 0)
+      throw new ErrorDominio("Selecciona al menos un lote.", "SELECCION_VACIA");
+
+    const encontrados = await Promise.all(
+      loteIds.map((id) => this.lotes.obtenerPorId(id)));
+    const faltante = loteIds.find((_id, i) => encontrados[i] === null);
+    if (faltante !== undefined)
+      throw new ErrorDominio(
+        `No existe el lote ${faltante}.`, "LOTE_NO_ENCONTRADO");
+    const seleccion = encontrados as Lote[];
+
+    const [items, disponibles, cargas] = await Promise.all([
+      this.catalogo.listarActivos(),
+      this.lotes.inventarioDisponible(),
+      this.cargas.cargasPorArea(),
+    ]);
+
+    const salida = ejecutarModelo(
+      seleccion, items, disponibles, cargas, this.reloj.ahora());
+
+    // La traza de inspección NO se persiste. La que se guarda es la de
+    // `ObtenerRecomendacionesUC`, que corresponde a una recomendación
+    // que el usuario vio; registrar también las inspecciones ensuciaría
+    // el conjunto con el que se analiza la Fase 4.
+    return { lotes: seleccion, ...salida };
   }
 }
 
@@ -273,10 +381,14 @@ export class ConsultarEstadisticasUC implements ConsultarEstadisticas {
     ]);
 
     const ahora = this.reloj.ahora();
-    const cuenta = { apto: 0, por_vencer: 0, critico: 0, vencido: 0, sin_dictamen: 0 };
+    const cuenta = {
+      apto: 0, por_vencer: 0, critico: 0, vencido: 0,
+      sin_dictamen: 0, pendiente: 0,
+    };
     for (const l of pendientes) {
       const h = horasRestantes(l, ahora);
       if (h <= 0) cuenta.vencido++;
+      else if (dictamenDe(l) === "pendiente") cuenta.pendiente++;
       else if (!l.aptoReproceso) cuenta.sin_dictamen++;
       else if (h <= 12) cuenta.critico++;
       else if (h <= 24) cuenta.por_vencer++;
@@ -291,6 +403,7 @@ export class ConsultarEstadisticasUC implements ConsultarEstadisticas {
         { estado: "Crítico", lotes: cuenta.critico },
         { estado: "Vencido", lotes: cuenta.vencido },
         { estado: "Sin dictamen", lotes: cuenta.sin_dictamen },
+        { estado: "Pendiente de medir", lotes: cuenta.pendiente },
       ],
     };
   }

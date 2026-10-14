@@ -141,10 +141,34 @@ FoodLoop/
   render.yaml   configuración de despliegue
 ```
 
-El dominio contiene entidades, motor de correspondencia, política de
+El dominio contiene entidades, motor de recomendación, política de
 permisos, puertos y casos de uso. No importa React, ni Express, ni SQL.
 Ambos extremos consumen el mismo paquete, de modo que la lógica del modelo
 existe una sola vez y no puede divergir entre cliente y servidor.
+
+El motor vive en `dominio/src/servicios/motor/`, una etapa por archivo:
+
+```
+motor/
+  index.ts              la tubería: encadena las seis etapas y arma la traza
+  pesos.ts              los siete parámetros, con la procedencia de cada uno
+  ficha.ts              qué hace cada etapa y por qué está separada
+  e1-entrada.ts         E1 · entrada de datos
+  e2-restricciones.ts   E2 · seis reglas binarias, cinco sanitarias
+  e3-caracteristicas.ts E3 · la situación de cocina medida en siete ejes
+  e4-puntuacion.ts      E4 · combinación lineal del vector con los pesos
+  e5-ordenamiento.ts    E5 · aptitud y tres desempates declarados
+  e6-explicacion.ts     E6 · descomposición, resumen y contrafactual
+```
+
+Tres separaciones hacen el trabajo. **E1 no consulta la base ni lee el
+reloj**: todo entra como argumento, y por eso la misma entrada produce
+siempre la misma salida. **E2 va antes de medir y de puntuar**, de modo
+que ninguna puntuación alta puede rescatar una propuesta que incumple una
+restricción sanitaria: estructuralmente no llega a puntuarse. **E3 no
+conoce los pesos**, solo mide, lo que permite revisar qué mide el modelo
+sin discutir a la vez cómo lo combina, y sustituir los pesos por unos
+ajustados sobre datos sin tocar el código que mide.
 
 ---
 
@@ -305,6 +329,97 @@ decisiones reales.
 La parte cualitativa está en `INSTRUMENTO-EVALUACION.md`: recorrido de
 la sesión, cuestionario de 21 ítems en escala de Likert, preguntas
 abiertas y el análisis previsto.
+
+---
+
+## Recorrer el prototipo con los datos del centro
+
+```bash
+npm run prototipo
+```
+
+Levanta el backend con los datos de `datos/` cargados en memoria y el
+frontend en `http://localhost:5173`. No hace falta instalar MongoDB.
+
+El conjunto del centro va de enero a junio de 2026, de modo que con el
+reloj del sistema todos los lotes aparecen vencidos y el panel sale
+vacío. El servidor de revisión se sitúa por eso en una fecha del propio
+conjunto —la del último lote con dictamen favorable— y la interfaz lo
+avisa en una banda sobre cada pantalla. Para situarse en otro día:
+
+```bash
+npx tsx herramientas/servidor-memoria.ts ./datos --fecha=2026-03-15
+```
+
+Esto no falsea la fecha de los registros, que conservan la suya: lo que
+se mueve es el instante desde el que se los mira, que es el parámetro
+que el motor ya recibía por la etapa 1.
+
+Para una instalación real, con MongoDB, el camino es el de siempre:
+`npm run importar -- ./datos` y después `npm run dev`.
+
+**Dónde se ve cada cosa**
+
+| Pantalla | Qué muestra |
+| --- | --- |
+| Panel | Los 1 577 lotes con su vida útil, su estado y el valor en riesgo |
+| Recomendaciones | Las tres propuestas del modelo para la selección |
+| Explicación | Los siete factores con su peso, su valor observado y su aporte |
+| **El modelo** | Las seis etapas de esa ejecución, lo descartado con su regla, la matriz de características, la aritmética completa y los parámetros con su procedencia |
+
+Un lote cuyo dictamen no se midió aparece como **«falta medir»**, no como
+rechazado, y el prototipo ofrece ver su potencial de aprovechamiento con
+las reglas sanitarias aplazadas: la propuesta sale marcada como no
+autorizable y dice qué habría que medir.
+
+---
+
+## Ver el modelo por dentro
+
+La interfaz muestra el resultado del modelo, pero no el modelo. Estos
+comandos sirven para lo segundo.
+
+```bash
+npm run modelo           # las seis etapas de una ejecución, una por una
+npm run modelo MRM-261007-0005          # sobre un lote concreto
+npm run modelo MRM-261007-0005 MRM-261007-0012   # sobre un conjunto
+npm run modelo:todos     # una línea por lote: admitidas, descartadas, aptitud
+npm run modelo:probar    # 60 comprobaciones, cada etapa por separado
+```
+
+`npm run modelo` imprime, de una ejecución real: los lotes que entraron
+con su vida útil y su dictamen; las recetas descartadas con la regla que
+lo decidió y el lote que la incumplió; la matriz de siete
+características por receta admisible; la tabla de pesos con la
+procedencia de cada uno; la aritmética completa de la propuesta ganadora,
+eje por eje; el ranking con sus desempates; y la explicación tal como la
+ve el usuario, con la comprobación de que las siete contribuciones suman
+la aptitud publicada.
+
+Requiere un caso congelado, que se genera una vez:
+
+```bash
+npm run modelo:caso      # congela lotes, catálogo y fechas en un JSON
+```
+
+Congelar el caso es lo que permite demostrar que un cambio del motor no
+alteró ninguna salida: `npm run modelo:volcar antes.json`, el cambio, y
+`npm run modelo:volcar despues.json` producen dos archivos comparables
+carácter a carácter. La reestructuración en seis etapas se verificó así,
+sobre 91 evaluaciones y 133 propuestas.
+
+Lo mismo está expuesto en el backend, para que la trazabilidad viva en
+el sistema y no en un documento aparte:
+
+| Ruta | Qué devuelve |
+| --- | --- |
+| `GET /modelo` | La ficha del modelo: etapas, reglas, parámetros con su procedencia y lo que no hace todavía |
+| `POST /modelo/traza` | Para una selección de lotes, qué hizo cada etapa y con qué cifras |
+
+La ficha se construye de las mismas tablas que el motor usa para
+decidir, no de una descripción escrita aparte: si una etapa cambia de
+responsabilidad y nadie actualiza su descripción, la discrepancia
+aparece en la pantalla que la muestra.
 
 ## Verificar la arquitectura
 

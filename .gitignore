@@ -5,3 +5,16 @@ dist/
 *.log
 .DS_Store
 Thumbs.db
+
+# volcados de comparación del motor (el caso congelado sí se versiona)
+volcado*.json
+antes.json
+despues.json
+
+# los CSV convertidos del centro SÍ se versionan: son la entrada exacta
+# con que se produjeron las evidencias, y sin ellos el resultado no se
+# puede reproducir. El .xlsx de origen no va al repositorio.
+
+# cuentas creadas al probar el prototipo: llevan hashes de contraseña
+# y son de cada quien, no del proyecto
+datos/.usuarios.json

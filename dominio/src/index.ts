@@ -7,7 +7,7 @@
  * misma en los dos lados, no dos copias que se van separando con el tiempo.
  */
 export * from "./modelo/tipos";
-export * from "./servicios/motor";
+export * from "./servicios/motor/index";
 export * from "./servicios/autorizacion";
 export * from "./puertos/entrada/casos-uso";
 export * from "./puertos/salida/repositorios";

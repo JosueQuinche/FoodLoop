@@ -12,11 +12,18 @@
 import type {
   Lote, Resultado, Descarte, Rol, Decision, Sugerencia, Usuario,
 } from "../../modelo/tipos";
+import type { TrazaModelo } from "../../servicios/motor/tipos";
 
 export interface LotePendiente {
   lote: Lote;
   horasRestantes: number;
-  estadoVida: "apto" | "por_vencer" | "critico" | "vencido" | "sin_dictamen";
+  /**
+   * `sin_dictamen` es el lote examinado y rechazado; `pendiente` es el
+   * que nadie examinó. Los dos impiden recomendar, pero solo el segundo
+   * se resuelve midiendo, y la interfaz tiene que poder ofrecer eso.
+   */
+  estadoVida: "apto" | "por_vencer" | "critico" | "vencido"
+    | "sin_dictamen" | "pendiente";
   valorEnRiesgo: number;
 }
 
@@ -42,11 +49,30 @@ export interface SalidaRecomendacion {
   /** Lotes no seleccionados que elevarían la aptitud. */
   sugerencias: Sugerencia[];
   versionModelo: string;
+  /** Modo con que se evaluó. `potencial` aplaza R1 y R4. */
+  modo: "operacion" | "potencial";
+  /**
+   * Reglas que el modo potencial aplazó, con el lote y lo que falta
+   * medir. Vacío en el modo de operación.
+   */
+  aplazadas: { lote: string; falta: string }[];
+  /**
+   * Traza por etapas de ESTA evaluación.
+   *
+   * Viaja con el resultado en lugar de pedirse aparte porque volver a
+   * pedirla recalcularía el modelo, y entre una llamada y otra el
+   * inventario puede cambiar: la pantalla mostraría las etapas de una
+   * ejecución distinta de la que el usuario tiene delante.
+   */
+  traza: TrazaModelo;
 }
 
 /** Caso de uso 2: obtener recomendaciones para uno o varios lotes. */
 export interface ObtenerRecomendaciones {
-  ejecutar(loteIds: number | number[]): Promise<SalidaRecomendacion>;
+  ejecutar(
+    loteIds: number | number[],
+    modo?: "operacion" | "potencial",
+  ): Promise<SalidaRecomendacion>;
 }
 
 /** Caso de uso 3: registrar la decisión del responsable. */
@@ -145,6 +171,50 @@ export interface RegistrarUsuario {
   ejecutar(entrada: {
     correo: string; nombre: string; rol: Rol; clave: string;
   }): Promise<Usuario>;
+}
+
+/**
+ * Caso de uso 11: inspeccionar el modelo.
+ *
+ * Devuelve la ficha del modelo —sus etapas, sus reglas y sus parámetros
+ * con la procedencia de cada uno— y, para una selección concreta de
+ * lotes, la traza de lo que hizo cada etapa.
+ *
+ * Es un puerto de entrada y no una página de la interfaz porque la
+ * necesitan tres consumidores distintos: la interfaz, para mostrar de
+ * dónde sale una recomendación; el inspector de línea de comandos, para
+ * la revisión académica; y cualquier auditoría posterior. Si viviera en
+ * la interfaz, los otros dos tendrían que reimplementarla.
+ */
+export interface FichaModelo {
+  version: string;
+  tipo: string;
+  etapas: {
+    codigo: string; nombre: string; archivo: string;
+    entra: string; sale: string; porQue: string;
+  }[];
+  parametros: {
+    eje: string; peso: number; origen: string;
+    etiqueta: string; porQue: string; fundamento: string;
+  }[];
+  reglas: {
+    codigo: string; titulo: string; alcance: string;
+    motivo: string; fundamento: string;
+  }[];
+  cotaSuperior: number;
+  pendiente: string[];
+}
+
+export interface InspeccionarModelo {
+  /** Ficha del modelo. No depende de datos: describe el artefacto. */
+  ficha(): FichaModelo;
+  /** Traza de una ejecución sobre los lotes indicados. */
+  traza(loteIds: number[]): Promise<{
+    lotes: Lote[];
+    resultados: Resultado[];
+    descartes: Descarte[];
+    traza: unknown;
+  }>;
 }
 
 /** Error de dominio. La UI lo distingue de un fallo de infraestructura. */

@@ -1,0 +1,128 @@
+codigo,nombre,categoria,unidad,costo_unitario,vida_util_crudo_h,vida_util_cocido_h,temp_max_c
+ING-0001,Pollo presas,Proteína,kg,2.5573,48,24,4
+ING-0002,Pollo caderas,Proteína,kg,2.425,48,24,4
+ING-0003,Pollo pierna,Proteína,kg,3.0864,48,24,4
+ING-0004,Pollo pechuga entera,Proteína,kg,3.9903,48,24,4
+ING-0005,Pollo filete,Proteína,kg,5.7319,48,24,4
+ING-0006,Pollo alitas,Proteína,kg,5.5115,48,24,4
+ING-0007,Pollo sopa,Proteína,kg,2.6455,48,24,4
+ING-0008,Cerdo costilla,Proteína,kg,7.0547,48,24,4
+ING-0009,Cerdo chuleta,Proteína,kg,5.5115,48,24,4
+ING-0010,Cerdo Patas,Proteína,kg,2.866,48,24,4
+ING-0011,Cerdo fritada,Proteína,kg,4.9824,48,24,4
+ING-0012,Cerdo pulpa,Proteína,kg,5.291,48,24,4
+ING-0013,Cerdo hueso carnudo,Proteína,kg,2.5353,48,24,4
+ING-0014,Cerdo ahumado,Proteína,kg,5.5115,48,24,4
+ING-0015,Carne filete,Proteína,kg,9.0388,48,24,4
+ING-0016,Carne estofado,Proteína,kg,8.2672,48,24,4
+ING-0017,Carne molida corriente,Proteína,kg,4.6296,48,24,4
+ING-0018,Carne hueso carnudo,Proteína,kg,2.6455,48,24,4
+ING-0019,Carne hueso blanco,Proteína,kg,0.7716,48,24,4
+ING-0020,Carne molida especial,Proteína,kg,7.1649,48,24,4
+ING-0021,Costilla de res,Proteína,kg,5.8862,48,24,4
+ING-0022,Patas de res,Proteína,kg,4.6296,48,24,4
+ING-0023,Mondongo,Proteína,kg,7.716,48,24,4
+ING-0024,Embutido chorizo,Proteína,kg,11.0229,48,24,4
+ING-0025,Embutido recorte,Proteína,kg,5.5115,48,24,4
+ING-0026,Embutido tacos,Proteína,kg,5.5115,48,24,4
+ING-0027,Pescado albacora,Proteína,kg,3.3069,48,24,4
+ING-0028,Pescado dorado,Proteína,kg,5.5115,48,24,4
+ING-0029,Camaron,Proteína,kg,4.4092,48,24,4
+ING-0030,Alitas,Proteína,kg,15.4,48,24,4
+ING-0031,Atún,Proteína,kg,8.4333,48,24,4
+ING-0032,Arroz,Abasto,kg,0.6614,72,24,4
+ING-0033,Papa,Vegetales,kg,0.7275,120,48,6
+ING-0034,Papa chaucha,Vegetales,kg,1.1023,120,48,6
+ING-0035,Tomate,Vegetales,kg,44.0917,120,48,6
+ING-0036,Tomate cherry,Vegetales,kg,0.1,120,48,6
+ING-0037,Cebolla colorada,Vegetales,kg,0.6173,120,48,6
+ING-0038,Cebolla perla,Vegetales,kg,1.92,120,48,6
+ING-0039,Cebolla blanca,Vegetales,kg,5.8333,120,48,6
+ING-0040,Pimiento verde,Vegetales,kg,0.3086,120,48,6
+ING-0041,Pimiento colores,Vegetales,kg,0.0,120,48,6
+ING-0042,Yuca,Vegetales,kg,1.3228,120,48,6
+ING-0043,Choclo entero,Vegetales,kg,3.3333,120,48,6
+ING-0044,Choclo desgranado,Vegetales,kg,2.2046,120,48,6
+ING-0045,Col blanca,Vegetales,kg,10.0,120,48,6
+ING-0046,Col morada,Vegetales,kg,6.6667,120,48,6
+ING-0047,Lechuga,Vegetales,kg,2.6667,120,48,6
+ING-0048,Mote,Vegetales,kg,5.8667,120,48,6
+ING-0049,Albergita,Vegetales,kg,2.2046,120,48,6
+ING-0050,Pepino,Vegetales,kg,0.7937,120,48,6
+ING-0051,Ajo,Vegetales,kg,2.7557,120,48,6
+ING-0052,Zanahoria,Vegetales,kg,0.4409,120,48,6
+ING-0053,Cilantro,Vegetales,kg,3.3333,120,48,6
+ING-0054,Albahaca,Vegetales,kg,10.0,120,48,6
+ING-0055,Espinaca,Vegetales,kg,2.0,120,48,6
+ING-0056,Hierba Buena,Vegetales,kg,2.0,120,48,6
+ING-0057,Maracuya,Frutas,kg,0.3968,96,48,6
+ING-0058,Naranjilla,Frutas,kg,1.25,96,48,6
+ING-0059,Limón,Frutas,kg,0.8377,96,48,6
+ING-0060,Tomate de árbol,Frutas,kg,1.25,96,48,6
+ING-0061,Naranja,Frutas,kg,0.1984,96,48,6
+ING-0062,Jamaica,Frutas,kg,1.1023,96,48,6
+ING-0063,Mora,Frutas,kg,2.4,96,48,6
+ING-0064,Tamarindo,Frutas,kg,2.7557,96,48,6
+ING-0065,Fideo,Abasto,kg,0.0,72,24,4
+ING-0066,Vegetales,Abasto,kg,0.0,72,24,4
+ING-0067,Aceite,Abasto,kg,1.85,72,24,4
+ING-0068,Fideo codito,Abasto,kg,5.8667,72,24,4
+ING-0069,Fideo nido,Abasto,kg,2.9333,72,24,4
+ING-0070,Fideo tallarin,Abasto,kg,2.9333,72,24,4
+ING-0071,Fideo chino,Abasto,kg,14.8667,72,24,4
+ING-0072,Fideo lasana,Abasto,kg,13.2,72,24,4
+ING-0073,Maiz Dulce,Abasto,kg,1580.0,72,24,4
+ING-0074,Huevos,Proteina,kg,0.0991,72,24,4
+ING-0075,Huevos Unidad,Proteina,kg,0.1,72,24,4
+ING-0076,Lentejas,Abasto,kg,890.0,72,24,4
+ING-0077,Leche Rey Leche,Abasto,kg,0.79,72,24,4
+ING-0078,Aceite Caneca,Abasto,kg,32.0,72,24,4
+ING-0079,Tortilla Mama Fanny,Abasto,kg,1300.0,72,24,4
+ING-0080,Apanadura Grile,Abasto,kg,1670.0,72,24,4
+ING-0081,Fideo Letras,Abasto,kg,1450.0,72,24,4
+ING-0082,Nabo,Abasto,kg,5.0,72,24,4
+ING-0083,Sal,Abasto,kg,0.7,72,24,4
+ING-0084,Verde,Legumbres,kg,1.3333,72,24,4
+ING-0085,Mani,Abasto,kg,2.2046,72,24,4
+ING-0086,Habas,Abasto,kg,1.1023,72,24,4
+ING-0087,Limón,Abasto,kg,0.8377,72,24,4
+ING-0088,Limón u,Abasto,kg,0.3333,72,24,4
+ING-0089,Garbanzo,Abasto,kg,8.0,72,24,4
+ING-0090,Frejol frutilla,Abasto,kg,7.8667,72,24,4
+ING-0091,Frejol canario,Abasto,kg,10.6,72,24,4
+ING-0092,Lentejas,Abasto,kg,5.2,72,24,4
+ING-0093,Frejol panamito,Abasto,kg,5.6,72,24,4
+ING-0094,Mix mariscos,Proteína,kg,26.6667,48,24,4
+ING-0095,Queso,Lacteos,kg,16.6667,72,24,4
+ING-0096,Mix legumbres,Legumbres,kg,6.6667,72,24,4
+ING-0097,Brocoli,Legumbres,kg,3.3333,72,24,4
+ING-0098,Coliflor,Legumbres,kg,3.3333,72,24,4
+ING-0099,Zapallo,Legumbres,kg,10.0,72,24,4
+ING-0100,Fideo pluma,Abasto,kg,5.4,72,24,4
+ING-0101,Albahaca,Legumbres,kg,6.6667,72,24,4
+ING-0102,Cebada,Abasto,kg,7.0,72,24,4
+ING-0103,Harina de maiz,Abasto,kg,12.3333,72,24,4
+ING-0104,Polvo de alberja,Abasto,kg,5.6667,72,24,4
+ING-0105,Refrito,Legumbres,kg,6.6667,72,24,4
+ING-0106,Maduro,Legumbres,kg,1.3333,72,24,4
+ING-0107,Cerveza,Licor,kg,5.0,72,24,4
+ING-0108,Vino,Licor,kg,17.3333,72,24,4
+ING-0109,Aliños,Abasto,kg,10.0,72,24,4
+ING-0110,Jugo de naranja,Abasto,kg,6.6667,72,24,4
+ING-0111,Harina de trigo,Abasto,kg,5.6667,72,24,4
+ING-0112,Mantequilla,Abasto,kg,59.3333,72,24,4
+ING-0113,Bbq,Abasto,kg,71.1333,72,24,4
+ING-0114,Cola,Abasto,kg,10.0,72,24,4
+ING-0115,Chifle,Abasto,kg,6.6667,72,24,4
+ING-0116,Leche de coco,Abasto,kg,16.8,72,24,4
+ING-0117,Fideo tornillo,Abasto,kg,2.9333,72,24,4
+ING-0118,Disco de empanadas,Abasto,kg,5.3333,72,24,4
+ING-0119,Salsa china,Abasto,kg,7.5333,72,24,4
+ING-0120,Salsa de tomate,Abasto,kg,0.0,72,24,4
+ING-0121,Mostaza,Abasto,kg,0.0,72,24,4
+ING-0122,Hongos,Abasto,kg,15.0,72,24,4
+ING-0123,Baguette,Abasto,kg,8.3333,72,24,4
+ING-0124,Azucar,Abasto,kg,1.57,72,24,4
+ING-0125,Quaker,Abasto,kg,16.3333,72,24,4
+ING-0126,Frutilla,Abasto,kg,0.8,72,24,4
+ING-0127,Te,Abasto,kg,22.4667,72,24,4

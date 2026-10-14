@@ -139,6 +139,14 @@ const VALIDADORES: Record<string, object> = {
           "caducidad_proxima", "defecto_calidad"],
       },
       aptoReproceso: { bsonType: "bool" },
+      // Tres estados, no dos: un lote que nadie examinó no es lo mismo
+      // que uno examinado y rechazado. El booleano de arriba se
+      // conserva y vale `true` solo cuando el dictamen es «apto».
+      dictamen: { enum: ["apto", "no_apto", "pendiente"] },
+      // Campos cuyo valor se derivó de una regla al importar en lugar
+      // de medirse. Que la base lo guarde evita que un informe
+      // posterior presente como medido lo que no se midió.
+      camposDerivados: { bsonType: "array", items: { bsonType: "string" } },
       registradoEn: { bsonType: "date" },
       venceEn: { bsonType: "date" },
     },
@@ -148,6 +156,8 @@ const VALIDADORES: Record<string, object> = {
     required: ["_id", "recetaId", "generadaEn", "versionModelo", "aptitud",
       "posicion", "aportes"],
     properties: {
+      // Modo de evaluación. Ausente = las seis reglas estaban activas.
+      modo: { enum: ["operacion", "potencial"] },
       aptitud: { ...numero, minimum: 0, maximum: 100 },
       aportes: {
         bsonType: "array",

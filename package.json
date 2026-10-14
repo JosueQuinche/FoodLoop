@@ -18,9 +18,20 @@
     "fase1": "npm run fase1 --workspace=@foodloop/backend",
     "fase2": "npm run fase2 --workspace=@foodloop/backend",
     "fase3": "npm run fase3 --workspace=@foodloop/backend",
-    "fase4": "npm run fase4 --workspace=@foodloop/backend"
+    "fase4": "npm run fase4 --workspace=@foodloop/backend",
+    "fases": "tsx herramientas/ejecutar-fases.ts",
+    "modelo": "tsx herramientas/inspeccionar-modelo.ts",
+    "modelo:todos": "tsx herramientas/inspeccionar-modelo.ts --todos",
+    "modelo:probar": "tsx herramientas/probar-etapas.ts",
+    "modelo:caso": "tsx herramientas/fijar-caso.ts",
+    "modelo:volcar": "tsx herramientas/volcar-motor.ts",
+    "datos:convertir": "python3 herramientas/dataset/convertir.py",
+    "datos:importar": "tsx herramientas/importar-memoria.ts",
+    "datos:evaluar": "tsx herramientas/evaluar-historico.ts",
+    "prototipo": "concurrently -n backend,frontend -c green,cyan \"tsx herramientas/servidor-memoria.ts ./datos\" \"npm:dev:frontend\""
   },
   "devDependencies": {
-    "concurrently": "^9.1.0"
+    "concurrently": "^9.1.0",
+    "mingo": "^7.2.4"
   }
 }

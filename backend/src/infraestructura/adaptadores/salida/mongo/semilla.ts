@@ -62,7 +62,13 @@ export async function sembrar(dbExterna?: Db) {
   const db = dbExterna ?? propia!.db;
   const azar = crearAzar(20260727);
 
-  console.log(`\n  Conectando a ${URI.replace(/:[^:@/]+@/, ":****@")} · base ${NOMBRE_DB}`);
+  // Solo se anuncia la conexión cuando de verdad se abre una. Al
+  // recibir una base externa el mensaje era falso, y al quedar en el
+  // registro de una ejecución daba por documentada una conexión que no
+  // había ocurrido.
+  console.log(propia
+    ? `\n  Conectando a ${URI.replace(/:[^:@/]+@/, ":****@")} · base ${NOMBRE_DB}`
+    : "\n  Base proporcionada por el entorno de ejecución");
   await aplicarEsquema(db);
   console.log("  Colecciones, validadores e índices aplicados.");
   await vaciar(db);

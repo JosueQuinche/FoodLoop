@@ -194,6 +194,8 @@ const trazos: Record<string, string> = {
   "flecha-izq": "M19 12H5M11 6l-6 6 6 6",
   usuario: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20a7.5 7.5 0 0 1 15 0",
   escudo: "M12 3l7 3v5.5c0 4.2-2.9 7.6-7 8.5-4.1-.9-7-4.3-7-8.5V6z",
+  // Capas: las etapas del modelo, una sobre otra.
+  capas: "M12 3.5 4 7l8 3.5L20 7zM4 12l8 3.5L20 12M4 16.5 12 20l8-3.5",
 };
 
 export function Icono({ n, s = 17 }: { n: keyof typeof trazos | "cerebro" | "sol"; s?: number }) {

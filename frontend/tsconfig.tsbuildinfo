@@ -1,0 +1,1 @@
+{"root":["./src/main.tsx","./src/vite-env.d.ts","./src/infraestructura/adaptadores/salida/http/repositorios.ts","./src/ui/componentes/Bienvenida.tsx","./src/ui/componentes/Graficas.tsx","./src/ui/componentes/Modelo.tsx","./src/ui/componentes/UI.tsx","./src/ui/paginas/App.tsx","./src/ui/paginas/Login.tsx","./src/ui/paginas/Portada.tsx"],"version":"5.9.3"}

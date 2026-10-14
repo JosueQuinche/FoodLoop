@@ -18,16 +18,18 @@ import type {
 } from "../../infraestructura/adaptadores/salida/http/repositorios";
 import { Logo, Icono, Distintivo, fmt, FotoReceta } from "../componentes/UI";
 import Bienvenida from "../componentes/Bienvenida";
+import { Modelo } from "../componentes/Modelo";
 import { BarrasH, BarrasAgrupadas, Anillo, COLOR_ESTADO, ETIQUETA_CAUSA } from "../componentes/Graficas";
 
 type Pantalla = "panel" | "registro" | "inventario" | "recomendaciones"
-  | "xai" | "receta" | "historial" | "perfil";
+  | "xai" | "modelo" | "receta" | "historial" | "perfil";
 
 const TITULOS: Record<Pantalla, string> = {
   panel: "Panel",
   registro: "Registrar merma",
   recomendaciones: "Recomendaciones",
   xai: "Explicación",
+  modelo: "El modelo",
   inventario: "Ingredientes disponibles",
   receta: "Receta",
   historial: "Histórico",
@@ -36,18 +38,23 @@ const TITULOS: Record<Pantalla, string> = {
 
 const ICONOS: Record<Pantalla, Parameters<typeof Icono>[0]["n"]> = {
   panel: "panel", registro: "plus", recomendaciones: "chispa",
-  xai: "cerebro", receta: "receta", perfil: "usuario",
+  xai: "cerebro", modelo: "capas", receta: "receta", perfil: "usuario",
   inventario: "box", historial: "reloj",
 };
 
 const ETIQUETA_VIDA = {
   apto: "Apto", por_vencer: "Por vencer", critico: "Crítico",
   vencido: "Vencido", sin_dictamen: "Sin dictamen",
+  pendiente: "Falta medir",
 } as const;
 
 const TIPO_VIDA = {
   apto: "ok", por_vencer: "aviso", critico: "critico",
   vencido: "neutro", sin_dictamen: "critico",
+  // Aviso y no crítico: el lote no está rechazado, está sin examinar.
+  // Pintarlo en rojo le diría al chef que no sirve, cuando lo que dice
+  // es que falta medirlo.
+  pendiente: "aviso",
 } as const;
 
 /** Opciones del filtro de estado, en el orden en que se usan. */
@@ -57,6 +64,7 @@ const FILTROS = [
   { clave: "critico", etiqueta: "Críticos" },
   { clave: "por_vencer", etiqueta: "Por vencer" },
   { clave: "apto", etiqueta: "Aptos" },
+  { clave: "pendiente", etiqueta: "Falta medir" },
   { clave: "sin_dictamen", etiqueta: "Sin dictamen" },
   { clave: "vencido", etiqueta: "Vencidos" },
 ] as const;
@@ -132,6 +140,8 @@ export default function App(
   const [fallo, setFallo] = useState<string | null>(null);
   const [filtro, setFiltro] = useState<string>("accionables");
   const [busqueda, setBusqueda] = useState("");
+  // Fecha en que se sitúa la revisión histórica, si el servidor lo está.
+  const [revision, setRevision] = useState<string | null>(null);
 
   // La pantalla de propósito se muestra la primera vez que cada usuario
   // entra y después queda a petición. Se recuerda por usuario, no por
@@ -145,6 +155,13 @@ export default function App(
     setVerBienvenida(false);
     try { localStorage.setItem(CLAVE_BIENVENIDA, "vista"); } catch { /* no crítico */ }
   }, [CLAVE_BIENVENIDA]);
+
+  // Si el backend es el de revisión histórica, la interfaz tiene que
+  // decirlo: los lotes que se ven son de una fecha pasada y sus horas
+  // restantes se cuentan desde ahí, no desde hoy.
+  useEffect(() => {
+    api.revision().then((r) => setRevision(r?.revisando ?? null));
+  }, []);
 
   const permisos = permisosDe(rol);
   const perfil = PERFILES[rol];
@@ -182,12 +199,22 @@ export default function App(
     }).catch(() => notificar("No se pudieron cargar los catálogos."));
   }, [pantalla, maestros, notificar]);
 
-  /** Evalúa el conjunto indicado. Uno o varios lotes, mismo camino. */
-  async function abrir(loteIds: number[]) {
+  /**
+   * Evalúa el conjunto indicado. Uno o varios lotes, mismo camino.
+   *
+   * El modo `potencial` aplaza las dos reglas que dependen de una
+   * medición ausente. No se usa nunca por su cuenta: solo cuando el
+   * usuario lo pide expresamente después de ver que no hay propuesta
+   * autorizable, de modo que nadie acaba mirando un potencial creyendo
+   * que mira una recomendación.
+   */
+  async function abrir(
+    loteIds: number[], modo: "operacion" | "potencial" = "operacion",
+  ) {
     if (loteIds.length === 0) return;
     setCargando(true); setRecSel(null); setPantalla("recomendaciones");
     try {
-      setSalida(await api.recomendaciones(loteIds));
+      setSalida(await api.recomendaciones(loteIds, modo));
     } catch (e) {
       notificar(e instanceof ErrorDominio ? e.message : "No se pudo evaluar la selección.");
       setPantalla("panel");
@@ -276,6 +303,7 @@ export default function App(
       filtro === "todos" ? true
       : filtro === "accionables"
         ? l.estadoVida !== "vencido" && l.estadoVida !== "sin_dictamen"
+          && l.estadoVida !== "pendiente"
         : l.estadoVida === filtro;
     if (!coincideEstado) return false;
     if (!busqueda.trim()) return true;
@@ -289,11 +317,12 @@ export default function App(
     clave === "todos" ? (resumen?.lotes.length ?? 0)
     : clave === "accionables"
       ? (resumen?.lotes ?? []).filter(
-          (l) => l.estadoVida !== "vencido" && l.estadoVida !== "sin_dictamen").length
+          (l) => l.estadoVida !== "vencido" && l.estadoVida !== "sin_dictamen"
+            && l.estadoVida !== "pendiente").length
       : (resumen?.lotes ?? []).filter((l) => l.estadoVida === clave).length;
 
   const pantallas: Pantalla[] = ["panel", "registro", "inventario",
-    "recomendaciones", "xai", "receta", "historial", "perfil"];
+    "recomendaciones", "xai", "modelo", "receta", "historial", "perfil"];
 
   return (
     <div className="app">
@@ -368,6 +397,18 @@ export default function App(
             aquí se percibe como lentitud. Si llega a estorbar, se quita
             borrando la clase `entra` de esta línea. */}
         <main className="principal entra" key={pantalla}>
+          {revision && (
+            <div className="aviso aviso-revision">
+              <Icono n="reloj" s={16} />
+              <span>
+                <b>Revisión histórica</b> · situada en{" "}
+                {revision.slice(0, 10)} a las {revision.slice(11, 16)}. Las
+                horas de vida útil y las recomendaciones se calculan desde ese
+                instante, no desde hoy. Los registros conservan su fecha
+                original.
+              </span>
+            </div>
+          )}
           <div className="ambito">
             <span className="quien">{perfil.titulo}</span>
             <span className="txt">
@@ -792,22 +833,68 @@ export default function App(
                   </div>
 
                   <div className="pila">
-                    {salida.resultados.length === 0 && (
-                      <div className="aviso">
+                    {/* Propuestas calculadas aplazando una regla: el
+                        encabezado tiene que decirlo antes de que nadie
+                        lea una aptitud y la tome por una autorización. */}
+                    {salida.modo === "potencial" && salida.resultados.length > 0 && (
+                      <div className="aviso aviso-potencial">
                         <Icono n="alerta" s={17} />
                         <div>
-                          <b>Ninguna alternativa viable para esta selección.</b>
-                          <div className="pequeno apagado" style={{ marginTop: 6 }}>
-                            {salida.lotes.every((l) => l.aptoReproceso)
-                              ? salida.lotes.length > 1
-                                ? "Ninguna receta del catálogo admite esta combinación "
-                                  + "de ingredientes. Prueba seleccionando menos lotes."
-                                : "Los filtros sanitarios descartaron el catálogo completo."
-                              : "Alguno de los lotes no tiene dictamen sanitario favorable."}
+                          <b>Potencial de aprovechamiento · no autorizable todavía</b>
+                          <div className="pequeno" style={{ marginTop: 6 }}>
+                            Estas propuestas se calcularon aplazando reglas
+                            sanitarias que dependen de una medición que no se
+                            hizo. Dicen qué se podría aprovechar, no qué se
+                            puede ejecutar.
                           </div>
+                          {salida.aplazadas.length > 0 && (
+                            <ul className="falta-medir">
+                              {salida.aplazadas.map((a) => (
+                                <li key={`${a.lote}-${a.falta}`}>
+                                  <span className="mono">{a.lote}</span> · {a.falta}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                         </div>
                       </div>
                     )}
+
+                    {salida.resultados.length === 0 && (() => {
+                      const pendientes = salida.lotes.filter(
+                        (l) => (l.dictamen ?? (l.aptoReproceso ? "apto" : "no_apto"))
+                          === "pendiente");
+                      return (
+                        <div className="aviso">
+                          <Icono n="alerta" s={17} />
+                          <div>
+                            <b>Ninguna alternativa viable para esta selección.</b>
+                            <div className="pequeno apagado" style={{ marginTop: 6 }}>
+                              {pendientes.length > 0
+                                ? `${pendientes.length === 1 ? "El lote" : `${pendientes.length} lotes`} `
+                                  + "de esta selección no tiene el dictamen sanitario "
+                                  + "medido. No es que no sirva: es que nadie lo ha "
+                                  + "examinado, y el sistema no autoriza lo que no "
+                                  + "está medido."
+                                : salida.lotes.every((l) => l.aptoReproceso)
+                                  ? salida.lotes.length > 1
+                                    ? "Ninguna receta del catálogo admite esta combinación "
+                                      + "de ingredientes. Prueba seleccionando menos lotes."
+                                    : "Los filtros sanitarios descartaron el catálogo completo."
+                                  : "Alguno de los lotes no tiene dictamen sanitario favorable."}
+                            </div>
+                            {pendientes.length > 0 && salida.modo === "operacion" && (
+                              <button className="btn btn-sm" style={{ marginTop: 12 }}
+                                onClick={() => abrir(
+                                  salida.lotes.map((l) => l.id), "potencial")}>
+                                Ver qué se podría aprovechar si se midiera
+                                <Icono n="flecha" s={15} />
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })()}
 
                     {salida.resultados.map((r, i) => (
                       <article className={`rec ${i === 0 ? "top" : ""}`} key={r.item.id}>
@@ -1042,6 +1129,12 @@ export default function App(
               </div>
             </>
           )}
+
+          {/* ---------------- El modelo, por dentro ----------------
+              Vive en su propio componente: es la pantalla más larga de
+              la aplicación y no comparte estado con ninguna otra, solo
+              lee la traza de la recomendación en curso. */}
+          {pantalla === "modelo" && <Modelo salida={salida} />}
 
           {/* ---------------- Ingredientes disponibles ---------------- */}
           {pantalla === "inventario" && (

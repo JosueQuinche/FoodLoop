@@ -53,6 +53,7 @@ import type {
   DocArea, DocServicio, DocIngrediente, DocReceta, DocMerma,
   DocOperacion, DocUsuario,
 } from "./repositorios";
+import type { Lote } from "@foodloop/dominio";
 
 const URI = process.env.MONGODB_URI ?? "mongodb://localhost:27017";
 const NOMBRE_DB = process.env.MONGODB_DB ?? "foodloop";
@@ -129,6 +130,21 @@ function fecha(v: string | undefined): string | null {
 
 const si = (v: string | undefined) =>
   /^(s[ií]|si|true|1|x|apto)$/i.test((v ?? "").trim());
+
+/**
+ * Dictamen sanitario en tres estados.
+ *
+ * Los registros del centro de producción no traen el dictamen evaluado:
+ * declaran la condición que habría que comprobar. Un lote así no es
+ * «no apto» —nadie lo examinó— pero tampoco se puede autorizar. El
+ * valor `pendiente` recoge esa diferencia, que de otro modo se perdía
+ * al convertirlo todo a un booleano.
+ */
+const dictamenDeCsv = (v: string | undefined): NonNullable<Lote["dictamen"]> => {
+  const t = (v ?? "").trim().toLowerCase();
+  if (/^(pendiente|por evaluar|no evaluado|sin evaluar)$/.test(t)) return "pendiente";
+  return si(v) ? "apto" : "no_apto";
+};
 
 /** Normaliza un nombre para comparar: sin tildes, minúsculas, sin dobles espacios. */
 const clave = (v: string) =>
@@ -339,6 +355,17 @@ export async function importar(carpeta: string, dbExterna?: Db) {
     const vidaH = num(f.vida_util_h)
       ?? (cocido ? ing.vidaUtilCocidoH : ing.vidaUtilCrudoH);
 
+    const dictamen = f.apto_reproceso === undefined
+      ? "apto" : dictamenDeCsv(f.apto_reproceso);
+
+    // Qué campos de este lote no vienen medidos. Viaja con el documento
+    // para que cualquier informe posterior pueda decir sobre qué
+    // supuestos se calculó, sin tener que volver al CSV de origen.
+    const derivados: string[] = [];
+    if (num(f.temperatura_c) === null) derivados.push("temperaturaC");
+    if (num(f.vida_util_h) === null) derivados.push("venceEn");
+    if (dictamen === "pendiente") derivados.push("dictamen");
+
     const id = docsMer.length + 1;
     docsMer.push({
       _id: id,
@@ -351,7 +378,11 @@ export async function importar(carpeta: string, dbExterna?: Db) {
       estadoProducto: cocido ? "cocido" : "crudo",
       temperaturaC: num(f.temperatura_c) ?? 4,
       causa: (CAUSAS.includes(causa) ? causa : "sobreproduccion") as DocMerma["causa"],
-      aptoReproceso: f.apto_reproceso === undefined ? true : si(f.apto_reproceso),
+      // El booleano se conserva para todo el código que ya lo usa; el
+      // dictamen añade el estado que el booleano no podía expresar.
+      aptoReproceso: dictamen === "apto",
+      dictamen,
+      ...(derivados.length ? { camposDerivados: derivados } : {}),
       registradoEn: registrado,
       venceEn: new Date(registrado.getTime() + vidaH * 3_600_000),
     });

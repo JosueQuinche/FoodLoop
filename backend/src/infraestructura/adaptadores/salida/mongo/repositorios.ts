@@ -46,6 +46,13 @@ export interface DocMerma {
   servicioId: number; cantidad: number; estadoProducto: "crudo" | "cocido";
   temperaturaC: number; causa: Lote["causa"]; aptoReproceso: boolean;
   registradoEn: Date; venceEn: Date;
+  /**
+   * Dictamen en tres estados. Opcional: los documentos anteriores no lo
+   * traen y equivalen a derivarlo de `aptoReproceso`.
+   */
+  dictamen?: Lote["dictamen"];
+  /** Campos cuyo valor se derivó al importar en lugar de medirse. */
+  camposDerivados?: string[];
 }
 export interface DocDecision {
   id: string; rol: Rol;
@@ -70,6 +77,11 @@ export interface DocRecomendacion {
   aportes: { mermaId: number; cantidadUsada: number; esPrincipal: boolean }[];
   decision?: DocDecision;
   feedback?: DocFeedback[];
+  /**
+   * Presente solo cuando la evaluación aplazó alguna regla por falta de
+   * medición. Su ausencia significa «las seis reglas estaban activas».
+   */
+  modo?: "operacion" | "potencial";
 }
 export interface DocOperacion {
   _id: string; fecha: string; servicioId: number;
@@ -133,6 +145,8 @@ function aLote(
     estadoProducto: m.estadoProducto,
     temperaturaC: m.temperaturaC,
     aptoReproceso: m.aptoReproceso,
+    ...(m.dictamen ? { dictamen: m.dictamen } : {}),
+    ...(m.camposDerivados ? { camposDerivados: m.camposDerivados } : {}),
     registradoEn: m.registradoEn,
     venceEn: m.venceEn,
     areaId: m.areaId,
@@ -311,6 +325,11 @@ export class TrazasMongo implements RepositorioTrazas {
         costoRecuperado: p.costoRecuperado, factores: p.factores,
         contrafactuales: p.contrafactuales, descartes: t.descartes,
         aportes: p.aportes, feedback: [],
+        // Solo se guarda cuando NO es el modo de operación: así un
+        // documento sin este campo significa inequívocamente «evaluado
+        // con las seis reglas activas», que es lo que son todos los
+        // anteriores.
+        ...(t.modo && t.modo !== "operacion" ? { modo: t.modo } : {}),
       });
       ids.push(id);
     }
@@ -324,6 +343,7 @@ export class TrazasMongo implements RepositorioTrazas {
       loteIds: d.aportes.map((a) => a.mermaId),
       generadaEn: d.generadaEn,
       versionModelo: d.versionModelo,
+      ...(d.modo ? { modo: d.modo } : {}),
       descartes: d.descartes ?? [],
       propuestas: [{
         recetaId: d.recetaId, posicion: d.posicion, aptitud: d.aptitud,

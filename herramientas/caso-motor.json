@@ -1,0 +1,968 @@
+{
+ "ahora": "2026-10-08T01:06:33.514Z",
+ "lotes": [
+  {
+   "id": 41,
+   "codigo": "MRM-261001-0041",
+   "ingredienteId": 8,
+   "ingrediente": "Crema de leche",
+   "cantidad": 9,
+   "unidad": "L",
+   "costoUnitario": 4.5,
+   "estadoProducto": "cocido",
+   "temperaturaC": 4.8,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-01T23:40:38.430Z",
+   "venceEn": "2026-10-02T08:40:38.430Z",
+   "areaId": 2,
+   "area": "Panadería",
+   "servicio": "Cena",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 25,
+   "codigo": "MRM-261002-0025",
+   "ingredienteId": 6,
+   "ingrediente": "Cebolla",
+   "cantidad": 9.8,
+   "unidad": "kg",
+   "costoUnitario": 1.05,
+   "estadoProducto": "cocido",
+   "temperaturaC": 4,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-02T20:55:03.941Z",
+   "venceEn": "2026-10-04T20:55:03.941Z",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "servicio": "Almuerzo turno 2",
+   "causa": "devolucion_linea"
+  },
+  {
+   "id": 26,
+   "codigo": "MRM-261002-0026",
+   "ingredienteId": 13,
+   "ingrediente": "Huevo",
+   "cantidad": 4,
+   "unidad": "kg",
+   "costoUnitario": 3.1,
+   "estadoProducto": "cocido",
+   "temperaturaC": 2.5,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-02T21:55:27.105Z",
+   "venceEn": "2026-10-04T21:55:27.105Z",
+   "areaId": 2,
+   "area": "Panadería",
+   "servicio": "Almuerzo turno 2",
+   "causa": "caducidad_proxima"
+  },
+  {
+   "id": 16,
+   "codigo": "MRM-261004-0016",
+   "ingredienteId": 10,
+   "ingrediente": "Pan de molde",
+   "cantidad": 9.6,
+   "unidad": "kg",
+   "costoUnitario": 2.75,
+   "estadoProducto": "cocido",
+   "temperaturaC": 3.6,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-04T17:17:17.704Z",
+   "venceEn": "2026-10-05T19:17:17.704Z",
+   "areaId": 3,
+   "area": "Economato",
+   "servicio": "Desayuno",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 24,
+   "codigo": "MRM-261001-0024",
+   "ingredienteId": 9,
+   "ingrediente": "Queso mozzarella",
+   "cantidad": 2.2,
+   "unidad": "kg",
+   "costoUnitario": 8.9,
+   "estadoProducto": "cocido",
+   "temperaturaC": 2,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-01T21:35:52.731Z",
+   "venceEn": "2026-10-05T21:35:52.731Z",
+   "areaId": 3,
+   "area": "Economato",
+   "servicio": "Cena",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 36,
+   "codigo": "MRM-261004-0036",
+   "ingredienteId": 10,
+   "ingrediente": "Pan de molde",
+   "cantidad": 1.5,
+   "unidad": "kg",
+   "costoUnitario": 2.75,
+   "estadoProducto": "cocido",
+   "temperaturaC": 4.7,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-04T21:29:08.345Z",
+   "venceEn": "2026-10-05T23:29:08.345Z",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "servicio": "Almuerzo turno 1",
+   "causa": "caducidad_proxima"
+  },
+  {
+   "id": 15,
+   "codigo": "MRM-261004-0015",
+   "ingredienteId": 11,
+   "ingrediente": "Caldo de ave",
+   "cantidad": 5.6,
+   "unidad": "L",
+   "costoUnitario": 2.1,
+   "estadoProducto": "cocido",
+   "temperaturaC": 3.9,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-04T17:40:09.619Z",
+   "venceEn": "2026-10-06T17:40:09.619Z",
+   "areaId": 3,
+   "area": "Economato",
+   "servicio": "Almuerzo turno 2",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 5,
+   "codigo": "MRM-261007-0005",
+   "ingredienteId": 8,
+   "ingrediente": "Crema de leche",
+   "cantidad": 2,
+   "unidad": "L",
+   "costoUnitario": 4.5,
+   "estadoProducto": "cocido",
+   "temperaturaC": 8.4,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T21:11:50.402Z",
+   "venceEn": "2026-10-08T06:11:50.402Z",
+   "areaId": 1,
+   "area": "Cocina fría",
+   "servicio": "Almuerzo turno 1",
+   "causa": "caducidad_proxima"
+  },
+  {
+   "id": 12,
+   "codigo": "MRM-261007-0012",
+   "ingredienteId": 8,
+   "ingrediente": "Crema de leche",
+   "cantidad": 3,
+   "unidad": "L",
+   "costoUnitario": 4.5,
+   "estadoProducto": "cocido",
+   "temperaturaC": 2,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T22:13:39.090Z",
+   "venceEn": "2026-10-08T07:13:39.090Z",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "servicio": "Almuerzo turno 1",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 4,
+   "codigo": "MRM-261007-0004",
+   "ingredienteId": 0,
+   "ingrediente": "Pechuga de pollo",
+   "cantidad": 3.2,
+   "unidad": "kg",
+   "costoUnitario": 5.85,
+   "estadoProducto": "cocido",
+   "temperaturaC": 3.5,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T21:15:56.932Z",
+   "venceEn": "2026-10-08T08:15:56.932Z",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "servicio": "Almuerzo turno 1",
+   "causa": "defecto_calidad"
+  },
+  {
+   "id": 1,
+   "codigo": "MRM-261007-0001",
+   "ingredienteId": 0,
+   "ingrediente": "Pechuga de pollo",
+   "cantidad": 6.4,
+   "unidad": "kg",
+   "costoUnitario": 5.85,
+   "estadoProducto": "cocido",
+   "temperaturaC": 3.2,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T17:14:15.754Z",
+   "venceEn": "2026-10-08T11:14:15.754Z",
+   "areaId": 2,
+   "area": "Panadería",
+   "servicio": "Almuerzo turno 2",
+   "causa": "error_porcionado"
+  },
+  {
+   "id": 8,
+   "codigo": "MRM-261007-0008",
+   "ingredienteId": 10,
+   "ingrediente": "Pan de molde",
+   "cantidad": 7.9,
+   "unidad": "kg",
+   "costoUnitario": 2.75,
+   "estadoProducto": "cocido",
+   "temperaturaC": 2,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T20:16:35.960Z",
+   "venceEn": "2026-10-08T22:16:35.960Z",
+   "areaId": 2,
+   "area": "Panadería",
+   "servicio": "Almuerzo turno 2",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 11,
+   "codigo": "MRM-261007-0011",
+   "ingredienteId": 0,
+   "ingrediente": "Pechuga de pollo",
+   "cantidad": 4.3,
+   "unidad": "kg",
+   "costoUnitario": 5.85,
+   "estadoProducto": "cocido",
+   "temperaturaC": 3.6,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T22:47:02.299Z",
+   "venceEn": "2026-10-08T22:47:02.299Z",
+   "areaId": 2,
+   "area": "Panadería",
+   "servicio": "Cena",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 35,
+   "codigo": "MRM-261006-0035",
+   "ingredienteId": 13,
+   "ingrediente": "Huevo",
+   "cantidad": 1.8,
+   "unidad": "kg",
+   "costoUnitario": 3.1,
+   "estadoProducto": "cocido",
+   "temperaturaC": 3.5,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T00:23:43.627Z",
+   "venceEn": "2026-10-09T00:23:43.627Z",
+   "areaId": 1,
+   "area": "Cocina fría",
+   "servicio": "Almuerzo turno 2",
+   "causa": "defecto_calidad"
+  },
+  {
+   "id": 2,
+   "codigo": "MRM-261007-0002",
+   "ingredienteId": 2,
+   "ingrediente": "Arroz blanco",
+   "cantidad": 9.1,
+   "unidad": "kg",
+   "costoUnitario": 1.15,
+   "estadoProducto": "cocido",
+   "temperaturaC": 2.8,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T23:10:08.452Z",
+   "venceEn": "2026-10-09T03:10:08.452Z",
+   "areaId": 3,
+   "area": "Economato",
+   "servicio": "Cena",
+   "causa": "devolucion_linea"
+  },
+  {
+   "id": 6,
+   "codigo": "MRM-261007-0006",
+   "ingredienteId": 7,
+   "ingrediente": "Lechuga",
+   "cantidad": 3.1,
+   "unidad": "kg",
+   "costoUnitario": 2,
+   "estadoProducto": "crudo",
+   "temperaturaC": 4,
+   "aptoReproceso": false,
+   "registradoEn": "2026-10-07T21:24:45.213Z",
+   "venceEn": "2026-10-09T03:24:45.213Z",
+   "areaId": 2,
+   "area": "Panadería",
+   "servicio": "Cena",
+   "causa": "devolucion_linea"
+  },
+  {
+   "id": 10,
+   "codigo": "MRM-261007-0010",
+   "ingredienteId": 3,
+   "ingrediente": "Papa",
+   "cantidad": 6.3,
+   "unidad": "kg",
+   "costoUnitario": 0.85,
+   "estadoProducto": "cocido",
+   "temperaturaC": 4.3,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T18:10:00.782Z",
+   "venceEn": "2026-10-09T06:10:00.782Z",
+   "areaId": 3,
+   "area": "Economato",
+   "servicio": "Almuerzo turno 1",
+   "causa": "devolucion_linea"
+  },
+  {
+   "id": 13,
+   "codigo": "MRM-261007-0013",
+   "ingredienteId": 4,
+   "ingrediente": "Brócoli",
+   "cantidad": 3,
+   "unidad": "kg",
+   "costoUnitario": 2.3,
+   "estadoProducto": "cocido",
+   "temperaturaC": 4.3,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T18:36:34.452Z",
+   "venceEn": "2026-10-09T12:36:34.452Z",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "servicio": "Almuerzo turno 2",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 3,
+   "codigo": "MRM-261007-0003",
+   "ingredienteId": 4,
+   "ingrediente": "Brócoli",
+   "cantidad": 2.6,
+   "unidad": "kg",
+   "costoUnitario": 2.3,
+   "estadoProducto": "crudo",
+   "temperaturaC": 4,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T23:09:47.403Z",
+   "venceEn": "2026-10-09T15:09:47.403Z",
+   "areaId": 1,
+   "area": "Cocina fría",
+   "servicio": "Almuerzo turno 1",
+   "causa": "error_porcionado"
+  },
+  {
+   "id": 14,
+   "codigo": "MRM-261007-0014",
+   "ingredienteId": 1,
+   "ingrediente": "Carne de res molida",
+   "cantidad": 1.8,
+   "unidad": "kg",
+   "costoUnitario": 7.2,
+   "estadoProducto": "crudo",
+   "temperaturaC": 2.7,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T17:44:20.735Z",
+   "venceEn": "2026-10-09T17:44:20.735Z",
+   "areaId": 2,
+   "area": "Panadería",
+   "servicio": "Almuerzo turno 1",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 7,
+   "codigo": "MRM-261007-0007",
+   "ingredienteId": 4,
+   "ingrediente": "Brócoli",
+   "cantidad": 10.2,
+   "unidad": "kg",
+   "costoUnitario": 2.3,
+   "estadoProducto": "cocido",
+   "temperaturaC": 3.1,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-08T00:45:48.791Z",
+   "venceEn": "2026-10-09T18:45:48.791Z",
+   "areaId": 2,
+   "area": "Panadería",
+   "servicio": "Almuerzo turno 2",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 42,
+   "codigo": "MRM-261005-0042",
+   "ingredienteId": 10,
+   "ingrediente": "Pan de molde",
+   "cantidad": 6.8,
+   "unidad": "kg",
+   "costoUnitario": 2.75,
+   "estadoProducto": "crudo",
+   "temperaturaC": 2.5,
+   "aptoReproceso": false,
+   "registradoEn": "2026-10-06T00:36:08.622Z",
+   "venceEn": "2026-10-10T00:36:08.622Z",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "servicio": "Desayuno",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 9,
+   "codigo": "MRM-261007-0009",
+   "ingredienteId": 7,
+   "ingrediente": "Lechuga",
+   "cantidad": 2.2,
+   "unidad": "kg",
+   "costoUnitario": 2,
+   "estadoProducto": "crudo",
+   "temperaturaC": 2.7,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T18:09:04.135Z",
+   "venceEn": "2026-10-10T18:09:04.135Z",
+   "areaId": 3,
+   "area": "Economato",
+   "servicio": "Almuerzo turno 1",
+   "causa": "sobreproduccion"
+  },
+  {
+   "id": 33,
+   "codigo": "MRM-261006-0033",
+   "ingredienteId": 3,
+   "ingrediente": "Papa",
+   "cantidad": 8.1,
+   "unidad": "kg",
+   "costoUnitario": 0.85,
+   "estadoProducto": "crudo",
+   "temperaturaC": 2.9,
+   "aptoReproceso": true,
+   "registradoEn": "2026-10-07T00:34:30.787Z",
+   "venceEn": "2026-11-06T00:34:30.787Z",
+   "areaId": 3,
+   "area": "Economato",
+   "servicio": "Almuerzo turno 1",
+   "causa": "caducidad_proxima"
+  },
+  {
+   "id": 34,
+   "codigo": "MRM-261003-0034",
+   "ingredienteId": 2,
+   "ingrediente": "Arroz blanco",
+   "cantidad": 10.4,
+   "unidad": "kg",
+   "costoUnitario": 1.15,
+   "estadoProducto": "crudo",
+   "temperaturaC": 3.8,
+   "aptoReproceso": false,
+   "registradoEn": "2026-10-03T19:13:12.772Z",
+   "venceEn": "2027-04-01T19:13:12.772Z",
+   "areaId": 2,
+   "area": "Panadería",
+   "servicio": "Cena",
+   "causa": "caducidad_proxima"
+  }
+ ],
+ "catalogo": [
+  {
+   "id": 0,
+   "codigo": "REC-001",
+   "nombre": "Arroz salteado con pollo y vegetales",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "porcionesBase": 40,
+   "pesoPorcionG": 280,
+   "minutos": 35,
+   "tipoProceso": "reproceso_termico",
+   "tempProcesoC": 78,
+   "aceptacion": 4.1,
+   "pasos": [
+    "Verificar temperatura del lote entre 0 y 4 °C y ausencia de olores atípicos.",
+    "Cortar la proteína en cubos de 2 cm y reservar en refrigeración.",
+    "Blanquear brócoli y zanahoria 3 minutos y enfriar en agua con hielo.",
+    "Saltear en tandas de 3 kg. Alcanzar 74 °C en el centro durante 15 segundos.",
+    "Añadir arroz y sazonar. Homogenizar durante 4 minutos.",
+    "Mantener sobre 65 °C hasta el servicio, o abatir a 4 °C en menos de 90 minutos."
+   ],
+   "requisitos": [
+    {
+     "ingredienteId": 0,
+     "cantidad": 6,
+     "esPrincipal": true,
+     "admiteEstado": "cocido",
+     "nombre": "Pechuga de pollo",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 2,
+     "cantidad": 8,
+     "esPrincipal": true,
+     "admiteEstado": "ambos",
+     "nombre": "Arroz blanco",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 4,
+     "cantidad": 2.2,
+     "esPrincipal": false,
+     "admiteEstado": "ambos",
+     "nombre": "Brócoli",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 5,
+     "cantidad": 1.6,
+     "esPrincipal": false,
+     "admiteEstado": "ambos",
+     "nombre": "Zanahoria",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 6,
+     "cantidad": 0.8,
+     "esPrincipal": false,
+     "admiteEstado": "crudo",
+     "nombre": "Cebolla",
+     "unidad": "kg"
+    }
+   ]
+  },
+  {
+   "id": 1,
+   "codigo": "REC-002",
+   "nombre": "Crema de ave con vegetales",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "porcionesBase": 38,
+   "pesoPorcionG": 300,
+   "minutos": 50,
+   "tipoProceso": "reproceso_termico",
+   "tempProcesoC": 85,
+   "aceptacion": 4,
+   "pasos": [
+    "Comprobar la cadena de frío del lote y descartar si supera 5 °C.",
+    "Sofreír la base aromática y añadir el caldo de ave.",
+    "Incorporar la proteína y llevar a ebullición durante 10 minutos.",
+    "Triturar hasta obtener textura homogénea y colar.",
+    "Añadir la crema fuera del fuego y rectificar sazón.",
+    "Abatir o mantener sobre 65 °C según destino del servicio."
+   ],
+   "requisitos": [
+    {
+     "ingredienteId": 0,
+     "cantidad": 4.5,
+     "esPrincipal": true,
+     "admiteEstado": "cocido",
+     "nombre": "Pechuga de pollo",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 8,
+     "cantidad": 2,
+     "esPrincipal": false,
+     "admiteEstado": "ambos",
+     "nombre": "Crema de leche",
+     "unidad": "L"
+    },
+    {
+     "ingredienteId": 11,
+     "cantidad": 6,
+     "esPrincipal": true,
+     "admiteEstado": "ambos",
+     "nombre": "Caldo de ave",
+     "unidad": "L"
+    },
+    {
+     "ingredienteId": 4,
+     "cantidad": 1.4,
+     "esPrincipal": false,
+     "admiteEstado": "ambos",
+     "nombre": "Brócoli",
+     "unidad": "kg"
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "codigo": "REC-003",
+   "nombre": "Porcionado y congelación de proteína",
+   "areaId": 3,
+   "area": "Economato",
+   "porcionesBase": 32,
+   "pesoPorcionG": 200,
+   "minutos": 15,
+   "tipoProceso": "conservacion",
+   "tempProcesoC": 0,
+   "aceptacion": 3.1,
+   "pasos": [
+    "Pesar y porcionar en bolsas de 200 g.",
+    "Etiquetar con lote de origen, fecha y responsable.",
+    "Abatir a −18 °C en menos de 240 minutos.",
+    "Registrar la entrada en el inventario de congelados."
+   ],
+   "requisitos": [
+    {
+     "ingredienteId": 0,
+     "cantidad": 6.4,
+     "esPrincipal": true,
+     "admiteEstado": "cocido",
+     "nombre": "Pechuga de pollo",
+     "unidad": "kg"
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "codigo": "REC-004",
+   "nombre": "Pastel de carne y papa",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "porcionesBase": 45,
+   "pesoPorcionG": 320,
+   "minutos": 60,
+   "tipoProceso": "reproceso_termico",
+   "tempProcesoC": 80,
+   "aceptacion": 4.3,
+   "pasos": [
+    "Verificar el dictamen sanitario del lote de carne.",
+    "Cocer y triturar la papa con un punto de sal.",
+    "Saltear la carne con la base aromática hasta 74 °C internos.",
+    "Montar en bandeja gastronorm alternando capas.",
+    "Hornear 25 minutos a 180 °C hasta gratinar la superficie."
+   ],
+   "requisitos": [
+    {
+     "ingredienteId": 1,
+     "cantidad": 5.5,
+     "esPrincipal": true,
+     "admiteEstado": "cocido",
+     "nombre": "Carne de res molida",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 3,
+     "cantidad": 9,
+     "esPrincipal": true,
+     "admiteEstado": "ambos",
+     "nombre": "Papa",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 6,
+     "cantidad": 1,
+     "esPrincipal": false,
+     "admiteEstado": "crudo",
+     "nombre": "Cebolla",
+     "unidad": "kg"
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "codigo": "REC-005",
+   "nombre": "Puré de papa gratinado",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "porcionesBase": 50,
+   "pesoPorcionG": 250,
+   "minutos": 40,
+   "tipoProceso": "reproceso_termico",
+   "tempProcesoC": 76,
+   "aceptacion": 4.1,
+   "pasos": [
+    "Triturar la papa en caliente para evitar textura gomosa.",
+    "Incorporar la crema y ajustar densidad.",
+    "Extender en bandeja y cubrir con queso rallado.",
+    "Gratinar 12 minutos a 200 °C hasta dorar."
+   ],
+   "requisitos": [
+    {
+     "ingredienteId": 3,
+     "cantidad": 11,
+     "esPrincipal": true,
+     "admiteEstado": "cocido",
+     "nombre": "Papa",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 9,
+     "cantidad": 2.5,
+     "esPrincipal": false,
+     "admiteEstado": "ambos",
+     "nombre": "Queso mozzarella",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 8,
+     "cantidad": 2,
+     "esPrincipal": false,
+     "admiteEstado": "ambos",
+     "nombre": "Crema de leche",
+     "unidad": "L"
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "codigo": "REC-006",
+   "nombre": "Ensalada mixta de la casa",
+   "areaId": 1,
+   "area": "Cocina fría",
+   "porcionesBase": 36,
+   "pesoPorcionG": 180,
+   "minutos": 20,
+   "tipoProceso": "ensamblaje_frio",
+   "tempProcesoC": 0,
+   "aceptacion": 3.3,
+   "pasos": [
+    "Desinfectar el vegetal de hoja según el protocolo de la planta.",
+    "Escurrir por completo antes del montaje.",
+    "Cortar la zanahoria en juliana fina.",
+    "Montar en el momento del servicio para evitar pérdida de textura."
+   ],
+   "requisitos": [
+    {
+     "ingredienteId": 7,
+     "cantidad": 2.2,
+     "esPrincipal": true,
+     "admiteEstado": "crudo",
+     "nombre": "Lechuga",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 5,
+     "cantidad": 1.5,
+     "esPrincipal": false,
+     "admiteEstado": "ambos",
+     "nombre": "Zanahoria",
+     "unidad": "kg"
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "codigo": "REC-007",
+   "nombre": "Crutones y pan rallado",
+   "areaId": 2,
+   "area": "Panadería",
+   "porcionesBase": 60,
+   "pesoPorcionG": 60,
+   "minutos": 30,
+   "tipoProceso": "panaderia",
+   "tempProcesoC": 160,
+   "aceptacion": 3.4,
+   "pasos": [
+    "Retirar cortezas y cortar en cubos de 1,5 cm.",
+    "Hornear a 160 °C durante 18 minutos removiendo a mitad.",
+    "Enfriar por completo antes de envasar.",
+    "Reservar en envase hermético hasta 15 días."
+   ],
+   "requisitos": [
+    {
+     "ingredienteId": 10,
+     "cantidad": 4,
+     "esPrincipal": true,
+     "admiteEstado": "ambos",
+     "nombre": "Pan de molde",
+     "unidad": "kg"
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "codigo": "REC-008",
+   "nombre": "Budín de pan",
+   "areaId": 2,
+   "area": "Panadería",
+   "porcionesBase": 40,
+   "pesoPorcionG": 220,
+   "minutos": 55,
+   "tipoProceso": "panaderia",
+   "tempProcesoC": 170,
+   "aceptacion": 4.2,
+   "pasos": [
+    "Remojar el pan en la mezcla láctea durante 20 minutos.",
+    "Batir los huevos e integrar sin generar espuma.",
+    "Verter en molde y hornear a 170 °C durante 35 minutos.",
+    "Comprobar cocción al centro y enfriar antes de porcionar."
+   ],
+   "requisitos": [
+    {
+     "ingredienteId": 10,
+     "cantidad": 3.5,
+     "esPrincipal": true,
+     "admiteEstado": "ambos",
+     "nombre": "Pan de molde",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 9,
+     "cantidad": 4,
+     "esPrincipal": false,
+     "admiteEstado": "ambos",
+     "nombre": "Queso mozzarella",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 13,
+     "cantidad": 1.2,
+     "esPrincipal": false,
+     "admiteEstado": "crudo",
+     "nombre": "Huevo",
+     "unidad": "kg"
+    }
+   ]
+  },
+  {
+   "id": 8,
+   "codigo": "REC-010",
+   "nombre": "Pasta al horno con queso",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "porcionesBase": 42,
+   "pesoPorcionG": 300,
+   "minutos": 50,
+   "tipoProceso": "reproceso_termico",
+   "tempProcesoC": 82,
+   "aceptacion": 3.8,
+   "pasos": [
+    "Comprobar que la pasta no supere 30 horas desde su cocción.",
+    "Mezclar con la salsa y repartir en bandeja.",
+    "Cubrir con queso y hornear a 180 °C durante 22 minutos.",
+    "Alcanzar 74 °C en el centro antes de servir."
+   ],
+   "requisitos": [
+    {
+     "ingredienteId": 12,
+     "cantidad": 5.5,
+     "esPrincipal": true,
+     "admiteEstado": "cocido",
+     "nombre": "Fideo",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 8,
+     "cantidad": 3,
+     "esPrincipal": false,
+     "admiteEstado": "ambos",
+     "nombre": "Crema de leche",
+     "unidad": "L"
+    },
+    {
+     "ingredienteId": 9,
+     "cantidad": 3,
+     "esPrincipal": false,
+     "admiteEstado": "ambos",
+     "nombre": "Queso mozzarella",
+     "unidad": "kg"
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "codigo": "REC-011",
+   "nombre": "Tortilla de papa y huevo",
+   "areaId": 0,
+   "area": "Cocina caliente",
+   "porcionesBase": 40,
+   "pesoPorcionG": 240,
+   "minutos": 35,
+   "tipoProceso": "reproceso_termico",
+   "tempProcesoC": 75,
+   "aceptacion": 3.8,
+   "pasos": [
+    "Laminar la papa cocida y reservar.",
+    "Batir el huevo e integrar la papa y la cebolla pochada.",
+    "Cuajar en plancha hasta alcanzar 75 °C internos.",
+    "Porcionar en frío para obtener cortes limpios."
+   ],
+   "requisitos": [
+    {
+     "ingredienteId": 3,
+     "cantidad": 6,
+     "esPrincipal": true,
+     "admiteEstado": "cocido",
+     "nombre": "Papa",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 13,
+     "cantidad": 2.4,
+     "esPrincipal": true,
+     "admiteEstado": "crudo",
+     "nombre": "Huevo",
+     "unidad": "kg"
+    },
+    {
+     "ingredienteId": 6,
+     "cantidad": 0.7,
+     "esPrincipal": false,
+     "admiteEstado": "crudo",
+     "nombre": "Cebolla",
+     "unidad": "kg"
+    }
+   ]
+  }
+ ],
+ "inventario": [
+  [
+   8,
+   5
+  ],
+  [
+   0,
+   13.900000000000002
+  ],
+  [
+   10,
+   7.9
+  ],
+  [
+   13,
+   13.8
+  ],
+  [
+   2,
+   21.1
+  ],
+  [
+   3,
+   14.399999999999999
+  ],
+  [
+   4,
+   15.799999999999999
+  ],
+  [
+   1,
+   1.8
+  ],
+  [
+   7,
+   2.2
+  ],
+  [
+   5,
+   12
+  ],
+  [
+   6,
+   12
+  ],
+  [
+   9,
+   12
+  ],
+  [
+   11,
+   12
+  ]
+ ],
+ "cargas": [
+  [
+   0,
+   0.37
+  ],
+  [
+   1,
+   1
+  ],
+  [
+   2,
+   1
+  ],
+  [
+   3,
+   1
+  ]
+ ]
+}

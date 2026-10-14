@@ -116,6 +116,13 @@ export interface TrazaRecomendacion {
   versionModelo: string;
   descartes: Descarte[];
   propuestas: PropuestaPersistida[];
+  /**
+   * Modo con que se evaluó. Se persiste porque una propuesta calculada
+   * aplazando una regla sanitaria no puede, meses después, parecer una
+   * propuesta autorizada: la diferencia tiene que estar en el registro
+   * y no solo en la pantalla que la mostró.
+   */
+  modo?: "operacion" | "potencial";
 }
 
 /** Una alternativa concreta, con los lotes que consumiría. */

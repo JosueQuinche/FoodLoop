@@ -9,7 +9,7 @@
  * cambiaría ni el dominio ni esta pantalla más allá de la llamada.
  */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Rol, Usuario } from "@foodloop/dominio";
 import { ErrorDominio, PERFILES, permisosDe } from "@foodloop/dominio";
 import { api } from "../../infraestructura/adaptadores/salida/http/repositorios";
@@ -42,13 +42,26 @@ export default function Login(
   const [clave, setClave] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [cargando, setCargando] = useState(false);
+  // El servidor de revisión guarda todo en memoria. Saberlo permite
+  // explicar un 401 que de otro modo no tiene sentido: la cuenta se creó
+  // de verdad, pero desapareció al reiniciar el servidor.
+  const [enMemoria, setEnMemoria] = useState(false);
+
+  useEffect(() => { api.revision().then((r) => setEnMemoria(r !== null)); }, []);
   const permisos = permisosDe(rol);
+
+  /** Verdadero si el campo trae una de las cuentas de ejemplo o está vacío. */
+  const esPropuesto = (c: string) =>
+    c.trim() === "" || Object.values(CORREOS).includes(c.trim());
 
   function cambiarRol(r: Rol) {
     setRol(r);
-    // En alta de cuenta el correo lo escribe la persona; al entrar se
-    // propone el de la cuenta de ejemplo de ese perfil.
-    if (modo === "entrar") setCorreo(CORREOS[r]);
+    // Al entrar se propone la cuenta de ejemplo de ese perfil, PERO solo
+    // si quien está delante no ha escrito la suya. Antes se sobrescribía
+    // siempre: alguien que creaba su cuenta, cambiaba de perfil y pulsaba
+    // entrar acababa mandando el correo de la cuenta de ejemplo con su
+    // propia contraseña, y recibía un 401 sin entender por qué.
+    if (modo === "entrar" && esPropuesto(correo)) setCorreo(CORREOS[r]);
     setError(null);
   }
 
@@ -116,7 +129,11 @@ export default function Login(
 
           <div className="pestanas">
             <button className={modo === "entrar" ? "activa" : ""}
-              onClick={() => { setModo("entrar"); setCorreo(CORREOS[rol]); setError(null); }}>
+              onClick={() => {
+                setModo("entrar");
+                if (esPropuesto(correo)) setCorreo(CORREOS[rol]);
+                setError(null);
+              }}>
               Iniciar sesión
             </button>
             <button className={modo === "registro" ? "activa" : ""}
@@ -180,7 +197,17 @@ export default function Login(
             {error && (
               <div className="aviso" style={{ borderColor: "var(--critico-linea)" }}>
                 <Icono n="alerta" s={16} />
-                <span className="pequeno">{error}</span>
+                <div>
+                  <span className="pequeno">{error}</span>
+                  {enMemoria && modo === "entrar" && (
+                    <div className="pequeno apagado" style={{ marginTop: 6 }}>
+                      Este servidor guarda los datos en memoria: las cuentas que
+                      crees se pierden al reiniciarlo. Usa una de las cuentas de
+                      ejemplo de arriba, o vuelve a crear la tuya en «Crear
+                      cuenta».
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 

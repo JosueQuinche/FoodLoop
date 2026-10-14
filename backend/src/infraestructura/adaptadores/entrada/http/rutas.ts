@@ -87,7 +87,11 @@ export function crearRutas(c: Contenedor): Router {
   r.post("/recomendaciones", async (req, res, next) => {
     try {
       const ids = (req.body.loteIds as unknown[] ?? []).map(Number);
-      res.json(await c.obtenerRecomendaciones.ejecutar(ids));
+      // `potencial` aplaza las dos reglas que dependen de una medición
+      // ausente. Cualquier otro valor cae en el modo de operación: un
+      // parámetro mal escrito no debe relajar una regla sanitaria.
+      const modo = req.body.modo === "potencial" ? "potencial" : "operacion";
+      res.json(await c.obtenerRecomendaciones.ejecutar(ids, modo));
     } catch (e) { next(e); }
   });
 
@@ -126,6 +130,33 @@ export function crearRutas(c: Contenedor): Router {
   /** Histórico de aprovechamiento: qué se propuso y qué se decidió. */
   r.get("/historial", async (_req, res, next) => {
     try { res.json(await c.consultas.historial()); } catch (e) { next(e); }
+  });
+
+  /**
+   * Ficha del modelo: sus etapas, sus reglas y sus parámetros con la
+   * procedencia de cada uno. No consulta la base de datos, porque
+   * describe el artefacto y no los datos.
+   *
+   * Está en la API y no en un documento aparte para que lo que se cuenta
+   * del modelo no pueda divergir de lo que el modelo hace.
+   */
+  r.get("/modelo", (_req, res) => {
+    res.json(c.inspeccionarModelo.ficha());
+  });
+
+  /**
+   * Traza de una ejecución del modelo sobre una selección de lotes:
+   * qué entró, qué reglas se aplicaron, qué se midió, con qué pesos se
+   * combinó y de dónde sale cada frase de la explicación.
+   *
+   * No persiste nada: la traza que se guarda es la de una recomendación
+   * que el usuario vio, no la de una inspección.
+   */
+  r.post("/modelo/traza", async (req, res, next) => {
+    try {
+      const ids = (req.body.loteIds as unknown[] ?? []).map(Number);
+      res.json(await c.inspeccionarModelo.traza(ids));
+    } catch (e) { next(e); }
   });
 
   r.get("/maestros", async (_req, res, next) => {

@@ -9,7 +9,7 @@
 import { ErrorDominio } from "@foodloop/dominio";
 import type {
   ResumenOperacion, SalidaRecomendacion, Decision, Lote,
-  Estadisticas, EntradaMerma, Rol, Usuario,
+  Estadisticas, EntradaMerma, Rol, Usuario, FichaModelo,
 } from "@foodloop/dominio";
 
 export interface InventarioItem {
@@ -119,10 +119,36 @@ export const api = {
     };
   },
 
-  /** Evalúa uno o varios lotes como un conjunto. */
-  async recomendaciones(loteIds: number[]): Promise<SalidaRecomendacion> {
+  /**
+   * Si el servidor está en revisión histórica, la fecha en que se sitúa.
+   *
+   * La ruta solo existe en el servidor de revisión, de modo que un 404
+   * es la respuesta normal del backend de producción y significa «estoy
+   * con el reloj del sistema».
+   */
+  async revision(): Promise<{ revisando: string | null; origen: string } | null> {
+    try {
+      return await pedir<{ revisando: string | null; origen: string }>("/revision");
+    } catch { return null; }
+  },
+
+  /** La ficha del modelo: sus etapas, sus reglas y sus parámetros. */
+  modelo(): Promise<FichaModelo> {
+    return pedir<FichaModelo>("/modelo");
+  },
+
+  /**
+   * Evalúa uno o varios lotes como un conjunto.
+   *
+   * En modo `potencial` las dos reglas que dependen de una medición
+   * ausente —dictamen y temperatura— se evalúan pero no bloquean: la
+   * propuesta sale marcada como no autorizable con lo que falta medir.
+   */
+  async recomendaciones(
+    loteIds: number[], modo: "operacion" | "potencial" = "operacion",
+  ): Promise<SalidaRecomendacion> {
     const d = await pedir<SalidaRecomendacion>("/recomendaciones", {
-      method: "POST", body: JSON.stringify({ loteIds }),
+      method: "POST", body: JSON.stringify({ loteIds, modo }),
     });
     return {
       ...d,

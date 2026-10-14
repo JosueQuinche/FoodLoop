@@ -133,6 +133,7 @@ export const COLOR_ESTADO: Record<string, string> = {
   "Por vencer": "var(--naranja)",
   "Crítico": "var(--critico)",
   "Sin dictamen": "var(--texto-3)",
+  "Pendiente de medir": "var(--naranja)",
 };
 
 export const ETIQUETA_CAUSA: Record<string, string> = {

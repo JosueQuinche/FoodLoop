@@ -19,6 +19,11 @@
   --critico-linea: #F2C6C4;
 
   --lienzo: #F4F6F1;
+  /* Superficie OPACA. El resto de superficies son translúcidas y se
+     componen sobre el fondo, pero el menú desplegable nativo lo dibuja
+     el sistema operativo fuera de la página: ahí la transparencia no se
+     compone con nada y el texto queda ilegible. */
+  --solido: #FFFFFF;
   --vidrio: rgba(255, 255, 255, 0.62);
   --vidrio-fuerte: rgba(255, 255, 255, 0.82);
   --vidrio-tenue: rgba(255, 255, 255, 0.38);
@@ -68,6 +73,9 @@
   --critico-linea: rgba(240, 149, 149, 0.26);
 
   --lienzo: #0E100D;
+  /* Un punto por encima del lienzo, para que el menú desplegable se
+     despegue del fondo en lugar de fundirse con él. */
+  --solido: #1B1E19;
   --vidrio: rgba(255, 255, 255, 0.05);
   --vidrio-fuerte: rgba(255, 255, 255, 0.08);
   --vidrio-tenue: rgba(255, 255, 255, 0.03);
@@ -674,6 +682,17 @@ textarea.entrada { height: auto; padding: 10px 12px; resize: vertical; }
   outline: none;
 }
 select.entrada { appearance: none; cursor: pointer; padding-right: 34px; }
+
+/* Las opciones del desplegable.
+   Windows las pinta fuera de la página, de modo que no heredan el fondo
+   translúcido del campo ni el color del tema: sin estas dos líneas, en
+   modo oscuro salían en gris sobre gris y no se leían. */
+select.entrada option,
+select.entrada optgroup,
+.selector option {
+  background-color: var(--solido);
+  color: var(--texto);
+}
 .select-envoltura { position: relative; }
 .select-envoltura::after {
   content: ""; position: absolute; right: 14px; top: 16px;
@@ -1481,3 +1500,155 @@ tbody tr.marcada:hover { background: var(--verde-suave); }
    contenido porque esta es la acción más repetida de la jornada. */
 .principal.entra { animation: pantalla-entra var(--t-toque) var(--curva-fuerte) both; }
 @keyframes pantalla-entra { from { opacity: 0 } to { opacity: 1 } }
+
+/* =====================================================================
+   Pantalla del modelo
+   ---------------------------------------------------------------------
+   Solo usa los tokens del sistema, de modo que el modo oscuro sale sin
+   una sola regla extra. Las tablas son el formato adecuado aquí: lo que
+   se muestra son filas de atributos comparables —una regla y su
+   fundamento, un eje y su peso— y no texto corrido.
+   ===================================================================== */
+
+.etapas { gap: calc(var(--u) * 1.5); }
+
+.etapa {
+  display: grid; grid-template-columns: 76px 1fr;
+  gap: calc(var(--u) * 2);
+  background: var(--vidrio);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-lg);
+  padding: calc(var(--u) * 2);
+  position: relative;
+}
+
+/* La línea que une una etapa con la siguiente: el modelo es una
+   secuencia, y verlo como una lista de tarjetas sueltas lo escondía. */
+.etapa::after {
+  content: ""; position: absolute;
+  left: calc(var(--u) * 2 + 17px); top: 100%;
+  width: 2px; height: calc(var(--u) * 1.5);
+  background: var(--borde-fuerte);
+}
+.etapa:last-child::after { display: none; }
+
+.etapa-id { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+
+.etapa-cod {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--verde-suave); border: 1px solid var(--verde-linea);
+  color: var(--accion); font-size: 12.5px; font-weight: 600;
+}
+
+.etapa-ms { font-size: 11px; color: var(--texto-3); padding-left: 4px; }
+
+.etapa h3 { font-size: 15px; margin-bottom: calc(var(--u) * 1.5); }
+
+.etapa-flujo {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: calc(var(--u) * 2); margin-bottom: var(--u);
+}
+.etapa-flujo p { font-size: 13px; color: var(--texto-2); margin-top: 3px; }
+
+.etapa .porque {
+  font-size: 12.5px; color: var(--texto-2);
+  border-left: 2px solid var(--verde-linea);
+  padding-left: 10px; margin: var(--u) 0;
+}
+
+.etapa-archivo { font-size: 11px; color: var(--texto-3); }
+
+/* --- tablas del modelo --------------------------------------------- */
+
+.tarjeta.sin-relleno { padding: 0; overflow: hidden; }
+
+.tabla-modelo { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+.tabla-modelo th {
+  text-align: left; font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--texto-3); font-weight: 500;
+  padding: 12px 14px; border-bottom: 1px solid var(--borde-fuerte);
+  background: var(--vidrio-tenue);
+}
+
+.tabla-modelo td {
+  padding: 11px 14px; border-bottom: 1px solid var(--borde);
+  vertical-align: top;
+}
+.tabla-modelo tbody tr:last-child td { border-bottom: none; }
+
+.tabla-modelo .num { text-align: right; font-variant-numeric: tabular-nums; }
+.tabla-modelo .fuerte { font-weight: 600; color: var(--texto); }
+.tabla-modelo .neg { color: var(--critico); }
+
+.tabla-modelo tbody tr.destacada { background: var(--verde-suave); }
+.tabla-modelo tbody tr.aplazada { background: var(--naranja-suave); }
+
+.tabla-modelo tfoot td {
+  padding: 11px 14px; border-top: 1px solid var(--borde-fuerte);
+  background: var(--vidrio-tenue); font-weight: 500;
+}
+.tabla-modelo tfoot tr:first-child td { border-top: 1px solid var(--borde-fuerte); }
+
+/* La matriz de características es ancha: se desplaza sola en móvil en
+   lugar de empujar la página entera. */
+.tarjeta.sin-relleno { overflow-x: auto; }
+.tabla-modelo.matriz { min-width: 560px; }
+
+.ranking-fila {
+  gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--borde);
+}
+.ranking-fila:last-child { border-bottom: none; }
+
+@media (max-width: 760px) {
+  .etapa { grid-template-columns: 1fr; gap: var(--u); }
+  .etapa::after { display: none; }
+  .etapa-id { flex-direction: row; align-items: center; gap: 10px; }
+  .etapa-flujo { grid-template-columns: 1fr; gap: var(--u); }
+}
+
+/* Aviso de potencial: ámbar, no rojo. Lo que dice no es que algo esté
+   mal, es que falta medir algo antes de poder autorizarlo. */
+.aviso-potencial {
+  background: linear-gradient(var(--naranja-suave), var(--naranja-suave)), var(--vidrio);
+  border-color: var(--naranja-linea);
+  color: var(--naranja-texto);
+}
+.aviso-potencial b { color: var(--naranja-texto); }
+
+.falta-medir {
+  margin: 10px 0 0; padding-left: 18px;
+  font-size: 12.5px; color: var(--texto-2);
+}
+.falta-medir li { margin-bottom: 3px; }
+
+/* Resumen del formulario de registro: etiqueta a la izquierda, valor a
+   la derecha. Sin estas reglas la lista salía con viñetas y los dos
+   textos pegados, «IngredienteAceite», porque la clase nunca se estiló. */
+.ingredientes { list-style: none; margin: 0; padding: 0; }
+
+.ingredientes li {
+  display: flex; align-items: baseline; gap: calc(var(--u) * 2);
+  padding: 9px 0; border-bottom: 1px solid var(--borde);
+  font-size: 13px;
+}
+.ingredientes li:last-child { border-bottom: none; }
+
+.ingredientes li > span:first-child { color: var(--texto-2); flex: 1; }
+.ingredientes li > span:last-child {
+  color: var(--texto); font-weight: 500; text-align: right;
+}
+
+/* Aviso de revisión histórica: visible pero sin alarma. Informa de que
+   el reloj está situado en el pasado, no de que algo vaya mal. */
+.aviso-revision {
+  background: var(--vidrio-fuerte);
+  border-color: var(--borde-fuerte);
+  color: var(--texto-2);
+  margin-bottom: calc(var(--u) * 3);
+}
+.aviso-revision b { color: var(--texto); }
