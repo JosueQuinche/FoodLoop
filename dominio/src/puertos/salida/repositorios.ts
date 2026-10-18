@@ -25,7 +25,16 @@ export interface RepositorioLotes {
   listarPendientes(): Promise<Lote[]>;
   obtenerPorId(id: number): Promise<Lote | null>;
   /** Cantidad vigente por ingrediente, para evaluar la cobertura. */
-  inventarioDisponible(): Promise<Map<number, number>>;
+  /**
+   * Inventario disponible EN UN INSTANTE DADO.
+   *
+   * El instante es un parámetro y no `new Date()` dentro del adaptador
+   * por la misma razón por la que el motor lo recibe en la etapa 1: un
+   * reloj escondido en la infraestructura hace que revisar un día
+   * pasado devuelva el inventario de hoy, que está vacío. Por omisión,
+   * el reloj del sistema.
+   */
+  inventarioDisponible(ahora?: Date): Promise<Map<number, number>>;
   /** Persiste un lote nuevo y devuelve el registro con su identificador. */
   crear(datos: NuevoLote): Promise<Lote>;
 }

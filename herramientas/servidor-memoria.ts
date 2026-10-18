@@ -35,7 +35,8 @@ import {
   ConsultarMaestrosUC, RegistrarFeedbackUC, IniciarSesionUC,
   RegistrarUsuarioUC, InspeccionarModeloUC,
 } from "@foodloop/dominio";
-import type { Rol, ProveedorSesion, Reloj } from "@foodloop/dominio";
+import { Sesion } from "../backend/src/infraestructura/configuracion/contenedor";
+import type { Reloj } from "@foodloop/dominio";
 import type { Db } from "mongodb";
 
 const PUERTO = Number(process.env.PORT ?? 3001);
@@ -61,17 +62,9 @@ class RelojRevision implements Reloj {
   get revisando() { return this.fecha; }
 }
 
-class Sesion implements ProveedorSesion {
-  private rol: Rol = "chef";
-  private usuarioId = "";
-  private usuario = "Mateo Calderón";
-  rolActual() { return this.rol; }
-  usuarioIdActual() { return this.usuarioId; }
-  usuarioActual() { return this.usuario; }
-  cambiar(rol: Rol, usuario: string, usuarioId = "") {
-    this.rol = rol; this.usuario = usuario; this.usuarioId = usuarioId;
-  }
-}
+// La sesión se importa del contenedor en vez de duplicarse aquí: es la
+// misma que usa el servidor de producción, y la copia que había antes
+// guardaba el rol en un campo compartido por todas las peticiones.
 
 async function arrancar() {
   const args = process.argv.slice(2);
@@ -152,7 +145,10 @@ async function arrancar() {
     registrarUsuario: new RegistrarUsuarioUC(usuarios),
     inspeccionarModelo: new InspeccionarModeloUC(lotes, catalogo, cargas, reloj),
     sesion, db,
-    consultas: new ConsultasMongo(db, lotes),
+    // El reloj de revisión también gobierna las consultas de lectura:
+    // sin él, el panel de ingredientes disponibles sale vacío al revisar
+    // un día pasado, porque todo aparece vencido frente a hoy.
+    consultas: new ConsultasMongo(db, lotes, reloj),
   };
 
   const app = express();

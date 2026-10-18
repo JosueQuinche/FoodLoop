@@ -9,6 +9,7 @@
 export * from "./modelo/tipos";
 export * from "./servicios/motor/index";
 export * from "./servicios/autorizacion";
+export * from "./servicios/unidades";
 export * from "./puertos/entrada/casos-uso";
 export * from "./puertos/salida/repositorios";
 export * from "./aplicacion/index";

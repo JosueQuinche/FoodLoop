@@ -17,7 +17,7 @@ import "dotenv/config";
 import type { Db } from "mongodb";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "node:crypto";
-import { conectar, aplicarEsquema } from "./conexion";
+import { conectar, aplicarEsquema, ejecutadoDirectamente } from "./conexion";
 import { AREAS, INGREDIENTES, CATALOGO } from "./catalogo";
 import type { Causa } from "@foodloop/dominio";
 import type {
@@ -249,7 +249,7 @@ export async function sembrar(dbExterna?: Db) {
 }
 
 /** Solo se ejecuta cuando el archivo se invoca directamente. */
-if (process.argv[1]?.endsWith("mongo/semilla.ts")) {
+if (ejecutadoDirectamente("mongo/semilla.ts")) {
   sembrar().catch((e) => {
     console.error("\n  No se pudo sembrar la base:\n ", e.message);
     console.error("\n  Comprueba que MongoDB esté corriendo y que MONGODB_URI");

@@ -1,5 +1,9 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode, CSSProperties } from "react";
+import {
+  enUnidad, formatear, formatearCantidad, numero,
+} from "@foodloop/dominio";
+import type { UnidadPeso } from "@foodloop/dominio";
 
 /**
  * Isotipo del cliente.
@@ -242,10 +246,99 @@ export function useTema() {
   return { tema, alternar: () => setTema((t) => (t === "claro" ? "oscuro" : "claro")) };
 }
 
+/**
+ * Unidad en que se muestran los pesos.
+ *
+ * Va en un contexto y no en props, a diferencia del tema, porque un peso
+ * se pinta en sitios que no comparten camino —el panel, las gráficas, el
+ * formulario de registro, la ficha de la receta— y pasarla a mano
+ * obligaría a tocar la firma de media interfaz cada vez que aparece una
+ * cifra nueva.
+ *
+ * Se recuerda en `sessionStorage` y no en `localStorage` a propósito: en
+ * una cocina el equipo es compartido, de modo que la unidad es
+ * preferencia de quien está en el turno, no del navegador.
+ */
+const CLAVE_UNIDAD = "foodloop.unidad";
+
+interface Pesos {
+  unidad: UnidadPeso;
+  fijar: (u: UnidadPeso) => void;
+  /** Solo la cifra, para los sitios que pintan la unidad en otro elemento. */
+  valor: (kg: number, decimales?: number) => string;
+  /** Cifra y unidad juntas: «4,5 kg». */
+  peso: (kg: number, decimales?: number) => string;
+  /** Cantidad con su unidad de almacenamiento: convierte solo si es masa. */
+  cantidad: (valor: number, unidadBase?: string, decimales?: number) => string;
+  /** El número en la unidad activa, para las gráficas, que escalan. */
+  crudo: (kg: number) => number;
+}
+
+const CtxUnidad = createContext<Pesos | null>(null);
+
+export function ProveedorUnidad({ children }: { children: ReactNode }) {
+  const [unidad, setUnidad] = useState<UnidadPeso>(() => {
+    try { return sessionStorage.getItem(CLAVE_UNIDAD) === "lb" ? "lb" : "kg"; }
+    catch { return "kg"; }   // modo privado o almacenamiento bloqueado
+  });
+
+  const pesos = useMemo<Pesos>(() => ({
+    unidad,
+    fijar: (u) => {
+      setUnidad(u);
+      try { sessionStorage.setItem(CLAVE_UNIDAD, u); } catch { /* no crítico */ }
+    },
+    valor: (kg, d = 1) => numero(enUnidad(kg, unidad), d),
+    peso: (kg, d = 1) => formatear(kg, unidad, d),
+    cantidad: (v, base, d = 1) => formatearCantidad(v, base, unidad, d),
+    crudo: (kg) => enUnidad(kg, unidad),
+  }), [unidad]);
+
+  return <CtxUnidad.Provider value={pesos}>{children}</CtxUnidad.Provider>;
+}
+
+export function useUnidad(): Pesos {
+  const ctx = useContext(CtxUnidad);
+  // Fallar aquí es preferible a pintar kilogramos en silencio donde se
+  // esperaban libras: es un error de montaje, no una condición de uso.
+  if (!ctx) throw new Error("useUnidad se usó fuera de ProveedorUnidad.");
+  return ctx;
+}
+
+/**
+ * Selector de unidad, en la barra superior.
+ *
+ * Reutiliza `.rolbar` y `.selector`, que ya están estilados: el
+ * desplegable del sistema pinta sus `<option>` fuera de la página y solo
+ * se leen en tema oscuro por el token `--solido` que esas clases ya
+ * aplican. Inventar un estilo nuevo aquí volvería a traer el gris sobre
+ * gris que se arregló una vez.
+ */
+export function SelectorUnidad() {
+  const { unidad, fijar } = useUnidad();
+  return (
+    <label className="rolbar" title="Unidad en que se muestran las cantidades">
+      <span className="pequeno apagado">Unidad</span>
+      <select className="selector" value={unidad}
+        aria-label="Unidad en que se muestran las cantidades"
+        onChange={(e) => fijar(e.target.value as UnidadPeso)}>
+        <option value="kg">kg</option>
+        <option value="lb">lb</option>
+      </select>
+    </label>
+  );
+}
+
 export function Aviso({ texto }: { texto: string | null }) {
   if (!texto) return null;
   return <div className="aviso-flotante" role="status" aria-live="polite">{texto}</div>;
 }
 
-export const fmt = (n: number, d = 1) =>
-  n.toLocaleString("es-EC", { minimumFractionDigits: d, maximumFractionDigits: d });
+/**
+ * Formato numérico de toda la interfaz.
+ *
+ * Delega en el dominio en lugar de repetir la llamada a `toLocaleString`:
+ * las cantidades convertidas a libras se formatean allí, y dos copias del
+ * mismo formateador acabarían separándose en los decimales.
+ */
+export const fmt = numero;

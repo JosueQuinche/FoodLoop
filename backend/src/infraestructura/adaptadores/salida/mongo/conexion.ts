@@ -234,3 +234,20 @@ export async function aplicarEsquema(db: Db): Promise<void> {
     db.collection("usuarios").createIndex({ correo: 1 }, { unique: true }),
   ]);
 }
+
+/**
+ * ¿Se está ejecutando este archivo directamente desde la línea de
+ * comandos?
+ *
+ * La comprobación anterior era `process.argv[1]?.endsWith("mongo/x.ts")`,
+ * y en Windows NUNCA se cumplía: allí la ruta llega con barras
+ * invertidas (C:\...\mongo\importar.ts), de modo que el sufijo con
+ * barra normal no coincide jamás. El efecto era que `npm run importar`
+ * cargaba el módulo, no ejecutaba nada y devolvía el prompt sin
+ * imprimir una sola línea ni dar error: el fallo más difícil de
+ * diagnosticar, porque parece que el comando no hizo nada.
+ *
+ * Se normalizan los separadores antes de comparar.
+ */
+export const ejecutadoDirectamente = (sufijo: string): boolean =>
+  (process.argv[1] ?? "").replace(/\\/g, "/").endsWith(sufijo);

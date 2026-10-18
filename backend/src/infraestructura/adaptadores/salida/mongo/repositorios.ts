@@ -181,8 +181,7 @@ export class LotesMongo implements RepositorioLotes {
     return aLote(m, comp.get(id) ?? 0, cat);
   }
 
-  async inventarioDisponible(): Promise<Map<number, number>> {
-    const ahora = new Date();
+  async inventarioDisponible(ahora = new Date()): Promise<Map<number, number>> {
     const lotes = await this.listarPendientes();
     const m = new Map<number, number>();
     for (const l of lotes) {
@@ -657,15 +656,25 @@ export class UsuariosMongo implements RepositorioUsuarios {
  * adaptador de la base, que es donde corresponde.
  */
 export class ConsultasMongo {
-  constructor(private readonly db: Db, private readonly lotes: LotesMongo) {}
+  /**
+   * El reloj entra por el constructor porque esta clase responde
+   * consultas de lectura que dependen del instante: revisar un día
+   * pasado con el reloj del sistema devuelve siempre un inventario
+   * vacío, ya que todo aparece vencido.
+   */
+  constructor(
+    private readonly db: Db,
+    private readonly lotes: LotesMongo,
+    private readonly reloj: { ahora(): Date } = { ahora: () => new Date() },
+  ) {}
 
-  async inventario() {
+  async inventario(instante = this.reloj.ahora()) {
     const [pendientes, ing] = await Promise.all([
       this.lotes.listarPendientes(),
       col<DocIngrediente>(this.db, "ingredientes").find().toArray(),
     ]);
     const categoria = new Map(ing.map((i) => [i._id, i.categoria]));
-    const ahora = Date.now();
+    const ahora = instante.getTime();
     const grupos = new Map<number, {
       ingredienteId: number; ingrediente: string; categoria: string; unidad: string;
       lotes: number; disponible: number; valor: number; horasMinimas: number;

@@ -26,7 +26,10 @@
 
 import "dotenv/config";
 import type { Db } from "mongodb";
-import { conectar, aplicarEsquema } from "./conexion";
+import { conectar, aplicarEsquema, ejecutadoDirectamente } from "./conexion";
+import {
+  Registro, relojDe, relojGeneral, describirReloj, type OpcionesFase,
+} from "./fases-comun";
 import {
   LotesMongo, CatalogoMongo, CargasMongo, DecisionesMongo,
   TrazasMongo, MaestrosMongo, FeedbackMongo, UsuariosMongo, ConsultasMongo,
@@ -46,11 +49,15 @@ const barra = (v: number, ancho = 26) => {
   return (v >= 0 ? "▰" : "▱").repeat(Math.max(1, n));
 };
 
-export async function fase3(dbExterna?: Db) {
+export async function fase3(dbExterna?: Db, opciones: OpcionesFase = {}) {
   const propia = dbExterna ? null : await conectar(URI, NOMBRE_DB);
   const db = dbExterna ?? propia!.db;
   await aplicarEsquema(db);
 
+  const reg = opciones.registro ?? new Registro();
+  reg.contexto.fase = "fase3";
+  reg.contexto.version = VERSION_MODELO;
+  reg.contexto.reloj = describirReloj(opciones);
   const lotes = new LotesMongo(db);
   const catalogo = new CatalogoMongo(db);
   const cargas = new CargasMongo(db);
@@ -61,7 +68,21 @@ export async function fase3(dbExterna?: Db) {
   const usuarios = new UsuariosMongo(db);
   const consultas = new ConsultasMongo(db, lotes);
 
-  const reloj = { ahora: () => new Date() };
+  // El instante de la experimentación. Con un conjunto histórico no
+  // puede ser el del sistema: los lotes del centro están vencidos y la
+  // demostración del XAI se quedaría sin ninguna propuesta que explicar.
+  const todos = await lotes.listarPendientes();
+  // El instante se toma del lote APTO más reciente, no del último lote a
+  // secas: con los datos del centro la mayoría está pendiente de
+  // dictamen, y situarse en un día sin lotes autorizables dejaba la
+  // demostración sin ninguna propuesta que explicar.
+  const candidatos = todos.filter((l) => l.aptoReproceso);
+  const referencia = (candidatos.length ? candidatos : todos)
+    .reduce((a, l) => (a && a.registradoEn > l.registradoEn ? a : l), todos[0]);
+  const instante = referencia
+    ? new Date(referencia.registradoEn.getTime() + 2 * 3_600_000)
+    : relojGeneral(todos, opciones);
+  const reloj = { ahora: () => new Date(instante) };
   let rolActivo: Rol = "chef";
   let cuentaActiva = { id: "", nombre: "Sesión de experimentación" };
   const sesion = {
@@ -70,20 +91,21 @@ export async function fase3(dbExterna?: Db) {
     usuarioActual: () => cuentaActiva.nombre,
   };
 
-  console.log(`\n  FASE 3 · EXPERIMENTACIÓN · modelo ${VERSION_MODELO}`);
-  console.log("  " + "═".repeat(72));
+  reg.linea(`\n  FASE 3 · EXPERIMENTACIÓN · modelo ${VERSION_MODELO}`);
+  reg.linea(`  Instante de evaluación: ${describirReloj(opciones)}`);
+  reg.linea("  " + "═".repeat(72));
 
   // ==================================================================
   // A · Pruebas del prototipo integrado
   // ==================================================================
-  console.log("\n  A · PRUEBAS DEL PROTOTIPO INTEGRADO");
-  console.log("  " + "─".repeat(72));
-  console.log("  Recorrido equivalente al de las sesiones con usuarios.\n");
+  reg.linea("\n  A · PRUEBAS DEL PROTOTIPO INTEGRADO");
+  reg.linea("  " + "─".repeat(72));
+  reg.linea("  Recorrido equivalente al de las sesiones con usuarios.\n");
 
   const pruebas: { paso: string; ok: boolean; detalle: string }[] = [];
   const registrar = (paso: string, ok: boolean, detalle: string) => {
     pruebas.push({ paso, ok, detalle });
-    console.log(`  ${ok ? "✓" : "✗"} ${paso.padEnd(34)} ${detalle}`);
+    reg.linea(`  ${ok ? "✓" : "✗"} ${paso.padEnd(34)} ${detalle}`);
   };
 
   // 1 · acceso
@@ -120,23 +142,30 @@ export async function fase3(dbExterna?: Db) {
   }
 
   // 4 · disponibilidad
-  const inventario = await consultas.inventario();
+  const inventario = await consultas.inventario(instante);
   registrar("4. Ingredientes disponibles", inventario.length > 0,
     `${inventario.length} ingredientes; el más urgente vence en `
     + `${inventario[0]?.horasMinimas.toFixed(0) ?? "—"} h`);
 
   // 5 · recomendaciones sobre un conjunto multi-lote
-  const vigentes = (await lotes.listarPendientes())
-    .filter((l) => l.aptoReproceso && l.venceEn > new Date());
+  // Se recorre el conjunto buscando un lote que, en SU instante, siga
+  // vigente. Con la semilla cualquiera sirve; con el histórico hay que
+  // buscarlo, y es justo lo que hace que la fase no salga vacía.
+  // Vigentes EN EL INSTANTE DE LA FASE, no cada uno en el suyo: la
+  // demostración ocurre en un momento concreto y los lotes que se
+  // combinan tienen que coexistir en él.
+  const vigentes = todos
+    .filter((l) => l.aptoReproceso && l.venceEn > instante && l.registradoEn <= instante)
+    .slice(0, 120);
   const cat = await catalogo.listarActivos();
-  const disp = await lotes.inventarioDisponible();
+  const disp = await lotes.inventarioDisponible(instante);
   const carg = await cargas.cargasPorArea();
 
   let seleccion: Lote[] = vigentes.slice(0, 1);
   for (const a of vigentes)
     for (const b of vigentes) {
       if (a.id >= b.id || a.ingredienteId === b.ingredienteId) continue;
-      const r = recomendar([a, b], cat, disp, carg, new Date(), 1).resultados[0];
+      const r = recomendar([a, b], cat, disp, carg, instante, 1).resultados[0];
       if (r && r.aportes.length > 1) { seleccion = [a, b]; break; }
     }
 
@@ -198,29 +227,29 @@ export async function fase3(dbExterna?: Db) {
   }
 
   const superadas = pruebas.filter((p) => p.ok).length;
-  console.log(`\n  Pasos superados: ${superadas} de ${pruebas.length}`);
+  reg.linea(`\n  Pasos superados: ${superadas} de ${pruebas.length}`);
 
   // ==================================================================
   // B · Demostración del componente XAI
   // ==================================================================
   if (propuesta) {
-    console.log("\n\n  B · DEMOSTRACIÓN DEL COMPONENTE XAI");
-    console.log("  " + "═".repeat(72));
-    console.log("  Caso: " + seleccion.map((l) =>
+    reg.linea("\n\n  B · DEMOSTRACIÓN DEL COMPONENTE XAI");
+    reg.linea("  " + "═".repeat(72));
+    reg.linea("  Caso: " + seleccion.map((l) =>
       `${l.codigo} (${l.cantidad} ${l.unidad} de ${l.ingrediente.toLowerCase()}, `
       + `${l.estadoProducto}, ${((l.venceEn.getTime() - Date.now()) / 3_600_000).toFixed(0)} h)`)
       .join("\n        "));
 
     // --- paso 1: qué se descartó y por qué --------------------------
-    console.log("\n  PASO 1 · Filtros sanitarios");
-    console.log("  " + "─".repeat(72));
-    console.log("  Antes de puntuar nada, se eliminan las alternativas inviables.");
-    console.log("  Son binarias: una restricción sanitaria no se compensa con una");
-    console.log("  puntuación alta en otro criterio.\n");
+    reg.linea("\n  PASO 1 · Filtros sanitarios");
+    reg.linea("  " + "─".repeat(72));
+    reg.linea("  Antes de puntuar nada, se eliminan las alternativas inviables.");
+    reg.linea("  Son binarias: una restricción sanitaria no se compensa con una");
+    reg.linea("  puntuación alta en otro criterio.\n");
 
     const motivos = new Map<string, string[]>();
     for (const item of cat) {
-      const m = filtrosDuros(seleccion, item, new Date());
+      const m = filtrosDuros(seleccion, item, reloj.ahora());
       if (m && m !== "no_usa_lotes") {
         const lista = motivos.get(m) ?? [];
         lista.push(item.nombre);
@@ -235,97 +264,97 @@ export async function fase3(dbExterna?: Db) {
       termico: "Cadena de frío rota sin reproceso térmico",
     };
     if (motivos.size === 0) {
-      console.log("  Ninguna alternativa compatible fue descartada por filtros.");
+      reg.linea("  Ninguna alternativa compatible fue descartada por filtros.");
     } else {
       for (const [m, recetas] of motivos)
-        console.log(`  ${(NOMBRES[m] ?? m).padEnd(44)} ${recetas.length} descartada(s)`
+        reg.linea(`  ${(NOMBRES[m] ?? m).padEnd(44)} ${recetas.length} descartada(s)`
           + `\n     ${recetas.slice(0, 3).join(", ")}`);
     }
-    console.log(`\n  Alternativas que superan los filtros: ${salida.resultados.length}`);
+    reg.linea(`\n  Alternativas que superan los filtros: ${salida.resultados.length}`);
 
     // --- paso 2: la aritmética de la puntuación ---------------------
-    console.log(`\n  PASO 2 · Composición de la puntuación`);
-    console.log("  " + "─".repeat(72));
-    console.log(`  Alternativa seleccionada: «${propuesta.item.nombre}»\n`);
-    console.log(`  ${"Factor".padEnd(42)} ${"Peso".padStart(6)} ${"Aporta".padStart(8)}`);
-    console.log("  " + "─".repeat(72));
+    reg.linea(`\n  PASO 2 · Composición de la puntuación`);
+    reg.linea("  " + "─".repeat(72));
+    reg.linea(`  Alternativa seleccionada: «${propuesta.item.nombre}»\n`);
+    reg.linea(`  ${"Factor".padEnd(42)} ${"Peso".padStart(6)} ${"Aporta".padStart(8)}`);
+    reg.linea("  " + "─".repeat(72));
     for (const f of propuesta.factores) {
-      console.log(`  ${f.nombre.slice(0, 42).padEnd(42)} ${f.peso.toFixed(2).padStart(6)} `
+      reg.linea(`  ${f.nombre.slice(0, 42).padEnd(42)} ${f.peso.toFixed(2).padStart(6)} `
         + `${(f.contribucion >= 0 ? "+" : "") + f.contribucion.toFixed(2).padStart(7)}`);
-      console.log(`     ${f.valorObservado}`);
-      console.log(`     ${barra(f.contribucion)}`);
+      reg.linea(`     ${f.valorObservado}`);
+      reg.linea(`     ${barra(f.contribucion)}`);
     }
     const suma = propuesta.factores.reduce((a, f) => a + f.contribucion, 0);
-    console.log("  " + "─".repeat(72));
-    console.log(`  ${"Aptitud resultante".padEnd(42)} ${"".padStart(6)} `
+    reg.linea("  " + "─".repeat(72));
+    reg.linea(`  ${"Aptitud resultante".padEnd(42)} ${"".padStart(6)} `
       + `${suma.toFixed(2).padStart(8)}`);
-    console.log(`\n  La aptitud mostrada al usuario es ${propuesta.aptitud}: la suma de`);
-    console.log(`  las contribuciones, no una cifra calculada aparte. Por eso la`);
-    console.log(`  explicación no puede diferir del resultado.`);
+    reg.linea(`\n  La aptitud mostrada al usuario es ${propuesta.aptitud}: la suma de`);
+    reg.linea(`  las contribuciones, no una cifra calculada aparte. Por eso la`);
+    reg.linea(`  explicación no puede diferir del resultado.`);
 
     // --- paso 3: contraste con la alternativa siguiente -------------
     if (salida.resultados[1]) {
       const otra = salida.resultados[1];
-      console.log(`\n  PASO 3 · Por qué esta y no la siguiente`);
-      console.log("  " + "─".repeat(72));
-      console.log(`  ${"Factor".padEnd(38)} ${propuesta.item.nombre.slice(0, 13).padStart(14)} `
+      reg.linea(`\n  PASO 3 · Por qué esta y no la siguiente`);
+      reg.linea("  " + "─".repeat(72));
+      reg.linea(`  ${"Factor".padEnd(38)} ${propuesta.item.nombre.slice(0, 13).padStart(14)} `
         + `${otra.item.nombre.slice(0, 13).padStart(14)}`);
-      console.log("  " + "─".repeat(72));
+      reg.linea("  " + "─".repeat(72));
       for (let i = 0; i < propuesta.factores.length; i++) {
         const a = propuesta.factores[i], b = otra.factores[i];
         if (!b) continue;
         const dif = a.contribucion - b.contribucion;
-        console.log(`  ${a.nombre.slice(0, 38).padEnd(38)} `
+        reg.linea(`  ${a.nombre.slice(0, 38).padEnd(38)} `
           + `${a.contribucion.toFixed(2).padStart(14)} ${b.contribucion.toFixed(2).padStart(14)}`
           + (Math.abs(dif) > 3 ? `   ← ${dif > 0 ? "+" : ""}${dif.toFixed(1)}` : ""));
       }
-      console.log("  " + "─".repeat(72));
-      console.log(`  ${"Aptitud".padEnd(38)} ${propuesta.aptitud.toFixed(1).padStart(14)} `
+      reg.linea("  " + "─".repeat(72));
+      reg.linea(`  ${"Aptitud".padEnd(38)} ${propuesta.aptitud.toFixed(1).padStart(14)} `
         + `${otra.aptitud.toFixed(1).padStart(14)}`);
     }
 
     // --- paso 4: contrafactuales ------------------------------------
-    console.log(`\n  PASO 4 · Qué tendría que cambiar para otra salida`);
-    console.log("  " + "─".repeat(72));
-    for (const c of propuesta.contrafactuales) console.log(`  · ${c}`);
+    reg.linea(`\n  PASO 4 · Qué tendría que cambiar para otra salida`);
+    reg.linea("  " + "─".repeat(72));
+    for (const c of propuesta.contrafactuales) reg.linea(`  · ${c}`);
 
     // --- paso 5: la explicación en una frase ------------------------
-    console.log(`\n  PASO 5 · Explicación en lenguaje natural`);
-    console.log("  " + "─".repeat(72));
-    console.log(`  ${propuesta.resumen}`);
+    reg.linea(`\n  PASO 5 · Explicación en lenguaje natural`);
+    reg.linea("  " + "─".repeat(72));
+    reg.linea(`  ${propuesta.resumen}`);
 
     // --- paso 6: trazabilidad ---------------------------------------
-    console.log(`\n  PASO 6 · Lo que queda registrado`);
-    console.log("  " + "─".repeat(72));
+    reg.linea(`\n  PASO 6 · Lo que queda registrado`);
+    reg.linea("  " + "─".repeat(72));
     const doc = await db.collection("recomendaciones")
       .findOne({ _id: propuesta.recomendacionId } as never);
     if (doc) {
       const d = doc as Record<string, unknown>;
-      console.log(`  Documento ${propuesta.recomendacionId} de la colección «recomendaciones»:`);
-      console.log(`     versión del modelo   ${d.versionModelo}`);
-      console.log(`     lotes consumidos     ${(d.aportes as unknown[]).length}`);
-      console.log(`     factores guardados   ${(d.factores as unknown[]).length}`);
-      console.log(`     contrafactuales      ${(d.contrafactuales as unknown[]).length}`);
-      console.log(`     decisión             ${d.decision ? "registrada" : "pendiente"}`);
-      console.log(`     valoraciones         ${((d.feedback as unknown[]) ?? []).length}`);
-      console.log(`\n  Toda la propuesta vive en un solo documento. Reconstruir por`);
-      console.log(`  qué se recomendó algo meses después no exige recalcularlo:`);
-      console.log(`  basta con leer el registro.`);
+      reg.linea(`  Documento ${propuesta.recomendacionId} de la colección «recomendaciones»:`);
+      reg.linea(`     versión del modelo   ${d.versionModelo}`);
+      reg.linea(`     lotes consumidos     ${(d.aportes as unknown[]).length}`);
+      reg.linea(`     factores guardados   ${(d.factores as unknown[]).length}`);
+      reg.linea(`     contrafactuales      ${(d.contrafactuales as unknown[]).length}`);
+      reg.linea(`     decisión             ${d.decision ? "registrada" : "pendiente"}`);
+      reg.linea(`     valoraciones         ${((d.feedback as unknown[]) ?? []).length}`);
+      reg.linea(`\n  Toda la propuesta vive en un solo documento. Reconstruir por`);
+      reg.linea(`  qué se recomendó algo meses después no exige recalcularlo:`);
+      reg.linea(`  basta con leer el registro.`);
     }
 
-    console.log(`\n  PESOS DEL MODELO`);
-    console.log("  " + "─".repeat(72));
+    reg.linea(`\n  PESOS DEL MODELO`);
+    reg.linea("  " + "─".repeat(72));
     for (const [k, v] of Object.entries(PESOS))
-      console.log(`  ${k.padEnd(42)} ${v.toFixed(2).padStart(6)}`);
-    console.log("\n  Declarados en el código, no ajustados por caso.");
+      reg.linea(`  ${k.padEnd(42)} ${v.toFixed(2).padStart(6)}`);
+    reg.linea("\n  Declarados en el código, no ajustados por caso.");
   }
 
-  console.log("\n  " + "═".repeat(72) + "\n");
+  reg.linea("\n  " + "═".repeat(72) + "\n");
   if (propia) await propia.cliente.close();
   return { pruebas: pruebas.length, superadas };
 }
 
-if (process.argv[1]?.endsWith("mongo/fase3.ts"))
+if (ejecutadoDirectamente("mongo/fase3.ts"))
   fase3().catch((e) => {
     console.error("\n  No se pudo experimentar:\n ", e.message, "\n");
     process.exit(1);

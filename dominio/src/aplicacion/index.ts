@@ -120,9 +120,10 @@ export class ObtenerRecomendacionesUC implements ObtenerRecomendaciones {
         `No existe el lote ${faltante}.`, "LOTE_NO_ENCONTRADO");
     const seleccion = lotes as Lote[];
 
+    const ahoraInv = this.reloj.ahora();
     const [items, disponibles, cargas, pendientes] = await Promise.all([
       this.catalogo.listarActivos(),
-      this.lotes.inventarioDisponible(),
+      this.lotes.inventarioDisponible(ahoraInv),
       this.cargas.cargasPorArea(),
       this.lotes.listarPendientes(),
     ]);
@@ -251,14 +252,19 @@ export class InspeccionarModeloUC implements InspeccionarModelo {
         `No existe el lote ${faltante}.`, "LOTE_NO_ENCONTRADO");
     const seleccion = encontrados as Lote[];
 
+    // Un solo instante para el inventario y para el motor: si cada uno
+    // leyera el reloj por su cuenta podrían caer en lados distintos de
+    // un vencimiento y la propuesta usaría un lote que el inventario ya
+    // no cuenta.
+    const ahora = this.reloj.ahora();
     const [items, disponibles, cargas] = await Promise.all([
       this.catalogo.listarActivos(),
-      this.lotes.inventarioDisponible(),
+      this.lotes.inventarioDisponible(ahora),
       this.cargas.cargasPorArea(),
     ]);
 
     const salida = ejecutarModelo(
-      seleccion, items, disponibles, cargas, this.reloj.ahora());
+      seleccion, items, disponibles, cargas, ahora);
 
     // La traza de inspección NO se persiste. La que se guarda es la de
     // `ObtenerRecomendacionesUC`, que corresponde a una recomendación

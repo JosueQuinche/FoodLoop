@@ -18,3 +18,13 @@ despues.json
 # cuentas creadas al probar el prototipo: llevan hashes de contraseña
 # y son de cada quien, no del proyecto
 datos/.usuarios.json
+
+# las evidencias se regeneran con `npm run evidencias`; se versiona el
+# código que las produce, no su salida, para que no haya dos verdades
+evidencias/
+evidencias-potencial/
+
+# los documentos de MongoDB SÍ se versionan: son el anexo de datos del
+# trabajo y la entrada con que se carga la base sin ejecutar el
+# convertidor. Se regeneran con `npm run exportar:mongo`.
+__pycache__/

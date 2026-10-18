@@ -40,11 +40,18 @@ export function BarrasH(
   );
 }
 
-/** Barras verticales agrupadas. Para series temporales cortas. */
+/**
+ * Barras verticales agrupadas. Para series temporales cortas.
+ *
+ * Los valores llegan ya convertidos a la unidad activa: la gráfica
+ * escala contra su propio máximo y la unidad solo le hace falta para
+ * rotular, de modo que no necesita saber de conversiones.
+ */
 export function BarrasAgrupadas(
-  { datos, series }: {
+  { datos, series, unidad = "kg" }: {
     datos: { etiqueta: string; valores: number[] }[];
     series: { nombre: string; color: string }[];
+    unidad?: string;
   },
 ) {
   const tope = Math.max(...datos.flatMap((d) => d.valores), 1);
@@ -61,7 +68,7 @@ export function BarrasAgrupadas(
                   rehacía el diseño del gráfico entero en cada fotograma. */}
               {d.valores.map((v, j) => (
                 <div className="pista-v" key={j}
-                  title={`${series[j].nombre}: ${fmt(v)} kg`}>
+                  title={`${series[j].nombre}: ${fmt(v)} ${unidad}`}>
                   <div
                     className="barra"
                     style={{

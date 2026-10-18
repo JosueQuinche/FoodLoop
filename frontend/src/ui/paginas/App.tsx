@@ -11,12 +11,17 @@ import type {
   Resultado, Rol, ResumenOperacion, SalidaRecomendacion,
   Estadisticas, EntradaMerma, Causa, Usuario,
 } from "@foodloop/dominio";
-import { ErrorDominio, PERFILES, AMBITO, permisosDe } from "@foodloop/dominio";
+import {
+  ErrorDominio, PERFILES, AMBITO, permisosDe,
+  aKilogramos, enUnidad, esMasa, formatear, formatearAmbas,
+} from "@foodloop/dominio";
 import { api, fijarSesion } from "../../infraestructura/adaptadores/salida/http/repositorios";
 import type {
   Maestros, InventarioItem, HistorialItem,
 } from "../../infraestructura/adaptadores/salida/http/repositorios";
-import { Logo, Icono, Distintivo, fmt, FotoReceta } from "../componentes/UI";
+import {
+  Logo, Icono, Distintivo, fmt, FotoReceta, SelectorUnidad, useUnidad,
+} from "../componentes/UI";
 import Bienvenida from "../componentes/Bienvenida";
 import { Modelo } from "../componentes/Modelo";
 import { BarrasH, BarrasAgrupadas, Anillo, COLOR_ESTADO, ETIQUETA_CAUSA } from "../componentes/Graficas";
@@ -110,6 +115,13 @@ const ATRIBUCIONES = [
   },
 ];
 
+/**
+ * Número tal como lo admite un `<input type="number">`: punto decimal y
+ * sin separador de miles. El formato con coma es para leer, no para
+ * teclear; si se le devuelve al control, el navegador lo descarta.
+ */
+const aTextoCampo = (n: number) => (n ? String(Number(n.toFixed(3))) : "");
+
 const FORM_INICIAL: EntradaMerma = {
   ingredienteId: 0, areaId: 0, servicioId: 0, cantidad: 0,
   estadoProducto: "cocido", temperaturaC: 3.2,
@@ -140,6 +152,19 @@ export default function App(
   const [fallo, setFallo] = useState<string | null>(null);
   const [filtro, setFiltro] = useState<string>("accionables");
   const [busqueda, setBusqueda] = useState("");
+  // Unidad de presentación. El lote sigue viajando al backend en
+  // kilogramos: aquí solo se decide en qué se lee y en qué se teclea.
+  const { unidad, valor, peso, cantidad, crudo } = useUnidad();
+  /**
+   * Lo que el usuario escribió en el campo de cantidad, tal cual.
+   *
+   * Se guarda aparte de `form.cantidad` porque el formulario conserva
+   * kilogramos: si el campo se pintara convirtiendo el valor guardado en
+   * cada pulsación, al teclear «2» en libras le devolvería «1,99» y el
+   * cursor saltaría. El texto es lo que se ve; `form.cantidad` es lo que
+   * se guarda.
+   */
+  const [cantidadTecleada, setCantidadTecleada] = useState("");
   // Fecha en que se sitúa la revisión histórica, si el servidor lo está.
   const [revision, setRevision] = useState<string | null>(null);
 
@@ -165,6 +190,28 @@ export default function App(
 
   const permisos = permisosDe(rol);
   const perfil = PERFILES[rol];
+
+  // Unidad en que está medido el ingrediente elegido en el formulario.
+  const unidadIngrediente = maestros?.ingredientes
+    .find((i) => i.id === form.ingredienteId)?.unidad;
+  /**
+   * Si el campo de cantidad se teclea en libras.
+   *
+   * La preferencia no basta: el caldo y la crema se miden en litros y
+   * las piezas en unidades, y ahí la libra no significa nada. Un lote de
+   * caldo se registra en litros aunque el usuario tenga la interfaz en
+   * libras.
+   */
+  const enLibras = unidad === "lb" && esMasa(unidadIngrediente);
+  const unidadCampo = enLibras ? "lb" : (unidadIngrediente ?? "kg");
+
+  // Al cambiar de unidad el número ya escrito pasaría a significar otra
+  // cosa, de modo que el campo se reescribe desde los kilogramos
+  // guardados en lugar de dejar la cifra anterior con la etiqueta nueva.
+  useEffect(() => {
+    setCantidadTecleada(aTextoCampo(
+      enLibras ? enUnidad(form.cantidad, "lb") : form.cantidad));
+  }, [enLibras]);
 
   const refrescar = useCallback(async () => {
     try {
@@ -286,6 +333,7 @@ export default function App(
         + `${Math.round((l.venceEn.getTime() - Date.now()) / 3_600_000)} horas.`);
       setForm({ ...FORM_INICIAL, ingredienteId: form.ingredienteId,
         areaId: form.areaId, servicioId: form.servicioId });
+      setCantidadTecleada("");
       await refrescar();
       setPantalla("panel");
     } catch (e) {
@@ -377,6 +425,10 @@ export default function App(
               title="Volver a consultar la base">
               <Icono n="refrescar" s={15} /> Actualizar
             </button>
+            {/* Junto a los controles de sesión y tema, no dentro de una
+                pantalla: la unidad afecta a todas y se cambia en medio de
+                una tarea, de modo que tiene que estar siempre a la vista. */}
+            <SelectorUnidad />
             <button className="rolbar" onClick={() => setPantalla("perfil")}
               title="Ver mi perfil y permisos"
               style={{ cursor: "pointer", font: "inherit" }}>
@@ -452,8 +504,8 @@ export default function App(
               <div className="rejilla g4" style={{ marginBottom: 16 }}>
                 <div className="kpi">
                   <div className="l">Merma disponible</div>
-                  <div className="v">{fmt(resumen.kgDisponibles)}{" "}
-                    <span className="pequeno apagado">kg</span></div>
+                  <div className="v">{valor(resumen.kgDisponibles)}{" "}
+                    <span className="pequeno apagado">{unidad}</span></div>
                   <div className="d">{resumen.lotes.length} lotes</div>
                 </div>
                 <div className="kpi">
@@ -477,8 +529,8 @@ export default function App(
                 )}
                 <div className="kpi">
                   <div className="l">Aprovechado</div>
-                  <div className="v">{fmt(stats.kgAprovechados)}{" "}
-                    <span className="pequeno apagado">kg</span></div>
+                  <div className="v">{valor(stats.kgAprovechados)}{" "}
+                    <span className="pequeno apagado">{unidad}</span></div>
                   <div className="d">
                     {stats.totalKg ? Math.round(stats.kgAprovechados / stats.totalKg * 100) : 0} % del total
                   </div>
@@ -494,12 +546,13 @@ export default function App(
                   <BarrasAgrupadas
                     datos={stats.porDia.map((d) => ({
                       etiqueta: d.fecha.slice(5).replace("-", "/"),
-                      valores: [d.registrada, d.aprovechada],
+                      valores: [crudo(d.registrada), crudo(d.aprovechada)],
                     }))}
                     series={[
                       { nombre: "Registrada", color: "var(--verde)" },
                       { nombre: "Aprovechada", color: "var(--naranja)" },
                     ]}
+                    unidad={unidad}
                   />
                 </div>
 
@@ -515,8 +568,9 @@ export default function App(
               <div className="rejilla g2" style={{ marginBottom: 16 }}>
                 <div className="tarjeta">
                   <div className="tarjeta-cab"><h3>Merma por causa</h3></div>
-                  <BarrasH datos={stats.porCausa.map((c) => ({
-                    etiqueta: ETIQUETA_CAUSA[c.causa] ?? c.causa, valor: c.kg,
+                  <BarrasH unidad={unidad} datos={stats.porCausa.map((c) => ({
+                    etiqueta: ETIQUETA_CAUSA[c.causa] ?? c.causa,
+                    valor: crudo(c.kg),
                   }))} />
                 </div>
                 <div className="tarjeta">
@@ -524,8 +578,12 @@ export default function App(
                     <h3>Merma por área</h3>
                     <span className="rotulo">frente a capacidad</span>
                   </div>
-                  <BarrasH datos={stats.porArea.map((a) => ({
-                    etiqueta: a.area, valor: a.kg, maximo: a.capacidadKg,
+                  {/* La capacidad del área también es un peso: si se
+                      convirtiera solo la merma, la barra se leería contra
+                      una referencia en otra unidad. */}
+                  <BarrasH unidad={unidad} datos={stats.porArea.map((a) => ({
+                    etiqueta: a.area, valor: crudo(a.kg),
+                    maximo: crudo(a.capacidadKg),
                   }))} />
                 </div>
               </div>
@@ -603,7 +661,7 @@ export default function App(
                         <td className="mono">{lote.codigo}</td>
                         <td>{lote.ingrediente}{" "}
                           <span className="pequeno apagado">({lote.estadoProducto})</span></td>
-                        <td className="num">{fmt(lote.cantidad)} {lote.unidad}</td>
+                        <td className="num">{cantidad(lote.cantidad, lote.unidad)}</td>
                         <td className="num">
                           {horasRestantes > 0
                             ? `${horasRestantes.toFixed(0)} h`
@@ -670,10 +728,29 @@ export default function App(
                           </div>
                         </div>
                         <div className="campo">
-                          <label htmlFor="f-cant">Cantidad <span className="req">*</span></label>
+                          <label htmlFor="f-cant">
+                            Cantidad ({unidadCampo}) <span className="req">*</span>
+                          </label>
                           <input className="entrada mono" id="f-cant" type="number"
-                            min="0" step="0.1" value={form.cantidad || ""}
-                            onChange={(e) => setForm({ ...form, cantidad: Number(e.target.value) })} />
+                            min="0" step="0.1" value={cantidadTecleada}
+                            onChange={(e) => {
+                              const t = e.target.value;
+                              setCantidadTecleada(t);
+                              // Lo tecleado en libras se convierte aquí: al
+                              // backend y a la base solo llegan kilogramos.
+                              const n = Number(t) || 0;
+                              setForm({ ...form,
+                                cantidad: enLibras ? aKilogramos(n) : n });
+                            }} />
+                          {/* La conversión, a la vista. Teclear en libras sin
+                              ver el kilogramo resultante obligaría a confiar
+                              en una cuenta que no se muestra. */}
+                          {form.cantidad > 0 && esMasa(unidadIngrediente) && (
+                            <span className="ayuda">
+                              equivale a{" "}
+                              {formatear(form.cantidad, enLibras ? "kg" : "lb", 2)}
+                            </span>
+                          )}
                           {errores.cantidad && <span className="error-campo">{errores.cantidad}</span>}
                         </div>
                       </div>
@@ -776,9 +853,15 @@ export default function App(
                         <li><span>Ingrediente</span><span className="mono">
                           {maestros.ingredientes.find((i) => i.id === form.ingredienteId)?.nombre ?? "—"}
                         </span></li>
+                        {/* El resumen es la última lectura antes de guardar:
+                            aquí las dos unidades van juntas para que lo que
+                            se confirma no dependa de qué unidad tenga activa
+                            quien está mirando la pantalla. */}
                         <li><span>Cantidad</span><span className="mono">
-                          {form.cantidad ? fmt(form.cantidad) : "—"}{" "}
-                          {maestros.ingredientes.find((i) => i.id === form.ingredienteId)?.unidad}
+                          {!form.cantidad ? "—"
+                            : esMasa(unidadIngrediente)
+                              ? formatearAmbas(form.cantidad)
+                              : cantidad(form.cantidad, unidadIngrediente)}
                         </span></li>
                         <li><span>Estado</span><span className="mono">{form.estadoProducto}</span></li>
                         <li><span>Área</span><span className="mono">
@@ -798,7 +881,10 @@ export default function App(
                       <Icono n="check" s={16} /> Guardar lote
                     </button>
                     <button className="btn" style={{ justifyContent: "center" }}
-                      onClick={() => { setForm(FORM_INICIAL); setErrores({}); setPantalla("panel"); }}>
+                      onClick={() => {
+                        setForm(FORM_INICIAL); setCantidadTecleada("");
+                        setErrores({}); setPantalla("panel");
+                      }}>
                       Cancelar
                     </button>
                   </div>
@@ -819,7 +905,7 @@ export default function App(
                       <p>
                         {salida.lotes.length === 1
                           ? `Lote ${salida.lotes[0].codigo} · ${salida.lotes[0].estadoProducto} · `
-                            + `${fmt(salida.lotes[0].cantidad)} ${salida.lotes[0].unidad}.`
+                            + `${cantidad(salida.lotes[0].cantidad, salida.lotes[0].unidad)}.`
                           : `Conjunto de ${salida.lotes.length} lotes: `
                             + salida.lotes.map((l) => l.codigo).join(", ") + "."}
                         {" "}El modelo devolvió {salida.resultados.length} alternativa(s)
@@ -908,7 +994,7 @@ export default function App(
                               {r.item.area} · {r.item.minutos} min · {r.item.codigo}
                             </p>
                             <div className="rec-meta">
-                              <span>Aprovecha <b>{fmt(r.kgAprovechados)} kg</b></span>
+                              <span>Aprovecha <b>{peso(r.kgAprovechados)}</b></span>
                               <span>Rinde <b>{r.porciones} porciones</b></span>
                               {permisos.veCostos &&
                                 <span>Costo recuperado <b>$ {fmt(r.costoRecuperado, 2)}</b></span>}
@@ -927,7 +1013,7 @@ export default function App(
                                       <b className="mono">{a.lote.codigo}</b>
                                       {a.lote.ingrediente}
                                       <span className="mono">
-                                        {fmt(a.cantidadUsada)} {a.lote.unidad}
+                                        {cantidad(a.cantidadUsada, a.lote.unidad)}
                                       </span>
                                       {a.esPrincipal && (
                                         <span className="marca-principal">principal</span>
@@ -1180,7 +1266,7 @@ export default function App(
                           <td>{i.ingrediente}</td>
                           <td className="apagado pequeno">{i.categoria}</td>
                           <td className="num">{i.lotes}</td>
-                          <td className="num">{fmt(i.disponible)} {i.unidad}</td>
+                          <td className="num">{cantidad(i.disponible, i.unidad)}</td>
                           <td className="num">
                             <Distintivo tipo={i.horasMinimas <= 12 ? "critico"
                               : i.horasMinimas <= 24 ? "aviso" : "ok"}>
@@ -1444,8 +1530,8 @@ export default function App(
                     <div className="v">$ {fmt(recSel.costoRecuperado, 2)}</div></div>
                 ) : (
                   <div className="kpi"><div className="l">Merma aprovechada</div>
-                    <div className="v">{fmt(recSel.kgAprovechados)}{" "}
-                      <span className="pequeno apagado">kg</span></div></div>
+                    <div className="v">{valor(recSel.kgAprovechados)}{" "}
+                      <span className="pequeno apagado">{unidad}</span></div></div>
                 )}
               </div>
 
@@ -1523,7 +1609,7 @@ export default function App(
                           )}
                         </span>
                         <span className="mono">
-                          {fmt(q.cantidad * recSel.escala, 2)} {q.unidad ?? "kg"}
+                          {cantidad(q.cantidad * recSel.escala, q.unidad, 2)}
                         </span>
                       </li>
                     );

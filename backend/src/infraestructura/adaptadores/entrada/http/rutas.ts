@@ -22,10 +22,15 @@ export function crearRutas(c: Contenedor): Router {
    * del token de sesión; el cambio afecta solo a este archivo.
    */
   r.use((req, _res, next) => {
-    const rol = req.header("X-Rol");
-    if (rol && ROLES.includes(rol as Rol))
-      c.sesion.cambiar(rol as Rol, req.header("X-Usuario") ?? "demo");
-    next();
+    // `enAmbito` aísla la sesión de ESTA petición. Sin él, dos usuarios
+    // simultáneos se pisan el rol y las decisiones quedan atribuidas a
+    // quien no fue.
+    c.sesion.enAmbito(() => {
+      const rol = req.header("X-Rol");
+      if (rol && ROLES.includes(rol as Rol))
+        c.sesion.cambiar(rol as Rol, req.header("X-Usuario") ?? "demo");
+      next();
+    });
   });
 
   /**

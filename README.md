@@ -355,8 +355,25 @@ Esto no falsea la fecha de los registros, que conservan la suya: lo que
 se mueve es el instante desde el que se los mira, que es el parámetro
 que el motor ya recibía por la etapa 1.
 
-Para una instalación real, con MongoDB, el camino es el de siempre:
-`npm run importar -- ./datos` y después `npm run dev`.
+### Con MongoDB
+
+El prototipo en memoria reconstruye los datos en cada arranque, de modo
+que las cuentas que se creen se guardan aparte, en `datos/.usuarios.json`.
+Para que todo viva en la base de verdad:
+
+1. Instala MongoDB Community Server (incluye Compass).
+2. Copia `backend/.env.example` a `backend/.env`. Ya trae
+   `MONGODB_URI=mongodb://localhost:27017`.
+3. Descomenta `REVISION_FECHA=2026-06-23` en ese `.env`. Sin eso, los
+   registros del centro —de enero a junio— aparecen todos vencidos y el
+   panel sale vacío.
+4. `npm run importar -- ./datos` carga los 1 577 lotes.
+5. `npm run dev`.
+
+El importador no borra la colección de usuarios, así que los datos se
+pueden recargar sin perder cuentas. `REVISION_FECHA` es opcional y va
+comentada por defecto: una instalación real no tiene que hacer nada para
+usar el reloj del sistema.
 
 **Dónde se ve cada cosa**
 

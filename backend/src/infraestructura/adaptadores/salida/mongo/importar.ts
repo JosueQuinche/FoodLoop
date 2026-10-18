@@ -48,7 +48,7 @@ import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import bcrypt from "bcryptjs";
 import type { Db } from "mongodb";
-import { conectar, aplicarEsquema } from "./conexion";
+import { conectar, aplicarEsquema, ejecutadoDirectamente } from "./conexion";
 import type {
   DocArea, DocServicio, DocIngrediente, DocReceta, DocMerma,
   DocOperacion, DocUsuario,
@@ -178,16 +178,23 @@ class Registro {
 // ---------------------------------------------------------------------
 
 export async function importar(carpeta: string, dbExterna?: Db) {
-  const propia = dbExterna ? null : await conectar(URI, NOMBRE_DB);
-  const db = dbExterna ?? propia!.db;
-  const reg = new Registro();
-
+  // Los archivos se comprueban ANTES de conectar. Al revés, un error de
+  // carpeta se presentaba como un fallo de conexión a MongoDB y mandaba
+  // a revisar la base de datos cuando el problema era la ruta.
   const ruta = (n: string) => join(carpeta, n);
   const obligatorios = ["ingredientes.csv", "recetas.csv",
     "receta_ingredientes.csv", "mermas.csv"];
   const faltan = obligatorios.filter((f) => !existsSync(ruta(f)));
   if (faltan.length)
-    throw new Error(`Faltan archivos en ${carpeta}: ${faltan.join(", ")}`);
+    throw new Error(
+      `Faltan archivos en "${carpeta}": ${faltan.join(", ")}.\n`
+      + `  Ruta buscada desde: ${process.cwd()}\n`
+      + "  Ejecute el comando desde la raíz del proyecto.");
+
+  console.log(`\n  Carpeta de datos: ${carpeta}`);
+  const propia = dbExterna ? null : await conectar(URI, NOMBRE_DB);
+  const db = dbExterna ?? propia!.db;
+  const reg = new Registro();
 
   console.log(`\n  FASE 2 · PREPARACIÓN DE DATOS`);
   console.log(`  Origen: ${carpeta}`);
@@ -534,7 +541,7 @@ export async function importar(carpeta: string, dbExterna?: Db) {
   return { totalLeidas, totalCargadas, totalDescartadas };
 }
 
-if (process.argv[1]?.endsWith("mongo/importar.ts")) {
+if (ejecutadoDirectamente("mongo/importar.ts")) {
   const carpeta = process.argv[2] ?? "./datos";
   importar(carpeta).catch((e) => {
     console.error("\n  No se pudo importar:\n ", e.message, "\n");

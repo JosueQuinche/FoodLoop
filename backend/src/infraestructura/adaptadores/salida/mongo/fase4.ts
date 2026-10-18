@@ -9,7 +9,8 @@
  */
 
 import "dotenv/config";
-import { conectar, aplicarEsquema } from "./conexion";
+import { conectar, aplicarEsquema, ejecutadoDirectamente } from "./conexion";
+import { Registro, describirReloj, type OpcionesFase } from "./fases-comun";
 import { aceptacionEfectiva, conteoDecisionesPorReceta } from "./repositorios";
 import type {
   DocMerma, DocIngrediente, DocRecomendacion, DocOperacion, DocReceta,
@@ -20,13 +21,23 @@ const URI = process.env.MONGODB_URI ?? "mongodb://localhost:27017";
 const NOMBRE_DB = process.env.MONGODB_DB ?? "foodloop";
 
 const pct = (a: number, b: number) => b ? `${(a / b * 100).toFixed(1)} %` : "—";
-const fila = (t: string, v: string, n = "") =>
-  console.log(`  ${t.padEnd(38)} ${v.padStart(10)}   ${n}`);
-
-export async function fase4(dbExterna?: import("mongodb").Db) {
+export async function fase4(
+  dbExterna?: import("mongodb").Db,
+  opciones: OpcionesFase = {},
+) {
   const propia = dbExterna ? null : await conectar(URI, NOMBRE_DB);
   const db = dbExterna ?? propia!.db;
   await aplicarEsquema(db);
+
+  const reg = opciones.registro ?? new Registro();
+  reg.contexto.fase = "fase4";
+  reg.contexto.version = VERSION_MODELO;
+  reg.contexto.reloj = describirReloj(opciones);
+  // Se declara dentro porque escribe en el registro de esta ejecución.
+  // Con clave, además de imprimirse la cifra queda como métrica con
+  // nombre, que es lo que se lleva a la tabla de resultados del artículo.
+  const fila = (t: string, v: string, n = "", clave?: string, unidad?: string) =>
+    reg.fila(t.padEnd(38), v.padStart(10), n, clave, unidad);
 
   const [mermas, ingredientes, recs, operacion, recetas] = await Promise.all([
     db.collection<DocMerma>("mermas").find().toArray(),
@@ -38,8 +49,8 @@ export async function fase4(dbExterna?: import("mongodb").Db) {
   const ing = new Map(ingredientes.map((i) => [i._id, i]));
   const merma = new Map(mermas.map((m) => [m._id, m]));
 
-  console.log(`\n  FASE 4 · ANÁLISIS DE RESULTADOS · modelo ${VERSION_MODELO}`);
-  console.log("  " + "═".repeat(66));
+  reg.linea(`\n  FASE 4 · ANÁLISIS DE RESULTADOS · modelo ${VERSION_MODELO}`);
+  reg.linea("  " + "═".repeat(66));
 
   // ------------------------------------------------------------------
   // 1 · Operación
@@ -56,14 +67,14 @@ export async function fase4(dbExterna?: import("mongodb").Db) {
     }
   const sinDictamen = mermas.filter((m) => !m.aptoReproceso).length;
 
-  console.log("\n  1 · OPERACIÓN");
-  console.log("  " + "─".repeat(66));
-  fila("Lotes registrados", String(mermas.length));
-  fila("Merma total", `${kgTotal.toFixed(1)} kg`);
-  fila("Merma aprovechada", `${kgAprov.toFixed(1)} kg`, pct(kgAprov, kgTotal));
-  fila("Valor de la merma", `$ ${valorTotal.toFixed(2)}`);
-  fila("Costo evitado", `$ ${valorAprov.toFixed(2)}`, pct(valorAprov, valorTotal));
-  fila("Lotes sin dictamen sanitario", String(sinDictamen), pct(sinDictamen, mermas.length));
+  reg.linea("\n  1 · OPERACIÓN");
+  reg.linea("  " + "─".repeat(66));
+  fila("Lotes registrados", String(mermas.length), "", "lotes_registrados");
+  fila("Merma total", `${kgTotal.toFixed(1)} kg`, "", "merma_total_kg", "kg");
+  fila("Merma aprovechada", `${kgAprov.toFixed(1)} kg`, pct(kgAprov, kgTotal), "merma_aprovechada_kg", "kg");
+  fila("Valor de la merma", `$ ${valorTotal.toFixed(2)}`, "", "valor_merma_usd", "USD");
+  fila("Costo evitado", `$ ${valorAprov.toFixed(2)}`, pct(valorAprov, valorTotal), "costo_evitado_usd", "USD");
+  fila("Lotes sin dictamen sanitario", String(sinDictamen), pct(sinDictamen, mermas.length), "lotes_sin_dictamen");
 
   // ------------------------------------------------------------------
   // 1b · Integración de producción, consumo y residuos (Fase 1)
@@ -99,30 +110,30 @@ export async function fase4(dbExterna?: import("mongodb").Db) {
     }
     const fechas = operacion.map((o) => o.fecha).sort();
 
-    console.log("\n  1b · INTEGRACIÓN DE PRODUCCIÓN, CONSUMO Y RESIDUOS");
-    console.log("  " + "─".repeat(66));
+    reg.linea("\n  1b · INTEGRACIÓN DE PRODUCCIÓN, CONSUMO Y RESIDUOS");
+    reg.linea("  " + "─".repeat(66));
     fila("Periodo cubierto", fechas[0], `a ${fechas[fechas.length - 1]}`);
-    fila("Servicios registrados", String(operacion.length));
+    fila("Servicios registrados", String(operacion.length), "", "servicios");
     fila("Porciones producidas", porciones.toLocaleString("es-EC"));
-    fila("Peso producido", `${kgProd.toFixed(1)} kg`);
+    fila("Peso producido", `${kgProd.toFixed(1)} kg`, "", "peso_producido_kg", "kg");
     fila("Desvío medio de comensales", `${(sumaDesvio / operacion.length).toFixed(1)} %`,
       "previstos frente a reales");
     fila("Merma sobre lo producido", `${(kgTotal / kgProd * 100).toFixed(2)} %`,
       "indicador normalizado");
 
-    console.log("\n  Relación entre desvío de comensales y merma");
-    console.log("  " + "─".repeat(66));
-    console.log(`  ${"Rango de desvío".padEnd(34)} ${"Serv.".padStart(6)} ${"kg".padStart(8)}`);
+    reg.linea("\n  Relación entre desvío de comensales y merma");
+    reg.linea("  " + "─".repeat(66));
+    reg.linea(`  ${"Rango de desvío".padEnd(34)} ${"Serv.".padStart(6)} ${"kg".padStart(8)}`);
     for (const nombre of ["Acudieron más de los previstos", "Desvío bajo (0-5 %)",
                           "Desvío medio (5-12 %)", "Desvío alto (>12 %)"]) {
       const g = rangos.get(nombre);
       if (!g) continue;
-      console.log(`  ${nombre.padEnd(34)} ${String(g.servicios).padStart(6)} `
+      reg.linea(`  ${nombre.padEnd(34)} ${String(g.servicios).padStart(6)} `
         + `${(g.kg / g.servicios).toFixed(2).padStart(8)}`);
     }
-    console.log("\n  Con datos reales, que la merma media crezca con el desvío");
-    console.log("  sostiene la hipótesis del modelo. Con los datos de ejemplo la");
-    console.log("  relación no es concluyente, porque las mermas se generan al azar.");
+    reg.linea("\n  Con datos reales, que la merma media crezca con el desvío");
+    reg.linea("  sostiene la hipótesis del modelo. Con los datos de ejemplo la");
+    reg.linea("  relación no es concluyente, porque las mermas se generan al azar.");
   }
 
   // ------------------------------------------------------------------
@@ -135,21 +146,21 @@ export async function fase4(dbExterna?: import("mongodb").Db) {
   const aptitudPrimera = primeras.length
     ? primeras.reduce((a, r) => a + r.aptitud, 0) / primeras.length : 0;
 
-  console.log("\n  2 · MODELO");
-  console.log("  " + "─".repeat(66));
-  fila("Propuestas registradas", String(recs.length));
-  fila("Aptitud media de la primera", aptitudPrimera.toFixed(1));
-  fila("Propuestas multi-lote", String(multi), pct(multi, recs.length));
+  reg.linea("\n  2 · MODELO");
+  reg.linea("  " + "─".repeat(66));
+  fila("Propuestas registradas", String(recs.length), "", "propuestas");
+  fila("Aptitud media de la primera", aptitudPrimera.toFixed(1), "", "aptitud_media");
+  fila("Propuestas multi-lote", String(multi), pct(multi, recs.length), "propuestas_multilote");
   fila("Lotes por propuesta",
     (recs.reduce((a, r) => a + r.aportes.length, 0) / (recs.length || 1)).toFixed(2));
-  console.log();
-  fila("Decisiones registradas", String(decididas.length));
+  reg.linea();
+  fila("Decisiones registradas", String(decididas.length), "", "decisiones");
   for (const accion of ["aprobada", "descartada", "modificada"]) {
     const n = decididas.filter((r) => r.decision!.accion === accion).length;
     if (n) fila(`  · ${accion}`, String(n), pct(n, decididas.length));
   }
   fila("Tasa de aceptación", pct(aprobadas, decididas.length),
-    "indicador de utilidad percibida");
+    "indicador de utilidad percibida", "tasa_aceptacion", "%");
 
   const conteo = await conteoDecisionesPorReceta(db);
   const filasAcept = recetas
@@ -159,42 +170,42 @@ export async function fase4(dbExterna?: import("mongodb").Db) {
     .slice(0, 6);
 
   if (filasAcept.length) {
-    console.log("\n  Aceptación recalculada desde las decisiones reales");
-    console.log("  " + "─".repeat(66));
-    console.log(`  ${"Receta".padEnd(34)} ${"Dec.".padStart(5)} ${"Apr.".padStart(5)} ${"Base".padStart(6)} ${"Efect.".padStart(7)}`);
+    reg.linea("\n  Aceptación recalculada desde las decisiones reales");
+    reg.linea("  " + "─".repeat(66));
+    reg.linea(`  ${"Receta".padEnd(34)} ${"Dec.".padStart(5)} ${"Apr.".padStart(5)} ${"Base".padStart(6)} ${"Efect.".padStart(7)}`);
     for (const { r, c } of filasAcept)
-      console.log(`  ${r.nombre.slice(0, 34).padEnd(34)} `
+      reg.linea(`  ${r.nombre.slice(0, 34).padEnd(34)} `
         + `${String(c!.n).padStart(5)} ${String(c!.aprobadas).padStart(5)} `
         + `${r.aceptacionBase.toFixed(1).padStart(6)} `
         + `${aceptacionEfectiva(r.aceptacionBase, c!.n, c!.aprobadas).toFixed(1).padStart(7)}`);
-    console.log("\n  La columna efectiva es la que usa el modelo. Se calcula con");
-    console.log("  encogimiento hacia la base, con un peso previo de 8 casos:");
-    console.log("  las primeras decisiones mueven poco la valoración y hace");
-    console.log("  falta evidencia acumulada para desplazarla de verdad.");
+    reg.linea("\n  La columna efectiva es la que usa el modelo. Se calcula con");
+    reg.linea("  encogimiento hacia la base, con un peso previo de 8 casos:");
+    reg.linea("  las primeras decisiones mueven poco la valoración y hace");
+    reg.linea("  falta evidencia acumulada para desplazarla de verdad.");
   }
 
   // ------------------------------------------------------------------
   // 3 · Explicabilidad
   // ------------------------------------------------------------------
   const valoraciones = recs.flatMap((r) => r.feedback ?? []);
-  console.log("\n  3 · EXPLICABILIDAD");
-  console.log("  " + "─".repeat(66));
+  reg.linea("\n  3 · EXPLICABILIDAD");
+  reg.linea("  " + "─".repeat(66));
   if (valoraciones.length === 0) {
-    console.log("  Todavía no hay valoraciones registradas.");
+    reg.linea("  Todavía no hay valoraciones registradas.");
   } else {
-    fila("Valoraciones recogidas", String(valoraciones.length));
+    fila("Valoraciones recogidas", String(valoraciones.length), "", "valoraciones_xai");
     for (const cl of ["clara", "confusa", "insuficiente"]) {
       const n = valoraciones.filter((v) => v.claridad === cl).length;
       if (n) fila(`  · ${cl}`, String(n), pct(n, valoraciones.length));
     }
     const claras = valoraciones.filter((v) => v.claridad === "clara").length;
     fila("Explicaciones comprendidas", pct(claras, valoraciones.length),
-      "comprensión del componente XAI");
+      "comprensión del componente XAI", "comprension_xai", "%");
 
     const roles = [...new Set(valoraciones.map((v) => v.rol))];
     if (roles.length > 1) {
-      console.log("\n  Comprensión por perfil");
-      console.log("  " + "─".repeat(66));
+      reg.linea("\n  Comprensión por perfil");
+      reg.linea("  " + "─".repeat(66));
       for (const rol of roles) {
         const del = valoraciones.filter((v) => v.rol === rol);
         fila(`  ${rol}`, pct(del.filter((v) => v.claridad === "clara").length, del.length),
@@ -204,17 +215,17 @@ export async function fase4(dbExterna?: import("mongodb").Db) {
   }
 
   // ------------------------------------------------------------------
-  console.log("\n  PARÁMETROS DEL MODELO");
-  console.log("  " + "─".repeat(66));
+  reg.linea("\n  PARÁMETROS DEL MODELO");
+  reg.linea("  " + "─".repeat(66));
   for (const [k, v] of Object.entries(PESOS)) fila(`  ${k}`, v.toFixed(2));
-  console.log("\n  Declarados en el código y auditables. Reportarlos es lo que");
-  console.log("  permite que otro investigador reproduzca los resultados.");
-  console.log("\n  " + "═".repeat(66) + "\n");
+  reg.linea("\n  Declarados en el código y auditables. Reportarlos es lo que");
+  reg.linea("  permite que otro investigador reproduzca los resultados.");
+  reg.linea("\n  " + "═".repeat(66) + "\n");
 
   if (propia) await propia.cliente.close();
 }
 
-if (process.argv[1]?.endsWith("mongo/fase4.ts")) fase4().catch((e) => {
+if (ejecutadoDirectamente("mongo/fase4.ts")) fase4().catch((e) => {
   console.error("\n  No se pudo evaluar:\n ", e.message, "\n");
   process.exit(1);
 });

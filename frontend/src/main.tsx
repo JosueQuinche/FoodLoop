@@ -10,7 +10,7 @@ import type { Usuario } from "@foodloop/dominio";
 import Portada from "./ui/paginas/Portada";
 import Login from "./ui/paginas/Login";
 import App from "./ui/paginas/App";
-import { useTema, Aviso } from "./ui/componentes/UI";
+import { useTema, Aviso, ProveedorUnidad } from "./ui/componentes/UI";
 import "./estilos.css";
 
 type Vista = "portada" | "login" | "app";
@@ -28,8 +28,11 @@ function Raiz() {
     temp.current = window.setTimeout(() => setAviso(null), 3600);
   }, []);
 
+  // El proveedor envuelve las tres vistas y no solo la aplicación: así la
+  // unidad elegida sobrevive a cerrar la sesión y volver a entrar, que es
+  // lo que pasa en un turno cuando cambia quien está en la estación.
   return (
-    <>
+    <ProveedorUnidad>
       {vista === "portada" && <Portada onEntrar={() => setVista("login")} />}
 
       {vista === "login" && (
@@ -50,7 +53,7 @@ function Raiz() {
       )}
 
       <Aviso texto={aviso} />
-    </>
+    </ProveedorUnidad>
   );
 }
 

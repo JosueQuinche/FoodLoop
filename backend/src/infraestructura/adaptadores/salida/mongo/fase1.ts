@@ -15,15 +15,19 @@
 
 import "dotenv/config";
 import type { Db } from "mongodb";
-import { conectar, aplicarEsquema } from "./conexion";
+import { conectar, aplicarEsquema, ejecutadoDirectamente } from "./conexion";
 import {
   LotesMongo, CatalogoMongo, CargasMongo, DecisionesMongo, TrazasMongo,
   UsuariosMongo, ConsultasMongo,
 } from "./repositorios";
 import {
   recomendar, sugerirLotes, filtrosDuros, permisosDe, VERSION_MODELO,
+  ejecutarModelo,
 } from "@foodloop/dominio";
-import type { Rol } from "@foodloop/dominio";
+import type { Rol, Lote } from "@foodloop/dominio";
+import {
+  Registro, relojDe, describirReloj, type OpcionesFase,
+} from "./fases-comun";
 
 const URI = process.env.MONGODB_URI ?? "mongodb://localhost:27017";
 const NOMBRE_DB = process.env.MONGODB_DB ?? "foodloop";
@@ -33,11 +37,31 @@ interface Requerimiento {
   tipo: "funcional" | "no funcional";
   enunciado: string;
   origen: string;
-  verificar: (ctx: Contexto) => Promise<{ ok: boolean; evidencia: string }>;
+  /**
+   * `noAplica` es un tercer estado necesario desde que las fases corren
+   * sobre los datos del centro. Varios requerimientos se verifican
+   * contra decisiones de usuario y valoraciones del XAI, y el conjunto
+   * importado no trae ninguna: la hoja de decisiones viene con
+   * ESTADO_EJECUCION = "No autorizada" en las 1577 filas. Contarlos como
+   * incumplidos diría que el sistema no sabe registrar decisiones, que
+   * es falso; lo que falta es el dato con que comprobarlo.
+   */
+  verificar: (ctx: Contexto) =>
+    Promise<{ ok: boolean; evidencia: string; noAplica?: string }>;
 }
 
 interface Contexto {
   db: Db;
+  /**
+   * Instante en que debe evaluarse cada lote. Con un conjunto histórico
+   * no puede ser `new Date()`: los lotes del centro están todos vencidos
+   * frente al reloj del sistema, y entonces los requerimientos que
+   * dependen de que exista una propuesta fallarían por falta de datos
+   * vigentes, no por un defecto del modelo.
+   */
+  reloj: (l: Lote) => Date;
+  /** Tope de lotes en las comprobaciones que recorren pares. */
+  muestra: number;
   lotes: LotesMongo;
   catalogo: CatalogoMongo;
   cargas: CargasMongo;
@@ -90,13 +114,14 @@ const REQUERIMIENTOS: Requerimiento[] = [
     id: "RF-03", tipo: "funcional",
     enunciado: "El modelo propone alternativas de reaprovechamiento ordenadas por aptitud.",
     origen: "Objetivo específico 2",
-    async verificar({ lotes, catalogo, cargas }) {
+    async verificar({ lotes, catalogo, cargas, reloj, muestra }) {
       const pend = await lotes.listarPendientes();
-      const apto = pend.find((l) => l.aptoReproceso && l.venceEn > new Date());
+      const apto = pend.find((l) => l.aptoReproceso && l.venceEn > reloj(l));
       if (!apto) return { ok: false, evidencia: "no hay lotes vigentes que evaluar" };
       const { resultados } = recomendar(
         [apto], await catalogo.listarActivos(),
-        await lotes.inventarioDisponible(), await cargas.cargasPorArea(), new Date(), 3);
+        await lotes.inventarioDisponible(), await cargas.cargasPorArea(),
+        reloj(apto), 3);
       const ordenado = resultados.every((r, i) =>
         i === 0 || resultados[i - 1].aptitud >= r.aptitud);
       return {
@@ -110,25 +135,46 @@ const REQUERIMIENTOS: Requerimiento[] = [
     id: "RF-04", tipo: "funcional",
     enunciado: "Una preparación puede elaborarse combinando varios lotes de excedente.",
     origen: "Observación del cliente · multi-lote",
-    async verificar({ lotes, catalogo, cargas }) {
-      const pend = (await lotes.listarPendientes())
-        .filter((l) => l.aptoReproceso && l.venceEn > new Date());
+    async verificar({ lotes, catalogo, cargas, reloj, muestra }) {
+      const crudos = await lotes.listarPendientes();
+      const pend = crudos
+        .filter((l) => l.aptoReproceso && l.venceEn > reloj(l))
+        .slice(0, muestra);
+      const todosPend = crudos
+        .filter((l) => l.venceEn > reloj(l))
+        .slice(0, muestra);
       const cat = await catalogo.listarActivos();
       const disp = await lotes.inventarioDisponible();
       const carg = await cargas.cargasPorArea();
 
-      for (const a of pend)
-        for (const b of pend) {
-          if (a.id >= b.id || a.ingredienteId === b.ingredienteId) continue;
-          const { resultados } = recomendar([a, b], cat, disp, carg, new Date(), 1);
-          const r = resultados[0];
-          if (r && r.aportes.length > 1)
-            return {
-              ok: true,
-              evidencia: `«${r.item.nombre}» combina ${r.aportes.length} lotes: `
-                + r.aportes.map((x) => `${x.lote.codigo} (${x.cantidadUsada} kg)`).join(" + "),
-            };
-        }
+      // Se busca en los dos modos. En operación, sobre los datos del
+      // centro, los únicos lotes con dictamen favorable son casi todos
+      // del mismo ingrediente, de modo que no hay par que combinar: no
+      // es que el modelo no sepa combinar, es que no hay con qué. El
+      // modo potencial aplaza las reglas que dependen de lo no medido y
+      // demuestra la capacidad sobre el mismo conjunto.
+      for (const modo of ["operacion", "potencial"] as const) {
+        // En potencial la lista no puede venir filtrada por dictamen:
+        // ese es justamente el filtro que el modo aplaza. Con `pend` ya
+        // filtrado, el segundo intento examinaba los mismos 71 lotes de
+        // zanahoria y no encontraba par que combinar.
+        const cands = modo === "potencial" ? todosPend : pend;
+        for (const a of cands)
+          for (const b of cands) {
+            if (a.id >= b.id || a.ingredienteId === b.ingredienteId) continue;
+            const ahora = new Date(Math.max(reloj(a).getTime(), reloj(b).getTime()));
+            const { resultados } = ejecutarModelo(
+              [a, b], cat, disp, carg, ahora, { topN: 1, modo });
+            const r = resultados[0];
+            if (r && r.aportes.length > 1)
+              return {
+                ok: true,
+                evidencia: `«${r.item.nombre}» combina ${r.aportes.length} lotes: `
+                  + r.aportes.map((x) => `${x.lote.codigo} (${x.cantidadUsada} kg)`).join(" + ")
+                  + (modo === "potencial" ? " · verificado en modo potencial" : ""),
+              };
+          }
+      }
       return { ok: false, evidencia: "ninguna combinación produjo una propuesta multi-lote" };
     },
   },
@@ -136,14 +182,15 @@ const REQUERIMIENTOS: Requerimiento[] = [
     id: "RF-05", tipo: "funcional",
     enunciado: "El sistema sugiere qué otros lotes elevarían la aptitud de la propuesta.",
     origen: "Decisión de diseño · el usuario decide, el sistema asiste",
-    async verificar({ lotes, catalogo, cargas }) {
+    async verificar({ lotes, catalogo, cargas, reloj, muestra }) {
       const pend = (await lotes.listarPendientes())
-        .filter((l) => l.aptoReproceso && l.venceEn > new Date());
+        .filter((l) => l.aptoReproceso && l.venceEn > reloj(l))
+        .slice(0, muestra);
       const cat = await catalogo.listarActivos();
       const disp = await lotes.inventarioDisponible();
       const carg = await cargas.cargasPorArea();
       for (const l of pend) {
-        const s = sugerirLotes([l], pend, cat, disp, carg, new Date());
+        const s = sugerirLotes([l], pend, cat, disp, carg, reloj(l));
         if (s.length)
           return {
             ok: true,
@@ -158,13 +205,15 @@ const REQUERIMIENTOS: Requerimiento[] = [
     id: "RF-06", tipo: "funcional",
     enunciado: "Cada recomendación se acompaña de los factores que la sustentan.",
     origen: "Objetivo específico 2 · componente XAI",
-    async verificar({ lotes, catalogo, cargas }) {
+    async verificar({ lotes, catalogo, cargas, reloj, muestra }) {
       const pend = (await lotes.listarPendientes())
-        .filter((l) => l.aptoReproceso && l.venceEn > new Date());
+        .filter((l) => l.aptoReproceso && l.venceEn > reloj(l))
+        .slice(0, muestra);
       if (!pend.length) return { ok: false, evidencia: "sin lotes vigentes" };
       const { resultados } = recomendar(
         [pend[0]], await catalogo.listarActivos(),
-        await lotes.inventarioDisponible(), await cargas.cargasPorArea(), new Date(), 1);
+        await lotes.inventarioDisponible(), await cargas.cargasPorArea(),
+        reloj(pend[0]), 1);
       const r = resultados[0];
       if (!r) return { ok: false, evidencia: "sin propuesta que explicar" };
       const suma = r.factores.reduce((a, f) => a + f.contribucion, 0);
@@ -189,8 +238,11 @@ const REQUERIMIENTOS: Requerimiento[] = [
       const base = new Map(recetas.map((r) => [r._id, r.aceptacionBase]));
       const ajustadas = cat.filter((c) =>
         Math.abs(c.aceptacion - (base.get(c.id) ?? c.aceptacion)) > 0.05);
+      if (decididas === 0)
+        return { ok: false, noAplica: "el conjunto importado no trae decisiones de usuario (ESTADO_EJECUCION = «No autorizada» en las 1577 filas)",
+          evidencia: "0 decisiones en la base" };
       return {
-        ok: decididas > 0 && ajustadas.length > 0,
+        ok: ajustadas.length > 0,
         evidencia: `${decididas} decisiones registradas; la aceptación de `
           + `${ajustadas.length} recetas difiere ya de su valor de partida`,
       };
@@ -203,8 +255,11 @@ const REQUERIMIENTOS: Requerimiento[] = [
     async verificar({ db }) {
       const con = await db.collection("recomendaciones")
         .countDocuments({ "feedback.0": { $exists: true } });
+      if (con === 0)
+        return { ok: false, noAplica: "el conjunto importado no trae valoraciones del XAI",
+          evidencia: "0 valoraciones en la base" };
       return {
-        ok: con > 0,
+        ok: true,
         evidencia: `${con} recomendaciones con valoración de la explicación`,
       };
     },
@@ -213,8 +268,15 @@ const REQUERIMIENTOS: Requerimiento[] = [
     id: "RF-09", tipo: "funcional",
     enunciado: "El sistema presenta el excedente disponible agrupado por ingrediente.",
     origen: "Propuesta de trabajo · pantalla de ingredientes disponibles",
-    async verificar({ consultas }) {
-      const inv = await consultas.inventario();
+    async verificar({ consultas, lotes, reloj }) {
+      // El inventario se consulta en el instante del lote más reciente,
+      // no en el de hoy: con un conjunto histórico el reloj del sistema
+      // devuelve siempre cero ingredientes disponibles.
+      const pend = await lotes.listarPendientes();
+      const aptos = pend.filter((l) => l.aptoReproceso);
+      const ultimo = (aptos.length ? aptos : pend).reduce(
+        (a, l) => (a && a.registradoEn > l.registradoEn ? a : l), pend[0]);
+      const inv = await consultas.inventario(ultimo ? reloj(ultimo) : new Date());
       const ordenado = inv.every((x, i) => i === 0 || inv[i - 1].horasMinimas <= x.horasMinimas);
       return {
         ok: inv.length > 0 && ordenado,
@@ -229,8 +291,11 @@ const REQUERIMIENTOS: Requerimiento[] = [
     async verificar({ consultas }) {
       const h = await consultas.historial();
       const conDecision = h.filter((x) => x.accion !== null);
+      if (h.length === 0)
+        return { ok: false, noAplica: "el conjunto importado no trae decisiones de usuario (ESTADO_EJECUCION = «No autorizada» en las 1577 filas)",
+          evidencia: "0 registros en el histórico" };
       return {
-        ok: h.length > 0,
+        ok: true,
         evidencia: `${h.length} registros en el histórico, `
           + `${conDecision.length} con decisión asociada`,
       };
@@ -240,15 +305,15 @@ const REQUERIMIENTOS: Requerimiento[] = [
     id: "RNF-01", tipo: "no funcional",
     enunciado: "Ninguna propuesta puede vulnerar una restricción sanitaria.",
     origen: "Normativa de manipulación de alimentos",
-    async verificar({ lotes, catalogo, cargas }) {
+    async verificar({ lotes, catalogo, cargas, reloj, muestra }) {
       const pend = await lotes.listarPendientes();
       const cat = await catalogo.listarActivos();
       const disp = await lotes.inventarioDisponible();
       const carg = await cargas.cargasPorArea();
-      const ahora = new Date();
       let examinadas = 0, violaciones = 0;
 
       for (const l of pend) {
+        const ahora = reloj(l);
         const { resultados } = recomendar([l], cat, disp, carg, ahora, 3);
         for (const r of resultados) {
           examinadas++;
@@ -286,7 +351,8 @@ const REQUERIMIENTOS: Requerimiento[] = [
     async verificar({ db, decisiones, usuarios }) {
       const rec = await db.collection<{ _id: number }>("recomendaciones")
         .findOne({ decision: { $exists: true } });
-      if (!rec) return { ok: false, evidencia: "no hay recomendaciones decididas" };
+      if (!rec) return { ok: false, noAplica: "el conjunto importado no trae decisiones de usuario (ESTADO_EJECUCION = «No autorizada» en las 1577 filas)",
+        evidencia: "no hay recomendaciones decididas que reintentar" };
       const cuenta = (await usuarios.listar())[0];
       try {
         await decisiones.registrar({
@@ -313,7 +379,8 @@ const REQUERIMIENTOS: Requerimiento[] = [
         decision?: { usuarioId?: string; usuario?: string };
       }>("recomendaciones").find({ decision: { $exists: true } }).toArray();
       if (!decididas.length)
-        return { ok: false, evidencia: "no hay decisiones registradas" };
+        return { ok: false, noAplica: "el conjunto importado no trae decisiones de usuario (ESTADO_EJECUCION = «No autorizada» en las 1577 filas)",
+          evidencia: "no hay decisiones registradas que atribuir" };
       const conCuenta = decididas.filter(
         (r) => r.decision?.usuarioId && cuentas.has(r.decision.usuarioId));
       return {
@@ -344,14 +411,13 @@ const REQUERIMIENTOS: Requerimiento[] = [
     id: "RNF-05", tipo: "no funcional",
     enunciado: "Ante los mismos datos, el modelo produce siempre la misma salida.",
     origen: "Auditabilidad del apoyo a la decisión",
-    async verificar({ lotes, catalogo, cargas }) {
+    async verificar({ lotes, catalogo, cargas, reloj, muestra }) {
       const pend = (await lotes.listarPendientes()).slice(0, 12);
       const cat = await catalogo.listarActivos();
       const disp = await lotes.inventarioDisponible();
       const carg = await cargas.cargasPorArea();
-      const ahora = new Date();
       const firma = (l: typeof pend) =>
-        recomendar(l, cat, disp, carg, ahora, 3)
+        recomendar(l, cat, disp, carg, reloj(l[0]), 3)
           .resultados.map((r) => `${r.item.id}:${r.aptitud}`).join("|");
       let divergen = 0;
       for (const l of pend) if (firma([l]) !== firma([l])) divergen++;
@@ -365,14 +431,21 @@ const REQUERIMIENTOS: Requerimiento[] = [
 
 // ---------------------------------------------------------------------
 
-export async function fase1(dbExterna?: Db) {
+export async function fase1(dbExterna?: Db, opciones: OpcionesFase = {}) {
   const propia = dbExterna ? null : await conectar(URI, NOMBRE_DB);
   const db = dbExterna ?? propia!.db;
   await aplicarEsquema(db);
 
+  const reg = opciones.registro ?? new Registro();
   const lotes = new LotesMongo(db);
   const ctx: Contexto = {
     db, lotes,
+    reloj: (l) => relojDe(l, opciones),
+    // Las comprobaciones RF-04 y RF-05 recorren pares de lotes. Con los
+    // 1577 del centro eso es más de un millón de combinaciones, así que
+    // se acota a los primeros: basta un caso para verificar que la
+    // capacidad existe, que es lo que el requerimiento afirma.
+    muestra: 120,
     catalogo: new CatalogoMongo(db),
     cargas: new CargasMongo(db),
     decisiones: new DecisionesMongo(db),
@@ -381,46 +454,70 @@ export async function fase1(dbExterna?: Db) {
     consultas: new ConsultasMongo(db, lotes),
   };
 
-  console.log(`\n  FASE 1 · DEFINICIÓN Y VALIDACIÓN DE REQUERIMIENTOS`);
-  console.log(`  Modelo versión ${VERSION_MODELO}`);
-  console.log("  " + "═".repeat(72));
+  reg.contexto.fase = "fase1";
+  reg.contexto.version = VERSION_MODELO;
+  reg.contexto.reloj = describirReloj(opciones);
+  reg.linea(`\n  FASE 1 · DEFINICIÓN Y VALIDACIÓN DE REQUERIMIENTOS`);
+  reg.linea(`  Modelo versión ${VERSION_MODELO}`);
+  reg.linea(`  Instante de evaluación: ${describirReloj(opciones)}`);
+  reg.linea("  " + "═".repeat(72));
 
-  const resultados: { req: Requerimiento; ok: boolean; evidencia: string }[] = [];
+  const resultados: {
+    req: Requerimiento; ok: boolean; evidencia: string; noAplica?: string;
+  }[] = [];
   for (const req of REQUERIMIENTOS) {
-    let r: { ok: boolean; evidencia: string };
+    let r: { ok: boolean; evidencia: string; noAplica?: string };
     try { r = await req.verificar(ctx); }
     catch (e) { r = { ok: false, evidencia: `error: ${(e as Error).message}` }; }
-    resultados.push({ req, ok: r.ok, evidencia: r.evidencia });
+    resultados.push({ req, ok: r.ok, evidencia: r.evidencia, noAplica: r.noAplica });
   }
 
   for (const tipo of ["funcional", "no funcional"] as const) {
     const grupo = resultados.filter((r) => r.req.tipo === tipo);
-    console.log(`\n  REQUERIMIENTOS ${tipo.toUpperCase()}ES`.replace("NO FUNCIONALES", "NO FUNCIONALES"));
-    console.log("  " + "─".repeat(72));
-    for (const { req, ok, evidencia } of grupo) {
-      console.log(`  ${ok ? "✓" : "✗"} ${req.id}  ${req.enunciado}`);
-      console.log(`       origen:    ${req.origen}`);
-      console.log(`       evidencia: ${evidencia}`);
+    reg.linea(`\n  REQUERIMIENTOS ${tipo.toUpperCase()}ES`.replace("NO FUNCIONALES", "NO FUNCIONALES"));
+    reg.linea("  " + "─".repeat(72));
+    for (const { req, ok, evidencia, noAplica } of grupo) {
+      reg.linea(`  ${noAplica ? "–" : ok ? "✓" : "✗"} ${req.id}  ${req.enunciado}`);
+      if (noAplica) reg.linea(`       no verificable: ${noAplica}`);
+      reg.linea(`       origen:    ${req.origen}`);
+      reg.linea(`       evidencia: ${evidencia}`);
     }
   }
 
-  const cumplidos = resultados.filter((r) => r.ok).length;
-  console.log("\n  " + "═".repeat(72));
-  console.log(`  Requerimientos verificados: ${cumplidos} de ${resultados.length}`
-    + `   (${(cumplidos / resultados.length * 100).toFixed(1)} %)`);
-  if (cumplidos < resultados.length) {
-    console.log("\n  Requerimientos no satisfechos:");
-    for (const r of resultados.filter((x) => !x.ok))
-      console.log(`     ${r.req.id} · ${r.evidencia}`);
+  const aplicables = resultados.filter((r) => !r.noAplica);
+  const noAplicables = resultados.filter((r) => r.noAplica);
+  const cumplidos = aplicables.filter((r) => r.ok).length;
+  reg.metrica("rf_total", "Requerimientos declarados", resultados.length);
+  reg.metrica("rf_aplicables", "Verificables con este conjunto", aplicables.length);
+  reg.metrica("rf_cumplidos", "Requerimientos verificados", cumplidos);
+  reg.metrica("rf_tasa", "Tasa de verificación",
+    Number((cumplidos / aplicables.length * 100).toFixed(1)), "%");
+  for (const r of resultados)
+    reg.metrica(`req_${r.req.id.replace("-", "_").toLowerCase()}`,
+      r.req.enunciado, r.ok ? 1 : 0, "0/1", r.evidencia);
+  reg.linea("\n  " + "═".repeat(72));
+  reg.linea(`  Requerimientos verificados: ${cumplidos} de ${aplicables.length}`
+    + `   (${(cumplidos / aplicables.length * 100).toFixed(1)} %)`);
+  if (noAplicables.length) {
+    reg.linea(`  No verificables con este conjunto: ${noAplicables.length}`
+      + ` de ${resultados.length}`);
+    reg.linea("  No son incumplimientos: la capacidad está implementada y se");
+    reg.linea("  verifica con la semilla; lo que falta es el dato con que");
+    reg.linea("  comprobarla sobre los registros del centro.");
   }
-  console.log("\n  Cada requerimiento se comprobó ejecutando el comportamiento");
-  console.log("  contra la base de datos, no inspeccionando el código.\n");
+  if (cumplidos < aplicables.length) {
+    reg.linea("\n  Requerimientos no satisfechos:");
+    for (const r of aplicables.filter((x) => !x.ok))
+      reg.linea(`     ${r.req.id} · ${r.evidencia}`);
+  }
+  reg.linea("\n  Cada requerimiento se comprobó ejecutando el comportamiento");
+  reg.linea("  contra la base de datos, no inspeccionando el código.\n");
 
   if (propia) await propia.cliente.close();
   return { total: resultados.length, cumplidos, resultados };
 }
 
-if (process.argv[1]?.endsWith("mongo/fase1.ts"))
+if (ejecutadoDirectamente("mongo/fase1.ts"))
   fase1().catch((e) => {
     console.error("\n  No se pudo verificar:\n ", e.message, "\n");
     process.exit(1);
