@@ -1,0 +1,7 @@
+fecha,servicio,ingrediente_codigo,cantidad,estado_producto,temperatura_c,causa,apto_reproceso,area,vida_util_h
+01/09/2026,Almuerzo turno 1,ING-001,6.4,cocido,3.2,sobreproduccion,si,Cocina caliente,18
+01/09/2026,Almuerzo turno 1,ING-005,"9,1",cocido,2.8,sobreproduccion,si,Cocina caliente,28
+02/09/2026,Almuerzo turno 1,ING-007,2.6,crudo,4.0,error_porcionado,si,Cocina fría,40
+02/09/2026,Almuerzo turno 1,ING-999,3.0,crudo,4.0,sobreproduccion,si,Cocina fría,24
+03/13/2026,Almuerzo turno 1,ING-001,2.0,cocido,3.0,sobreproduccion,si,Cocina caliente,20
+04/09/2026,Almuerzo turno 1,ING-001,,cocido,3.0,sobreproduccion,si,Cocina caliente,20

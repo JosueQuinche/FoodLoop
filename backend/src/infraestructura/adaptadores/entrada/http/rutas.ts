@@ -1,0 +1,228 @@
+/**
+ * FoodLoop · Adaptador de entrada HTTP
+ *
+ * Express es un detalle de implementación: traduce peticiones HTTP a
+ * llamadas de casos de uso y respuestas de dominio a JSON. No contiene
+ * reglas de negocio. Si mañana se añadiera una CLI o una cola de mensajes,
+ * serían otros adaptadores de entrada invocando los mismos casos de uso.
+ */
+
+import { Router } from "express";
+import type { Contenedor } from "../../../configuracion/contenedor";
+import { ErrorDominio } from "@foodloop/dominio";
+import type { Rol } from "@foodloop/dominio";
+
+const ROLES: Rol[] = ["chef", "produccion", "admin", "calidad"];
+
+export function crearRutas(c: Contenedor): Router {
+  const r = Router();
+
+  /**
+   * El rol viaja en una cabecera para el prototipo. En producción saldría
+   * del token de sesión; el cambio afecta solo a este archivo.
+   */
+  r.use((req, _res, next) => {
+    // `enAmbito` aísla la sesión de ESTA petición. Sin él, dos usuarios
+    // simultáneos se pisan el rol y las decisiones quedan atribuidas a
+    // quien no fue.
+    c.sesion.enAmbito(() => {
+      const rol = req.header("X-Rol");
+      if (rol && ROLES.includes(rol as Rol))
+        c.sesion.cambiar(rol as Rol, req.header("X-Usuario") ?? "demo");
+      next();
+    });
+  });
+
+  /**
+   * Autenticación. El prototipo devuelve los datos del usuario y la
+   * interfaz los conserva en memoria; una implantación real emitiría un
+   * token firmado y este archivo sería el único que cambiaría.
+   */
+  r.post("/sesion", async (req, res, next) => {
+    try {
+      const u = await c.iniciarSesion.ejecutar({
+        correo: String(req.body.correo ?? ""),
+        clave: String(req.body.clave ?? ""),
+      });
+      c.sesion.cambiar(u.rol, u.nombre, u.id);
+      res.json(u);
+    } catch (e) { next(e); }
+  });
+
+  r.post("/usuarios", async (req, res, next) => {
+    try {
+      const u = await c.registrarUsuario.ejecutar({
+        correo: String(req.body.correo ?? ""),
+        nombre: String(req.body.nombre ?? ""),
+        rol: req.body.rol,
+        clave: String(req.body.clave ?? ""),
+      });
+      res.status(201).json(u);
+    } catch (e) { next(e); }
+  });
+
+  r.get("/salud", (_req, res) => {
+    res.json({ estado: "ok", version: "1.0.0" });
+  });
+
+  r.get("/operacion", async (_req, res, next) => {
+    try {
+      res.json(await c.consultarOperacion.ejecutar());
+    } catch (e) { next(e); }
+  });
+
+  r.get("/lotes", async (_req, res, next) => {
+    try {
+      const { lotes } = await c.consultarOperacion.ejecutar();
+      res.json(lotes);
+    } catch (e) { next(e); }
+  });
+
+  r.get("/lotes/:id/recomendaciones", async (req, res, next) => {
+    try {
+      res.json(await c.obtenerRecomendaciones.ejecutar(Number(req.params.id)));
+    } catch (e) { next(e); }
+  });
+
+  /**
+   * Evaluación de varios lotes a la vez. Los identificadores viajan en
+   * el cuerpo y no en la ruta porque una selección puede ser larga y las
+   * URL tienen límite de longitud.
+   */
+  r.post("/recomendaciones", async (req, res, next) => {
+    try {
+      const ids = (req.body.loteIds as unknown[] ?? []).map(Number);
+      // `potencial` aplaza las dos reglas que dependen de una medición
+      // ausente. Cualquier otro valor cae en el modo de operación: un
+      // parámetro mal escrito no debe relajar una regla sanitaria.
+      const modo = req.body.modo === "potencial" ? "potencial" : "operacion";
+      res.json(await c.obtenerRecomendaciones.ejecutar(ids, modo));
+    } catch (e) { next(e); }
+  });
+
+  r.post("/feedback", async (req, res, next) => {
+    try {
+      await c.registrarFeedback.ejecutar({
+        recomendacionId: Number(req.body.recomendacionId),
+        claridad: req.body.claridad,
+        factorConfuso: req.body.factorConfuso,
+        comentario: req.body.comentario,
+      });
+      res.status(201).json({ estado: "registrado" });
+    } catch (e) { next(e); }
+  });
+
+  r.get("/estadisticas", async (_req, res, next) => {
+    try {
+      res.json(await c.consultarEstadisticas.ejecutar());
+    } catch (e) { next(e); }
+  });
+
+  /**
+   * Disponibilidad de ingredientes. Agrupa los lotes vigentes por
+   * ingrediente, que es como lo consulta una cocina: no importa cuántos
+   * lotes de pollo hay, importa cuánto pollo hay y para cuándo.
+   */
+  /**
+   * Disponibilidad de ingredientes agrupada, ordenada por urgencia. La
+   * consulta vive en el adaptador de la base, no aquí: este archivo solo
+   * traduce HTTP.
+   */
+  r.get("/inventario", async (_req, res, next) => {
+    try { res.json(await c.consultas.inventario()); } catch (e) { next(e); }
+  });
+
+  /** Histórico de aprovechamiento: qué se propuso y qué se decidió. */
+  r.get("/historial", async (_req, res, next) => {
+    try { res.json(await c.consultas.historial()); } catch (e) { next(e); }
+  });
+
+  /**
+   * Ficha del modelo: sus etapas, sus reglas y sus parámetros con la
+   * procedencia de cada uno. No consulta la base de datos, porque
+   * describe el artefacto y no los datos.
+   *
+   * Está en la API y no en un documento aparte para que lo que se cuenta
+   * del modelo no pueda divergir de lo que el modelo hace.
+   */
+  r.get("/modelo", (_req, res) => {
+    res.json(c.inspeccionarModelo.ficha());
+  });
+
+  /**
+   * Traza de una ejecución del modelo sobre una selección de lotes:
+   * qué entró, qué reglas se aplicaron, qué se midió, con qué pesos se
+   * combinó y de dónde sale cada frase de la explicación.
+   *
+   * No persiste nada: la traza que se guarda es la de una recomendación
+   * que el usuario vio, no la de una inspección.
+   */
+  r.post("/modelo/traza", async (req, res, next) => {
+    try {
+      const ids = (req.body.loteIds as unknown[] ?? []).map(Number);
+      res.json(await c.inspeccionarModelo.traza(ids));
+    } catch (e) { next(e); }
+  });
+
+  r.get("/maestros", async (_req, res, next) => {
+    try {
+      res.json(await c.consultarMaestros.ejecutar());
+    } catch (e) { next(e); }
+  });
+
+  r.post("/lotes", async (req, res, next) => {
+    try {
+      const l = await c.registrarMerma.ejecutar({
+        ingredienteId: Number(req.body.ingredienteId),
+        areaId: Number(req.body.areaId),
+        servicioId: Number(req.body.servicioId),
+        cantidad: Number(req.body.cantidad),
+        estadoProducto: req.body.estadoProducto,
+        temperaturaC: Number(req.body.temperaturaC),
+        causa: req.body.causa,
+        aptoReproceso: req.body.aptoReproceso !== false,
+      });
+      res.status(201).json(l);
+    } catch (e) { next(e); }
+  });
+
+  r.post("/decisiones", async (req, res, next) => {
+    try {
+      res.status(201).json(await c.registrarDecision.ejecutar({
+        recomendacionId: Number(req.body.recomendacionId),
+        recetaId: Number(req.body.recetaId),
+        accion: req.body.accion,
+        motivo: req.body.motivo,
+      }));
+    } catch (e) { next(e); }
+  });
+
+  r.get("/permisos/:rol", (req, res) => {
+    const rol = req.params.rol as Rol;
+    if (!ROLES.includes(rol)) {
+      res.status(404).json({ error: "Rol desconocido", codigo: "ROL_INVALIDO" });
+      return;
+    }
+    res.json(c.consultarPermisos.ejecutar(rol));
+  });
+
+  /**
+   * Un error de dominio es una respuesta legítima del negocio (404, 403),
+   * no un fallo del servidor. Distinguirlos permite que la interfaz
+   * muestre el motivo real en lugar de un mensaje genérico.
+   */
+  r.use((err: unknown, _req: unknown, res: any, _next: unknown) => {
+    if (err instanceof ErrorDominio) {
+      const estado = err.codigo.endsWith("_NO_ENCONTRADO") ? 404
+        : err.codigo === "SIN_ATRIBUCION" ? 403
+        : err.codigo === "CREDENCIALES" || err.codigo === "CUENTA_INACTIVA" ? 401
+        : err.codigo === "CORREO_DUPLICADO" || err.codigo === "YA_DECIDIDA" ? 409 : 400;
+      res.status(estado).json({ error: err.message, codigo: err.codigo });
+      return;
+    }
+    console.error(err);
+    res.status(500).json({ error: "Error interno", codigo: "INTERNO" });
+  });
+
+  return r;
+}

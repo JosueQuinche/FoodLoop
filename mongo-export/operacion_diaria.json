@@ -1,0 +1,7457 @@
+[
+ {
+  "_id": "2026-01-01|0",
+  "fecha": "2026-01-01",
+  "servicioId": 0,
+  "comensalesPrevistos": 554,
+  "comensalesReales": 542,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-01|3",
+  "fecha": "2026-01-01",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-01|1",
+  "fecha": "2026-01-01",
+  "servicioId": 1,
+  "comensalesPrevistos": 75,
+  "comensalesReales": 70,
+  "produccion": [
+   {
+    "recetaId": 142,
+    "porciones": 44
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-02|0",
+  "fecha": "2026-01-02",
+  "servicioId": 0,
+  "comensalesPrevistos": 548,
+  "comensalesReales": 540,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-02|3",
+  "fecha": "2026-01-02",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-02|1",
+  "fecha": "2026-01-02",
+  "servicioId": 1,
+  "comensalesPrevistos": 47,
+  "comensalesReales": 46,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-03|0",
+  "fecha": "2026-01-03",
+  "servicioId": 0,
+  "comensalesPrevistos": 527,
+  "comensalesReales": 514,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-03|3",
+  "fecha": "2026-01-03",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-03|1",
+  "fecha": "2026-01-03",
+  "servicioId": 1,
+  "comensalesPrevistos": 76,
+  "comensalesReales": 67,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-04|0",
+  "fecha": "2026-01-04",
+  "servicioId": 0,
+  "comensalesPrevistos": 544,
+  "comensalesReales": 537,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-04|3",
+  "fecha": "2026-01-04",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-04|1",
+  "fecha": "2026-01-04",
+  "servicioId": 1,
+  "comensalesPrevistos": 57,
+  "comensalesReales": 56,
+  "produccion": [
+   {
+    "recetaId": 137,
+    "porciones": 66
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-05|0",
+  "fecha": "2026-01-05",
+  "servicioId": 0,
+  "comensalesPrevistos": 543,
+  "comensalesReales": 536,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-05|3",
+  "fecha": "2026-01-05",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-05|1",
+  "fecha": "2026-01-05",
+  "servicioId": 1,
+  "comensalesPrevistos": 58,
+  "comensalesReales": 52,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-06|0",
+  "fecha": "2026-01-06",
+  "servicioId": 0,
+  "comensalesPrevistos": 559,
+  "comensalesReales": 543,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-06|3",
+  "fecha": "2026-01-06",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-06|1",
+  "fecha": "2026-01-06",
+  "servicioId": 1,
+  "comensalesPrevistos": 66,
+  "comensalesReales": 65,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-07|0",
+  "fecha": "2026-01-07",
+  "servicioId": 0,
+  "comensalesPrevistos": 580,
+  "comensalesReales": 571,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-07|3",
+  "fecha": "2026-01-07",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-07|1",
+  "fecha": "2026-01-07",
+  "servicioId": 1,
+  "comensalesPrevistos": 61,
+  "comensalesReales": 53,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-08|0",
+  "fecha": "2026-01-08",
+  "servicioId": 0,
+  "comensalesPrevistos": 499,
+  "comensalesReales": 482,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-08|3",
+  "fecha": "2026-01-08",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-08|1",
+  "fecha": "2026-01-08",
+  "servicioId": 1,
+  "comensalesPrevistos": 57,
+  "comensalesReales": 55,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-09|0",
+  "fecha": "2026-01-09",
+  "servicioId": 0,
+  "comensalesPrevistos": 516,
+  "comensalesReales": 503,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-09|3",
+  "fecha": "2026-01-09",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-09|1",
+  "fecha": "2026-01-09",
+  "servicioId": 1,
+  "comensalesPrevistos": 72,
+  "comensalesReales": 68,
+  "produccion": [
+   {
+    "recetaId": 36,
+    "porciones": 121
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-10|0",
+  "fecha": "2026-01-10",
+  "servicioId": 0,
+  "comensalesPrevistos": 513,
+  "comensalesReales": 497,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-10|3",
+  "fecha": "2026-01-10",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-10|1",
+  "fecha": "2026-01-10",
+  "servicioId": 1,
+  "comensalesPrevistos": 70,
+  "comensalesReales": 61,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-11|0",
+  "fecha": "2026-01-11",
+  "servicioId": 0,
+  "comensalesPrevistos": 594,
+  "comensalesReales": 576,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-11|3",
+  "fecha": "2026-01-11",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-11|1",
+  "fecha": "2026-01-11",
+  "servicioId": 1,
+  "comensalesPrevistos": 61,
+  "comensalesReales": 52,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-12|0",
+  "fecha": "2026-01-12",
+  "servicioId": 0,
+  "comensalesPrevistos": 494,
+  "comensalesReales": 480,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-12|3",
+  "fecha": "2026-01-12",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-12|1",
+  "fecha": "2026-01-12",
+  "servicioId": 1,
+  "comensalesPrevistos": 59,
+  "comensalesReales": 55,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-13|0",
+  "fecha": "2026-01-13",
+  "servicioId": 0,
+  "comensalesPrevistos": 546,
+  "comensalesReales": 532,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-13|3",
+  "fecha": "2026-01-13",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-13|1",
+  "fecha": "2026-01-13",
+  "servicioId": 1,
+  "comensalesPrevistos": 52,
+  "comensalesReales": 51,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-14|0",
+  "fecha": "2026-01-14",
+  "servicioId": 0,
+  "comensalesPrevistos": 556,
+  "comensalesReales": 543,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-14|3",
+  "fecha": "2026-01-14",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-14|1",
+  "fecha": "2026-01-14",
+  "servicioId": 1,
+  "comensalesPrevistos": 54,
+  "comensalesReales": 47,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-15|0",
+  "fecha": "2026-01-15",
+  "servicioId": 0,
+  "comensalesPrevistos": 493,
+  "comensalesReales": 487,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-15|3",
+  "fecha": "2026-01-15",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-15|1",
+  "fecha": "2026-01-15",
+  "servicioId": 1,
+  "comensalesPrevistos": 49,
+  "comensalesReales": 44,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-16|0",
+  "fecha": "2026-01-16",
+  "servicioId": 0,
+  "comensalesPrevistos": 529,
+  "comensalesReales": 521,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-16|3",
+  "fecha": "2026-01-16",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-16|1",
+  "fecha": "2026-01-16",
+  "servicioId": 1,
+  "comensalesPrevistos": 76,
+  "comensalesReales": 69,
+  "produccion": [
+   {
+    "recetaId": 140,
+    "porciones": 27
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-17|0",
+  "fecha": "2026-01-17",
+  "servicioId": 0,
+  "comensalesPrevistos": 500,
+  "comensalesReales": 492,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-17|3",
+  "fecha": "2026-01-17",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-17|1",
+  "fecha": "2026-01-17",
+  "servicioId": 1,
+  "comensalesPrevistos": 61,
+  "comensalesReales": 53,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-18|0",
+  "fecha": "2026-01-18",
+  "servicioId": 0,
+  "comensalesPrevistos": 548,
+  "comensalesReales": 538,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-18|3",
+  "fecha": "2026-01-18",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-18|1",
+  "fecha": "2026-01-18",
+  "servicioId": 1,
+  "comensalesPrevistos": 41,
+  "comensalesReales": 37,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-19|0",
+  "fecha": "2026-01-19",
+  "servicioId": 0,
+  "comensalesPrevistos": 505,
+  "comensalesReales": 494,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-19|3",
+  "fecha": "2026-01-19",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-19|1",
+  "fecha": "2026-01-19",
+  "servicioId": 1,
+  "comensalesPrevistos": 37,
+  "comensalesReales": 36,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 85
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-20|0",
+  "fecha": "2026-01-20",
+  "servicioId": 0,
+  "comensalesPrevistos": 506,
+  "comensalesReales": 497,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-20|3",
+  "fecha": "2026-01-20",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-20|1",
+  "fecha": "2026-01-20",
+  "servicioId": 1,
+  "comensalesPrevistos": 47,
+  "comensalesReales": 44,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-21|0",
+  "fecha": "2026-01-21",
+  "servicioId": 0,
+  "comensalesPrevistos": 576,
+  "comensalesReales": 572,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-21|3",
+  "fecha": "2026-01-21",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-21|1",
+  "fecha": "2026-01-21",
+  "servicioId": 1,
+  "comensalesPrevistos": 73,
+  "comensalesReales": 65,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 94
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-22|0",
+  "fecha": "2026-01-22",
+  "servicioId": 0,
+  "comensalesPrevistos": 532,
+  "comensalesReales": 528,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-22|3",
+  "fecha": "2026-01-22",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-22|1",
+  "fecha": "2026-01-22",
+  "servicioId": 1,
+  "comensalesPrevistos": 68,
+  "comensalesReales": 66,
+  "produccion": [
+   {
+    "recetaId": 140,
+    "porciones": 61
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-23|0",
+  "fecha": "2026-01-23",
+  "servicioId": 0,
+  "comensalesPrevistos": 510,
+  "comensalesReales": 495,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-23|3",
+  "fecha": "2026-01-23",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-23|1",
+  "fecha": "2026-01-23",
+  "servicioId": 1,
+  "comensalesPrevistos": 57,
+  "comensalesReales": 48,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-24|0",
+  "fecha": "2026-01-24",
+  "servicioId": 0,
+  "comensalesPrevistos": 560,
+  "comensalesReales": 544,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-24|3",
+  "fecha": "2026-01-24",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-24|1",
+  "fecha": "2026-01-24",
+  "servicioId": 1,
+  "comensalesPrevistos": 54,
+  "comensalesReales": 49,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-25|0",
+  "fecha": "2026-01-25",
+  "servicioId": 0,
+  "comensalesPrevistos": 584,
+  "comensalesReales": 580,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-25|3",
+  "fecha": "2026-01-25",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-25|1",
+  "fecha": "2026-01-25",
+  "servicioId": 1,
+  "comensalesPrevistos": 65,
+  "comensalesReales": 59,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-26|0",
+  "fecha": "2026-01-26",
+  "servicioId": 0,
+  "comensalesPrevistos": 509,
+  "comensalesReales": 503,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-26|3",
+  "fecha": "2026-01-26",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-26|1",
+  "fecha": "2026-01-26",
+  "servicioId": 1,
+  "comensalesPrevistos": 43,
+  "comensalesReales": 36,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 139
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-27|0",
+  "fecha": "2026-01-27",
+  "servicioId": 0,
+  "comensalesPrevistos": 532,
+  "comensalesReales": 524,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-27|3",
+  "fecha": "2026-01-27",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-27|1",
+  "fecha": "2026-01-27",
+  "servicioId": 1,
+  "comensalesPrevistos": 73,
+  "comensalesReales": 70,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-28|0",
+  "fecha": "2026-01-28",
+  "servicioId": 0,
+  "comensalesPrevistos": 560,
+  "comensalesReales": 546,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-28|3",
+  "fecha": "2026-01-28",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-28|1",
+  "fecha": "2026-01-28",
+  "servicioId": 1,
+  "comensalesPrevistos": 72,
+  "comensalesReales": 66,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-29|0",
+  "fecha": "2026-01-29",
+  "servicioId": 0,
+  "comensalesPrevistos": 520,
+  "comensalesReales": 516,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-29|3",
+  "fecha": "2026-01-29",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-29|1",
+  "fecha": "2026-01-29",
+  "servicioId": 1,
+  "comensalesPrevistos": 72,
+  "comensalesReales": 66,
+  "produccion": [
+   {
+    "recetaId": 36,
+    "porciones": 94
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-30|0",
+  "fecha": "2026-01-30",
+  "servicioId": 0,
+  "comensalesPrevistos": 530,
+  "comensalesReales": 526,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-30|3",
+  "fecha": "2026-01-30",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-30|1",
+  "fecha": "2026-01-30",
+  "servicioId": 1,
+  "comensalesPrevistos": 75,
+  "comensalesReales": 69,
+  "produccion": [
+   {
+    "recetaId": 36,
+    "porciones": 86
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-31|0",
+  "fecha": "2026-01-31",
+  "servicioId": 0,
+  "comensalesPrevistos": 502,
+  "comensalesReales": 484,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-31|3",
+  "fecha": "2026-01-31",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-01-31|1",
+  "fecha": "2026-01-31",
+  "servicioId": 1,
+  "comensalesPrevistos": 64,
+  "comensalesReales": 61,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-01|0",
+  "fecha": "2026-02-01",
+  "servicioId": 0,
+  "comensalesPrevistos": 577,
+  "comensalesReales": 571,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-01|3",
+  "fecha": "2026-02-01",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-01|1",
+  "fecha": "2026-02-01",
+  "servicioId": 1,
+  "comensalesPrevistos": 60,
+  "comensalesReales": 55,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-02|0",
+  "fecha": "2026-02-02",
+  "servicioId": 0,
+  "comensalesPrevistos": 503,
+  "comensalesReales": 485,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-02|3",
+  "fecha": "2026-02-02",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-02|1",
+  "fecha": "2026-02-02",
+  "servicioId": 1,
+  "comensalesPrevistos": 52,
+  "comensalesReales": 49,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-03|0",
+  "fecha": "2026-02-03",
+  "servicioId": 0,
+  "comensalesPrevistos": 507,
+  "comensalesReales": 503,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-03|3",
+  "fecha": "2026-02-03",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-03|1",
+  "fecha": "2026-02-03",
+  "servicioId": 1,
+  "comensalesPrevistos": 72,
+  "comensalesReales": 68,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-04|0",
+  "fecha": "2026-02-04",
+  "servicioId": 0,
+  "comensalesPrevistos": 591,
+  "comensalesReales": 579,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-04|3",
+  "fecha": "2026-02-04",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-04|1",
+  "fecha": "2026-02-04",
+  "servicioId": 1,
+  "comensalesPrevistos": 48,
+  "comensalesReales": 39,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 100
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-05|0",
+  "fecha": "2026-02-05",
+  "servicioId": 0,
+  "comensalesPrevistos": 532,
+  "comensalesReales": 514,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-05|3",
+  "fecha": "2026-02-05",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-05|1",
+  "fecha": "2026-02-05",
+  "servicioId": 1,
+  "comensalesPrevistos": 69,
+  "comensalesReales": 60,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 135
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-06|0",
+  "fecha": "2026-02-06",
+  "servicioId": 0,
+  "comensalesPrevistos": 512,
+  "comensalesReales": 495,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-06|3",
+  "fecha": "2026-02-06",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-06|1",
+  "fecha": "2026-02-06",
+  "servicioId": 1,
+  "comensalesPrevistos": 50,
+  "comensalesReales": 43,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-07|0",
+  "fecha": "2026-02-07",
+  "servicioId": 0,
+  "comensalesPrevistos": 485,
+  "comensalesReales": 480,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-07|3",
+  "fecha": "2026-02-07",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-07|1",
+  "fecha": "2026-02-07",
+  "servicioId": 1,
+  "comensalesPrevistos": 45,
+  "comensalesReales": 43,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-08|0",
+  "fecha": "2026-02-08",
+  "servicioId": 0,
+  "comensalesPrevistos": 591,
+  "comensalesReales": 579,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-08|3",
+  "fecha": "2026-02-08",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-08|1",
+  "fecha": "2026-02-08",
+  "servicioId": 1,
+  "comensalesPrevistos": 59,
+  "comensalesReales": 57,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-09|0",
+  "fecha": "2026-02-09",
+  "servicioId": 0,
+  "comensalesPrevistos": 518,
+  "comensalesReales": 509,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-09|3",
+  "fecha": "2026-02-09",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-09|1",
+  "fecha": "2026-02-09",
+  "servicioId": 1,
+  "comensalesPrevistos": 59,
+  "comensalesReales": 52,
+  "produccion": [
+   {
+    "recetaId": 137,
+    "porciones": 61
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-10|0",
+  "fecha": "2026-02-10",
+  "servicioId": 0,
+  "comensalesPrevistos": 512,
+  "comensalesReales": 503,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-10|3",
+  "fecha": "2026-02-10",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-10|1",
+  "fecha": "2026-02-10",
+  "servicioId": 1,
+  "comensalesPrevistos": 65,
+  "comensalesReales": 63,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 115
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-11|0",
+  "fecha": "2026-02-11",
+  "servicioId": 0,
+  "comensalesPrevistos": 540,
+  "comensalesReales": 531,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-11|3",
+  "fecha": "2026-02-11",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-11|1",
+  "fecha": "2026-02-11",
+  "servicioId": 1,
+  "comensalesPrevistos": 43,
+  "comensalesReales": 39,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 135
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-12|0",
+  "fecha": "2026-02-12",
+  "servicioId": 0,
+  "comensalesPrevistos": 530,
+  "comensalesReales": 512,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-12|3",
+  "fecha": "2026-02-12",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-12|1",
+  "fecha": "2026-02-12",
+  "servicioId": 1,
+  "comensalesPrevistos": 59,
+  "comensalesReales": 52,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-13|0",
+  "fecha": "2026-02-13",
+  "servicioId": 0,
+  "comensalesPrevistos": 540,
+  "comensalesReales": 533,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-13|3",
+  "fecha": "2026-02-13",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-13|1",
+  "fecha": "2026-02-13",
+  "servicioId": 1,
+  "comensalesPrevistos": 40,
+  "comensalesReales": 36,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 113
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-14|0",
+  "fecha": "2026-02-14",
+  "servicioId": 0,
+  "comensalesPrevistos": 529,
+  "comensalesReales": 516,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-14|3",
+  "fecha": "2026-02-14",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-14|1",
+  "fecha": "2026-02-14",
+  "servicioId": 1,
+  "comensalesPrevistos": 70,
+  "comensalesReales": 63,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-15|0",
+  "fecha": "2026-02-15",
+  "servicioId": 0,
+  "comensalesPrevistos": 574,
+  "comensalesReales": 556,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-15|3",
+  "fecha": "2026-02-15",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-15|1",
+  "fecha": "2026-02-15",
+  "servicioId": 1,
+  "comensalesPrevistos": 59,
+  "comensalesReales": 52,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-16|0",
+  "fecha": "2026-02-16",
+  "servicioId": 0,
+  "comensalesPrevistos": 552,
+  "comensalesReales": 545,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-16|3",
+  "fecha": "2026-02-16",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-16|1",
+  "fecha": "2026-02-16",
+  "servicioId": 1,
+  "comensalesPrevistos": 56,
+  "comensalesReales": 51,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 84
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-17|0",
+  "fecha": "2026-02-17",
+  "servicioId": 0,
+  "comensalesPrevistos": 513,
+  "comensalesReales": 501,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-17|3",
+  "fecha": "2026-02-17",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-17|1",
+  "fecha": "2026-02-17",
+  "servicioId": 1,
+  "comensalesPrevistos": 69,
+  "comensalesReales": 67,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 123
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-18|0",
+  "fecha": "2026-02-18",
+  "servicioId": 0,
+  "comensalesPrevistos": 566,
+  "comensalesReales": 553,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-18|3",
+  "fecha": "2026-02-18",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-18|1",
+  "fecha": "2026-02-18",
+  "servicioId": 1,
+  "comensalesPrevistos": 38,
+  "comensalesReales": 35,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-19|0",
+  "fecha": "2026-02-19",
+  "servicioId": 0,
+  "comensalesPrevistos": 521,
+  "comensalesReales": 509,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-19|3",
+  "fecha": "2026-02-19",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-19|1",
+  "fecha": "2026-02-19",
+  "servicioId": 1,
+  "comensalesPrevistos": 62,
+  "comensalesReales": 60,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 83
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-20|0",
+  "fecha": "2026-02-20",
+  "servicioId": 0,
+  "comensalesPrevistos": 525,
+  "comensalesReales": 513,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-20|3",
+  "fecha": "2026-02-20",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-20|1",
+  "fecha": "2026-02-20",
+  "servicioId": 1,
+  "comensalesPrevistos": 53,
+  "comensalesReales": 49,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-21|0",
+  "fecha": "2026-02-21",
+  "servicioId": 0,
+  "comensalesPrevistos": 507,
+  "comensalesReales": 498,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-21|3",
+  "fecha": "2026-02-21",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-21|1",
+  "fecha": "2026-02-21",
+  "servicioId": 1,
+  "comensalesPrevistos": 58,
+  "comensalesReales": 50,
+  "produccion": [
+   {
+    "recetaId": 138,
+    "porciones": 72
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-22|0",
+  "fecha": "2026-02-22",
+  "servicioId": 0,
+  "comensalesPrevistos": 557,
+  "comensalesReales": 546,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-22|3",
+  "fecha": "2026-02-22",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-22|1",
+  "fecha": "2026-02-22",
+  "servicioId": 1,
+  "comensalesPrevistos": 75,
+  "comensalesReales": 68,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-23|0",
+  "fecha": "2026-02-23",
+  "servicioId": 0,
+  "comensalesPrevistos": 509,
+  "comensalesReales": 491,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-23|3",
+  "fecha": "2026-02-23",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-23|1",
+  "fecha": "2026-02-23",
+  "servicioId": 1,
+  "comensalesPrevistos": 50,
+  "comensalesReales": 48,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 120
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-24|0",
+  "fecha": "2026-02-24",
+  "servicioId": 0,
+  "comensalesPrevistos": 534,
+  "comensalesReales": 516,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-24|3",
+  "fecha": "2026-02-24",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-24|1",
+  "fecha": "2026-02-24",
+  "servicioId": 1,
+  "comensalesPrevistos": 58,
+  "comensalesReales": 52,
+  "produccion": [
+   {
+    "recetaId": 36,
+    "porciones": 136
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-25|0",
+  "fecha": "2026-02-25",
+  "servicioId": 0,
+  "comensalesPrevistos": 545,
+  "comensalesReales": 533,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-25|3",
+  "fecha": "2026-02-25",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-25|1",
+  "fecha": "2026-02-25",
+  "servicioId": 1,
+  "comensalesPrevistos": 51,
+  "comensalesReales": 44,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 102
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-26|0",
+  "fecha": "2026-02-26",
+  "servicioId": 0,
+  "comensalesPrevistos": 496,
+  "comensalesReales": 481,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-26|3",
+  "fecha": "2026-02-26",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-26|1",
+  "fecha": "2026-02-26",
+  "servicioId": 1,
+  "comensalesPrevistos": 68,
+  "comensalesReales": 66,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-27|0",
+  "fecha": "2026-02-27",
+  "servicioId": 0,
+  "comensalesPrevistos": 494,
+  "comensalesReales": 483,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-27|3",
+  "fecha": "2026-02-27",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-27|1",
+  "fecha": "2026-02-27",
+  "servicioId": 1,
+  "comensalesPrevistos": 78,
+  "comensalesReales": 69,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-28|0",
+  "fecha": "2026-02-28",
+  "servicioId": 0,
+  "comensalesPrevistos": 512,
+  "comensalesReales": 504,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-28|3",
+  "fecha": "2026-02-28",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-02-28|1",
+  "fecha": "2026-02-28",
+  "servicioId": 1,
+  "comensalesPrevistos": 41,
+  "comensalesReales": 35,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-01|0",
+  "fecha": "2026-03-01",
+  "servicioId": 0,
+  "comensalesPrevistos": 583,
+  "comensalesReales": 577,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-01|3",
+  "fecha": "2026-03-01",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-01|1",
+  "fecha": "2026-03-01",
+  "servicioId": 1,
+  "comensalesPrevistos": 58,
+  "comensalesReales": 57,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-02|0",
+  "fecha": "2026-03-02",
+  "servicioId": 0,
+  "comensalesPrevistos": 494,
+  "comensalesReales": 485,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-02|3",
+  "fecha": "2026-03-02",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-02|1",
+  "fecha": "2026-03-02",
+  "servicioId": 1,
+  "comensalesPrevistos": 42,
+  "comensalesReales": 41,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 117
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-03|0",
+  "fecha": "2026-03-03",
+  "servicioId": 0,
+  "comensalesPrevistos": 505,
+  "comensalesReales": 487,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-03|3",
+  "fecha": "2026-03-03",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-03|1",
+  "fecha": "2026-03-03",
+  "servicioId": 1,
+  "comensalesPrevistos": 54,
+  "comensalesReales": 49,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-04|0",
+  "fecha": "2026-03-04",
+  "servicioId": 0,
+  "comensalesPrevistos": 552,
+  "comensalesReales": 541,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-04|3",
+  "fecha": "2026-03-04",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-04|1",
+  "fecha": "2026-03-04",
+  "servicioId": 1,
+  "comensalesPrevistos": 43,
+  "comensalesReales": 39,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-05|0",
+  "fecha": "2026-03-05",
+  "servicioId": 0,
+  "comensalesPrevistos": 537,
+  "comensalesReales": 519,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-05|3",
+  "fecha": "2026-03-05",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-05|1",
+  "fecha": "2026-03-05",
+  "servicioId": 1,
+  "comensalesPrevistos": 58,
+  "comensalesReales": 56,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-06|0",
+  "fecha": "2026-03-06",
+  "servicioId": 0,
+  "comensalesPrevistos": 530,
+  "comensalesReales": 516,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-06|3",
+  "fecha": "2026-03-06",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-06|1",
+  "fecha": "2026-03-06",
+  "servicioId": 1,
+  "comensalesPrevistos": 70,
+  "comensalesReales": 69,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 135
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-07|0",
+  "fecha": "2026-03-07",
+  "servicioId": 0,
+  "comensalesPrevistos": 549,
+  "comensalesReales": 540,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-07|3",
+  "fecha": "2026-03-07",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-07|1",
+  "fecha": "2026-03-07",
+  "servicioId": 1,
+  "comensalesPrevistos": 50,
+  "comensalesReales": 45,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-08|0",
+  "fecha": "2026-03-08",
+  "servicioId": 0,
+  "comensalesPrevistos": 569,
+  "comensalesReales": 552,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-08|3",
+  "fecha": "2026-03-08",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-08|1",
+  "fecha": "2026-03-08",
+  "servicioId": 1,
+  "comensalesPrevistos": 54,
+  "comensalesReales": 53,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-09|0",
+  "fecha": "2026-03-09",
+  "servicioId": 0,
+  "comensalesPrevistos": 516,
+  "comensalesReales": 506,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-09|3",
+  "fecha": "2026-03-09",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-09|1",
+  "fecha": "2026-03-09",
+  "servicioId": 1,
+  "comensalesPrevistos": 56,
+  "comensalesReales": 54,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 154
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-10|0",
+  "fecha": "2026-03-10",
+  "servicioId": 0,
+  "comensalesPrevistos": 509,
+  "comensalesReales": 494,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-10|3",
+  "fecha": "2026-03-10",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-10|1",
+  "fecha": "2026-03-10",
+  "servicioId": 1,
+  "comensalesPrevistos": 42,
+  "comensalesReales": 40,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 125
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-11|0",
+  "fecha": "2026-03-11",
+  "servicioId": 0,
+  "comensalesPrevistos": 545,
+  "comensalesReales": 531,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-11|3",
+  "fecha": "2026-03-11",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-11|1",
+  "fecha": "2026-03-11",
+  "servicioId": 1,
+  "comensalesPrevistos": 40,
+  "comensalesReales": 39,
+  "produccion": [
+   {
+    "recetaId": 145,
+    "porciones": 75
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-12|0",
+  "fecha": "2026-03-12",
+  "servicioId": 0,
+  "comensalesPrevistos": 524,
+  "comensalesReales": 511,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-12|3",
+  "fecha": "2026-03-12",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-12|1",
+  "fecha": "2026-03-12",
+  "servicioId": 1,
+  "comensalesPrevistos": 65,
+  "comensalesReales": 62,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 141
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-13|0",
+  "fecha": "2026-03-13",
+  "servicioId": 0,
+  "comensalesPrevistos": 541,
+  "comensalesReales": 529,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-13|3",
+  "fecha": "2026-03-13",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-13|1",
+  "fecha": "2026-03-13",
+  "servicioId": 1,
+  "comensalesPrevistos": 61,
+  "comensalesReales": 56,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 136
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-14|0",
+  "fecha": "2026-03-14",
+  "servicioId": 0,
+  "comensalesPrevistos": 535,
+  "comensalesReales": 521,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-14|3",
+  "fecha": "2026-03-14",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-14|1",
+  "fecha": "2026-03-14",
+  "servicioId": 1,
+  "comensalesPrevistos": 43,
+  "comensalesReales": 35,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-15|0",
+  "fecha": "2026-03-15",
+  "servicioId": 0,
+  "comensalesPrevistos": 581,
+  "comensalesReales": 568,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-15|3",
+  "fecha": "2026-03-15",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-15|1",
+  "fecha": "2026-03-15",
+  "servicioId": 1,
+  "comensalesPrevistos": 46,
+  "comensalesReales": 37,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-16|0",
+  "fecha": "2026-03-16",
+  "servicioId": 0,
+  "comensalesPrevistos": 537,
+  "comensalesReales": 525,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-16|3",
+  "fecha": "2026-03-16",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-16|1",
+  "fecha": "2026-03-16",
+  "servicioId": 1,
+  "comensalesPrevistos": 46,
+  "comensalesReales": 37,
+  "produccion": [
+   {
+    "recetaId": 36,
+    "porciones": 151
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-17|0",
+  "fecha": "2026-03-17",
+  "servicioId": 0,
+  "comensalesPrevistos": 515,
+  "comensalesReales": 502,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-17|3",
+  "fecha": "2026-03-17",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-17|1",
+  "fecha": "2026-03-17",
+  "servicioId": 1,
+  "comensalesPrevistos": 49,
+  "comensalesReales": 45,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-18|0",
+  "fecha": "2026-03-18",
+  "servicioId": 0,
+  "comensalesPrevistos": 540,
+  "comensalesReales": 533,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-18|3",
+  "fecha": "2026-03-18",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-18|1",
+  "fecha": "2026-03-18",
+  "servicioId": 1,
+  "comensalesPrevistos": 70,
+  "comensalesReales": 63,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 133
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-19|0",
+  "fecha": "2026-03-19",
+  "servicioId": 0,
+  "comensalesPrevistos": 516,
+  "comensalesReales": 508,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-19|3",
+  "fecha": "2026-03-19",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-19|1",
+  "fecha": "2026-03-19",
+  "servicioId": 1,
+  "comensalesPrevistos": 46,
+  "comensalesReales": 39,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 87
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-20|0",
+  "fecha": "2026-03-20",
+  "servicioId": 0,
+  "comensalesPrevistos": 560,
+  "comensalesReales": 543,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-20|3",
+  "fecha": "2026-03-20",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-20|1",
+  "fecha": "2026-03-20",
+  "servicioId": 1,
+  "comensalesPrevistos": 47,
+  "comensalesReales": 45,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 111
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-21|0",
+  "fecha": "2026-03-21",
+  "servicioId": 0,
+  "comensalesPrevistos": 555,
+  "comensalesReales": 539,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-21|3",
+  "fecha": "2026-03-21",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-21|1",
+  "fecha": "2026-03-21",
+  "servicioId": 1,
+  "comensalesPrevistos": 72,
+  "comensalesReales": 69,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-22|0",
+  "fecha": "2026-03-22",
+  "servicioId": 0,
+  "comensalesPrevistos": 548,
+  "comensalesReales": 542,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-22|3",
+  "fecha": "2026-03-22",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-22|1",
+  "fecha": "2026-03-22",
+  "servicioId": 1,
+  "comensalesPrevistos": 48,
+  "comensalesReales": 42,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-23|0",
+  "fecha": "2026-03-23",
+  "servicioId": 0,
+  "comensalesPrevistos": 516,
+  "comensalesReales": 502,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-23|3",
+  "fecha": "2026-03-23",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-23|1",
+  "fecha": "2026-03-23",
+  "servicioId": 1,
+  "comensalesPrevistos": 48,
+  "comensalesReales": 39,
+  "produccion": [
+   {
+    "recetaId": 143,
+    "porciones": 40
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-24|0",
+  "fecha": "2026-03-24",
+  "servicioId": 0,
+  "comensalesPrevistos": 534,
+  "comensalesReales": 524,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-24|3",
+  "fecha": "2026-03-24",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-24|1",
+  "fecha": "2026-03-24",
+  "servicioId": 1,
+  "comensalesPrevistos": 63,
+  "comensalesReales": 61,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 127
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-25|0",
+  "fecha": "2026-03-25",
+  "servicioId": 0,
+  "comensalesPrevistos": 591,
+  "comensalesReales": 578,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-25|3",
+  "fecha": "2026-03-25",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-25|1",
+  "fecha": "2026-03-25",
+  "servicioId": 1,
+  "comensalesPrevistos": 49,
+  "comensalesReales": 48,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 85
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-26|0",
+  "fecha": "2026-03-26",
+  "servicioId": 0,
+  "comensalesPrevistos": 508,
+  "comensalesReales": 491,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-26|3",
+  "fecha": "2026-03-26",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-26|1",
+  "fecha": "2026-03-26",
+  "servicioId": 1,
+  "comensalesPrevistos": 47,
+  "comensalesReales": 41,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-27|0",
+  "fecha": "2026-03-27",
+  "servicioId": 0,
+  "comensalesPrevistos": 540,
+  "comensalesReales": 527,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-27|3",
+  "fecha": "2026-03-27",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-27|1",
+  "fecha": "2026-03-27",
+  "servicioId": 1,
+  "comensalesPrevistos": 58,
+  "comensalesReales": 55,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 117
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-28|0",
+  "fecha": "2026-03-28",
+  "servicioId": 0,
+  "comensalesPrevistos": 544,
+  "comensalesReales": 532,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-28|3",
+  "fecha": "2026-03-28",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-28|1",
+  "fecha": "2026-03-28",
+  "servicioId": 1,
+  "comensalesPrevistos": 60,
+  "comensalesReales": 51,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-29|0",
+  "fecha": "2026-03-29",
+  "servicioId": 0,
+  "comensalesPrevistos": 592,
+  "comensalesReales": 575,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-29|3",
+  "fecha": "2026-03-29",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-29|1",
+  "fecha": "2026-03-29",
+  "servicioId": 1,
+  "comensalesPrevistos": 69,
+  "comensalesReales": 62,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-30|0",
+  "fecha": "2026-03-30",
+  "servicioId": 0,
+  "comensalesPrevistos": 532,
+  "comensalesReales": 514,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-30|3",
+  "fecha": "2026-03-30",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-30|1",
+  "fecha": "2026-03-30",
+  "servicioId": 1,
+  "comensalesPrevistos": 45,
+  "comensalesReales": 42,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 119
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-31|0",
+  "fecha": "2026-03-31",
+  "servicioId": 0,
+  "comensalesPrevistos": 510,
+  "comensalesReales": 493,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-31|3",
+  "fecha": "2026-03-31",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-03-31|1",
+  "fecha": "2026-03-31",
+  "servicioId": 1,
+  "comensalesPrevistos": 50,
+  "comensalesReales": 49,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-01|0",
+  "fecha": "2026-04-01",
+  "servicioId": 0,
+  "comensalesPrevistos": 563,
+  "comensalesReales": 559,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-01|3",
+  "fecha": "2026-04-01",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-01|1",
+  "fecha": "2026-04-01",
+  "servicioId": 1,
+  "comensalesPrevistos": 61,
+  "comensalesReales": 52,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-02|0",
+  "fecha": "2026-04-02",
+  "servicioId": 0,
+  "comensalesPrevistos": 561,
+  "comensalesReales": 544,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-02|3",
+  "fecha": "2026-04-02",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-02|1",
+  "fecha": "2026-04-02",
+  "servicioId": 1,
+  "comensalesPrevistos": 65,
+  "comensalesReales": 59,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-03|0",
+  "fecha": "2026-04-03",
+  "servicioId": 0,
+  "comensalesPrevistos": 552,
+  "comensalesReales": 534,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-03|3",
+  "fecha": "2026-04-03",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-03|1",
+  "fecha": "2026-04-03",
+  "servicioId": 1,
+  "comensalesPrevistos": 73,
+  "comensalesReales": 66,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-04|0",
+  "fecha": "2026-04-04",
+  "servicioId": 0,
+  "comensalesPrevistos": 526,
+  "comensalesReales": 511,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-04|3",
+  "fecha": "2026-04-04",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-04|1",
+  "fecha": "2026-04-04",
+  "servicioId": 1,
+  "comensalesPrevistos": 37,
+  "comensalesReales": 35,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-05|0",
+  "fecha": "2026-04-05",
+  "servicioId": 0,
+  "comensalesPrevistos": 590,
+  "comensalesReales": 579,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-05|3",
+  "fecha": "2026-04-05",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-05|1",
+  "fecha": "2026-04-05",
+  "servicioId": 1,
+  "comensalesPrevistos": 67,
+  "comensalesReales": 65,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-06|0",
+  "fecha": "2026-04-06",
+  "servicioId": 0,
+  "comensalesPrevistos": 501,
+  "comensalesReales": 497,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-06|3",
+  "fecha": "2026-04-06",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-06|1",
+  "fecha": "2026-04-06",
+  "servicioId": 1,
+  "comensalesPrevistos": 64,
+  "comensalesReales": 61,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 135
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-07|0",
+  "fecha": "2026-04-07",
+  "servicioId": 0,
+  "comensalesPrevistos": 525,
+  "comensalesReales": 514,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-07|3",
+  "fecha": "2026-04-07",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-07|1",
+  "fecha": "2026-04-07",
+  "servicioId": 1,
+  "comensalesPrevistos": 68,
+  "comensalesReales": 61,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 95
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-08|0",
+  "fecha": "2026-04-08",
+  "servicioId": 0,
+  "comensalesPrevistos": 577,
+  "comensalesReales": 570,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-08|3",
+  "fecha": "2026-04-08",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-08|1",
+  "fecha": "2026-04-08",
+  "servicioId": 1,
+  "comensalesPrevistos": 59,
+  "comensalesReales": 51,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-09|0",
+  "fecha": "2026-04-09",
+  "servicioId": 0,
+  "comensalesPrevistos": 507,
+  "comensalesReales": 499,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-09|3",
+  "fecha": "2026-04-09",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-09|1",
+  "fecha": "2026-04-09",
+  "servicioId": 1,
+  "comensalesPrevistos": 45,
+  "comensalesReales": 43,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 100
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-10|0",
+  "fecha": "2026-04-10",
+  "servicioId": 0,
+  "comensalesPrevistos": 525,
+  "comensalesReales": 512,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-10|3",
+  "fecha": "2026-04-10",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-10|1",
+  "fecha": "2026-04-10",
+  "servicioId": 1,
+  "comensalesPrevistos": 52,
+  "comensalesReales": 43,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-11|0",
+  "fecha": "2026-04-11",
+  "servicioId": 0,
+  "comensalesPrevistos": 503,
+  "comensalesReales": 499,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-11|3",
+  "fecha": "2026-04-11",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-11|1",
+  "fecha": "2026-04-11",
+  "servicioId": 1,
+  "comensalesPrevistos": 42,
+  "comensalesReales": 38,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-12|0",
+  "fecha": "2026-04-12",
+  "servicioId": 0,
+  "comensalesPrevistos": 542,
+  "comensalesReales": 535,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-12|3",
+  "fecha": "2026-04-12",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-12|1",
+  "fecha": "2026-04-12",
+  "servicioId": 1,
+  "comensalesPrevistos": 59,
+  "comensalesReales": 55,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-13|0",
+  "fecha": "2026-04-13",
+  "servicioId": 0,
+  "comensalesPrevistos": 513,
+  "comensalesReales": 508,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-13|3",
+  "fecha": "2026-04-13",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-13|1",
+  "fecha": "2026-04-13",
+  "servicioId": 1,
+  "comensalesPrevistos": 42,
+  "comensalesReales": 37,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 100
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-14|0",
+  "fecha": "2026-04-14",
+  "servicioId": 0,
+  "comensalesPrevistos": 515,
+  "comensalesReales": 505,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-14|3",
+  "fecha": "2026-04-14",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-14|1",
+  "fecha": "2026-04-14",
+  "servicioId": 1,
+  "comensalesPrevistos": 50,
+  "comensalesReales": 42,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 154
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-15|0",
+  "fecha": "2026-04-15",
+  "servicioId": 0,
+  "comensalesPrevistos": 573,
+  "comensalesReales": 560,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-15|3",
+  "fecha": "2026-04-15",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-15|1",
+  "fecha": "2026-04-15",
+  "servicioId": 1,
+  "comensalesPrevistos": 46,
+  "comensalesReales": 37,
+  "produccion": [
+   {
+    "recetaId": 36,
+    "porciones": 108
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-16|0",
+  "fecha": "2026-04-16",
+  "servicioId": 0,
+  "comensalesPrevistos": 506,
+  "comensalesReales": 488,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-16|3",
+  "fecha": "2026-04-16",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-16|1",
+  "fecha": "2026-04-16",
+  "servicioId": 1,
+  "comensalesPrevistos": 50,
+  "comensalesReales": 41,
+  "produccion": [
+   {
+    "recetaId": 36,
+    "porciones": 111
+   },
+   {
+    "recetaId": 139,
+    "porciones": 61
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-17|0",
+  "fecha": "2026-04-17",
+  "servicioId": 0,
+  "comensalesPrevistos": 537,
+  "comensalesReales": 531,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-17|3",
+  "fecha": "2026-04-17",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-17|1",
+  "fecha": "2026-04-17",
+  "servicioId": 1,
+  "comensalesPrevistos": 58,
+  "comensalesReales": 50,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 94
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-18|0",
+  "fecha": "2026-04-18",
+  "servicioId": 0,
+  "comensalesPrevistos": 537,
+  "comensalesReales": 532,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-18|3",
+  "fecha": "2026-04-18",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-18|1",
+  "fecha": "2026-04-18",
+  "servicioId": 1,
+  "comensalesPrevistos": 65,
+  "comensalesReales": 62,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-19|0",
+  "fecha": "2026-04-19",
+  "servicioId": 0,
+  "comensalesPrevistos": 585,
+  "comensalesReales": 568,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-19|3",
+  "fecha": "2026-04-19",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-19|1",
+  "fecha": "2026-04-19",
+  "servicioId": 1,
+  "comensalesPrevistos": 51,
+  "comensalesReales": 44,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-20|0",
+  "fecha": "2026-04-20",
+  "servicioId": 0,
+  "comensalesPrevistos": 511,
+  "comensalesReales": 505,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-20|3",
+  "fecha": "2026-04-20",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-20|1",
+  "fecha": "2026-04-20",
+  "servicioId": 1,
+  "comensalesPrevistos": 66,
+  "comensalesReales": 64,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-21|0",
+  "fecha": "2026-04-21",
+  "servicioId": 0,
+  "comensalesPrevistos": 547,
+  "comensalesReales": 531,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-21|3",
+  "fecha": "2026-04-21",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-21|1",
+  "fecha": "2026-04-21",
+  "servicioId": 1,
+  "comensalesPrevistos": 52,
+  "comensalesReales": 46,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 96
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-22|0",
+  "fecha": "2026-04-22",
+  "servicioId": 0,
+  "comensalesPrevistos": 586,
+  "comensalesReales": 571,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-22|3",
+  "fecha": "2026-04-22",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-22|1",
+  "fecha": "2026-04-22",
+  "servicioId": 1,
+  "comensalesPrevistos": 64,
+  "comensalesReales": 62,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 91
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-23|0",
+  "fecha": "2026-04-23",
+  "servicioId": 0,
+  "comensalesPrevistos": 532,
+  "comensalesReales": 527,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-23|3",
+  "fecha": "2026-04-23",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-23|1",
+  "fecha": "2026-04-23",
+  "servicioId": 1,
+  "comensalesPrevistos": 56,
+  "comensalesReales": 47,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 128
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-24|0",
+  "fecha": "2026-04-24",
+  "servicioId": 0,
+  "comensalesPrevistos": 555,
+  "comensalesReales": 539,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-24|3",
+  "fecha": "2026-04-24",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-24|1",
+  "fecha": "2026-04-24",
+  "servicioId": 1,
+  "comensalesPrevistos": 58,
+  "comensalesReales": 54,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-25|0",
+  "fecha": "2026-04-25",
+  "servicioId": 0,
+  "comensalesPrevistos": 491,
+  "comensalesReales": 487,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-25|3",
+  "fecha": "2026-04-25",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-25|1",
+  "fecha": "2026-04-25",
+  "servicioId": 1,
+  "comensalesPrevistos": 73,
+  "comensalesReales": 70,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-26|0",
+  "fecha": "2026-04-26",
+  "servicioId": 0,
+  "comensalesPrevistos": 568,
+  "comensalesReales": 556,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-26|3",
+  "fecha": "2026-04-26",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-26|1",
+  "fecha": "2026-04-26",
+  "servicioId": 1,
+  "comensalesPrevistos": 67,
+  "comensalesReales": 62,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-27|0",
+  "fecha": "2026-04-27",
+  "servicioId": 0,
+  "comensalesPrevistos": 513,
+  "comensalesReales": 507,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-27|3",
+  "fecha": "2026-04-27",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-27|1",
+  "fecha": "2026-04-27",
+  "servicioId": 1,
+  "comensalesPrevistos": 53,
+  "comensalesReales": 48,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-28|0",
+  "fecha": "2026-04-28",
+  "servicioId": 0,
+  "comensalesPrevistos": 496,
+  "comensalesReales": 481,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-28|3",
+  "fecha": "2026-04-28",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-28|1",
+  "fecha": "2026-04-28",
+  "servicioId": 1,
+  "comensalesPrevistos": 59,
+  "comensalesReales": 52,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 101
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-29|0",
+  "fecha": "2026-04-29",
+  "servicioId": 0,
+  "comensalesPrevistos": 562,
+  "comensalesReales": 545,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-29|3",
+  "fecha": "2026-04-29",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-29|1",
+  "fecha": "2026-04-29",
+  "servicioId": 1,
+  "comensalesPrevistos": 65,
+  "comensalesReales": 63,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 131
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-30|0",
+  "fecha": "2026-04-30",
+  "servicioId": 0,
+  "comensalesPrevistos": 545,
+  "comensalesReales": 529,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-30|3",
+  "fecha": "2026-04-30",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-04-30|1",
+  "fecha": "2026-04-30",
+  "servicioId": 1,
+  "comensalesPrevistos": 73,
+  "comensalesReales": 68,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 118
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-01|0",
+  "fecha": "2026-05-01",
+  "servicioId": 0,
+  "comensalesPrevistos": 530,
+  "comensalesReales": 514,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-01|3",
+  "fecha": "2026-05-01",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-01|1",
+  "fecha": "2026-05-01",
+  "servicioId": 1,
+  "comensalesPrevistos": 72,
+  "comensalesReales": 65,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-02|0",
+  "fecha": "2026-05-02",
+  "servicioId": 0,
+  "comensalesPrevistos": 529,
+  "comensalesReales": 514,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-02|3",
+  "fecha": "2026-05-02",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-02|1",
+  "fecha": "2026-05-02",
+  "servicioId": 1,
+  "comensalesPrevistos": 68,
+  "comensalesReales": 67,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-03|0",
+  "fecha": "2026-05-03",
+  "servicioId": 0,
+  "comensalesPrevistos": 550,
+  "comensalesReales": 540,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-03|3",
+  "fecha": "2026-05-03",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-03|1",
+  "fecha": "2026-05-03",
+  "servicioId": 1,
+  "comensalesPrevistos": 71,
+  "comensalesReales": 66,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-04|0",
+  "fecha": "2026-05-04",
+  "servicioId": 0,
+  "comensalesPrevistos": 555,
+  "comensalesReales": 540,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-04|3",
+  "fecha": "2026-05-04",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-04|1",
+  "fecha": "2026-05-04",
+  "servicioId": 1,
+  "comensalesPrevistos": 48,
+  "comensalesReales": 43,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 134
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-05|0",
+  "fecha": "2026-05-05",
+  "servicioId": 0,
+  "comensalesPrevistos": 503,
+  "comensalesReales": 491,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-05|3",
+  "fecha": "2026-05-05",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-05|1",
+  "fecha": "2026-05-05",
+  "servicioId": 1,
+  "comensalesPrevistos": 64,
+  "comensalesReales": 59,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-06|0",
+  "fecha": "2026-05-06",
+  "servicioId": 0,
+  "comensalesPrevistos": 589,
+  "comensalesReales": 578,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-06|3",
+  "fecha": "2026-05-06",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-06|1",
+  "fecha": "2026-05-06",
+  "servicioId": 1,
+  "comensalesPrevistos": 65,
+  "comensalesReales": 58,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-07|0",
+  "fecha": "2026-05-07",
+  "servicioId": 0,
+  "comensalesPrevistos": 522,
+  "comensalesReales": 513,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-07|3",
+  "fecha": "2026-05-07",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-07|1",
+  "fecha": "2026-05-07",
+  "servicioId": 1,
+  "comensalesPrevistos": 65,
+  "comensalesReales": 60,
+  "produccion": [
+   {
+    "recetaId": 146,
+    "porciones": 64
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-08|0",
+  "fecha": "2026-05-08",
+  "servicioId": 0,
+  "comensalesPrevistos": 537,
+  "comensalesReales": 521,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-08|3",
+  "fecha": "2026-05-08",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-08|1",
+  "fecha": "2026-05-08",
+  "servicioId": 1,
+  "comensalesPrevistos": 69,
+  "comensalesReales": 60,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 103
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-09|0",
+  "fecha": "2026-05-09",
+  "servicioId": 0,
+  "comensalesPrevistos": 553,
+  "comensalesReales": 545,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-09|3",
+  "fecha": "2026-05-09",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-09|1",
+  "fecha": "2026-05-09",
+  "servicioId": 1,
+  "comensalesPrevistos": 46,
+  "comensalesReales": 37,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-10|0",
+  "fecha": "2026-05-10",
+  "servicioId": 0,
+  "comensalesPrevistos": 556,
+  "comensalesReales": 540,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-10|3",
+  "fecha": "2026-05-10",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-10|1",
+  "fecha": "2026-05-10",
+  "servicioId": 1,
+  "comensalesPrevistos": 63,
+  "comensalesReales": 55,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-11|0",
+  "fecha": "2026-05-11",
+  "servicioId": 0,
+  "comensalesPrevistos": 555,
+  "comensalesReales": 543,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-11|3",
+  "fecha": "2026-05-11",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-11|1",
+  "fecha": "2026-05-11",
+  "servicioId": 1,
+  "comensalesPrevistos": 45,
+  "comensalesReales": 39,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-12|0",
+  "fecha": "2026-05-12",
+  "servicioId": 0,
+  "comensalesPrevistos": 524,
+  "comensalesReales": 508,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-12|3",
+  "fecha": "2026-05-12",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-12|1",
+  "fecha": "2026-05-12",
+  "servicioId": 1,
+  "comensalesPrevistos": 53,
+  "comensalesReales": 47,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 126
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-13|0",
+  "fecha": "2026-05-13",
+  "servicioId": 0,
+  "comensalesPrevistos": 557,
+  "comensalesReales": 547,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-13|3",
+  "fecha": "2026-05-13",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-13|1",
+  "fecha": "2026-05-13",
+  "servicioId": 1,
+  "comensalesPrevistos": 62,
+  "comensalesReales": 57,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 140
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-14|0",
+  "fecha": "2026-05-14",
+  "servicioId": 0,
+  "comensalesPrevistos": 499,
+  "comensalesReales": 485,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-14|3",
+  "fecha": "2026-05-14",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-14|1",
+  "fecha": "2026-05-14",
+  "servicioId": 1,
+  "comensalesPrevistos": 41,
+  "comensalesReales": 35,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 128
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-15|0",
+  "fecha": "2026-05-15",
+  "servicioId": 0,
+  "comensalesPrevistos": 536,
+  "comensalesReales": 526,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-15|3",
+  "fecha": "2026-05-15",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-15|1",
+  "fecha": "2026-05-15",
+  "servicioId": 1,
+  "comensalesPrevistos": 45,
+  "comensalesReales": 38,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-16|0",
+  "fecha": "2026-05-16",
+  "servicioId": 0,
+  "comensalesPrevistos": 510,
+  "comensalesReales": 498,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-16|3",
+  "fecha": "2026-05-16",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-16|1",
+  "fecha": "2026-05-16",
+  "servicioId": 1,
+  "comensalesPrevistos": 57,
+  "comensalesReales": 50,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-17|0",
+  "fecha": "2026-05-17",
+  "servicioId": 0,
+  "comensalesPrevistos": 552,
+  "comensalesReales": 542,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-17|3",
+  "fecha": "2026-05-17",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-17|1",
+  "fecha": "2026-05-17",
+  "servicioId": 1,
+  "comensalesPrevistos": 55,
+  "comensalesReales": 47,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-18|0",
+  "fecha": "2026-05-18",
+  "servicioId": 0,
+  "comensalesPrevistos": 513,
+  "comensalesReales": 501,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-18|3",
+  "fecha": "2026-05-18",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-18|1",
+  "fecha": "2026-05-18",
+  "servicioId": 1,
+  "comensalesPrevistos": 65,
+  "comensalesReales": 63,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-19|0",
+  "fecha": "2026-05-19",
+  "servicioId": 0,
+  "comensalesPrevistos": 524,
+  "comensalesReales": 512,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-19|3",
+  "fecha": "2026-05-19",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-19|1",
+  "fecha": "2026-05-19",
+  "servicioId": 1,
+  "comensalesPrevistos": 64,
+  "comensalesReales": 62,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-20|0",
+  "fecha": "2026-05-20",
+  "servicioId": 0,
+  "comensalesPrevistos": 548,
+  "comensalesReales": 530,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-20|3",
+  "fecha": "2026-05-20",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-20|1",
+  "fecha": "2026-05-20",
+  "servicioId": 1,
+  "comensalesPrevistos": 73,
+  "comensalesReales": 67,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 89
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-21|0",
+  "fecha": "2026-05-21",
+  "servicioId": 0,
+  "comensalesPrevistos": 506,
+  "comensalesReales": 492,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-21|3",
+  "fecha": "2026-05-21",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-21|1",
+  "fecha": "2026-05-21",
+  "servicioId": 1,
+  "comensalesPrevistos": 72,
+  "comensalesReales": 63,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-22|0",
+  "fecha": "2026-05-22",
+  "servicioId": 0,
+  "comensalesPrevistos": 536,
+  "comensalesReales": 522,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-22|3",
+  "fecha": "2026-05-22",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-22|1",
+  "fecha": "2026-05-22",
+  "servicioId": 1,
+  "comensalesPrevistos": 69,
+  "comensalesReales": 60,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-23|0",
+  "fecha": "2026-05-23",
+  "servicioId": 0,
+  "comensalesPrevistos": 508,
+  "comensalesReales": 501,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-23|3",
+  "fecha": "2026-05-23",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-23|1",
+  "fecha": "2026-05-23",
+  "servicioId": 1,
+  "comensalesPrevistos": 54,
+  "comensalesReales": 53,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-24|0",
+  "fecha": "2026-05-24",
+  "servicioId": 0,
+  "comensalesPrevistos": 552,
+  "comensalesReales": 536,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-24|3",
+  "fecha": "2026-05-24",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-24|1",
+  "fecha": "2026-05-24",
+  "servicioId": 1,
+  "comensalesPrevistos": 48,
+  "comensalesReales": 47,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-25|0",
+  "fecha": "2026-05-25",
+  "servicioId": 0,
+  "comensalesPrevistos": 518,
+  "comensalesReales": 506,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-25|3",
+  "fecha": "2026-05-25",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-25|1",
+  "fecha": "2026-05-25",
+  "servicioId": 1,
+  "comensalesPrevistos": 50,
+  "comensalesReales": 46,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-26|0",
+  "fecha": "2026-05-26",
+  "servicioId": 0,
+  "comensalesPrevistos": 556,
+  "comensalesReales": 541,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-26|3",
+  "fecha": "2026-05-26",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-26|1",
+  "fecha": "2026-05-26",
+  "servicioId": 1,
+  "comensalesPrevistos": 40,
+  "comensalesReales": 37,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-27|0",
+  "fecha": "2026-05-27",
+  "servicioId": 0,
+  "comensalesPrevistos": 558,
+  "comensalesReales": 542,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-27|3",
+  "fecha": "2026-05-27",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-27|1",
+  "fecha": "2026-05-27",
+  "servicioId": 1,
+  "comensalesPrevistos": 46,
+  "comensalesReales": 42,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-28|0",
+  "fecha": "2026-05-28",
+  "servicioId": 0,
+  "comensalesPrevistos": 519,
+  "comensalesReales": 508,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-28|3",
+  "fecha": "2026-05-28",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-28|1",
+  "fecha": "2026-05-28",
+  "servicioId": 1,
+  "comensalesPrevistos": 67,
+  "comensalesReales": 60,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 101
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-29|0",
+  "fecha": "2026-05-29",
+  "servicioId": 0,
+  "comensalesPrevistos": 489,
+  "comensalesReales": 484,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-29|3",
+  "fecha": "2026-05-29",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-29|1",
+  "fecha": "2026-05-29",
+  "servicioId": 1,
+  "comensalesPrevistos": 62,
+  "comensalesReales": 53,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 138
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-30|0",
+  "fecha": "2026-05-30",
+  "servicioId": 0,
+  "comensalesPrevistos": 516,
+  "comensalesReales": 500,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-30|3",
+  "fecha": "2026-05-30",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-30|1",
+  "fecha": "2026-05-30",
+  "servicioId": 1,
+  "comensalesPrevistos": 46,
+  "comensalesReales": 42,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-31|0",
+  "fecha": "2026-05-31",
+  "servicioId": 0,
+  "comensalesPrevistos": 566,
+  "comensalesReales": 562,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-31|3",
+  "fecha": "2026-05-31",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-05-31|1",
+  "fecha": "2026-05-31",
+  "servicioId": 1,
+  "comensalesPrevistos": 71,
+  "comensalesReales": 63,
+  "produccion": [
+   {
+    "recetaId": 140,
+    "porciones": 60
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-01|0",
+  "fecha": "2026-06-01",
+  "servicioId": 0,
+  "comensalesPrevistos": 494,
+  "comensalesReales": 480,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-01|3",
+  "fecha": "2026-06-01",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-01|1",
+  "fecha": "2026-06-01",
+  "servicioId": 1,
+  "comensalesPrevistos": 51,
+  "comensalesReales": 42,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 118
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-02|0",
+  "fecha": "2026-06-02",
+  "servicioId": 0,
+  "comensalesPrevistos": 503,
+  "comensalesReales": 494,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-02|3",
+  "fecha": "2026-06-02",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-02|1",
+  "fecha": "2026-06-02",
+  "servicioId": 1,
+  "comensalesPrevistos": 78,
+  "comensalesReales": 69,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 93
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-03|0",
+  "fecha": "2026-06-03",
+  "servicioId": 0,
+  "comensalesPrevistos": 559,
+  "comensalesReales": 551,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-03|3",
+  "fecha": "2026-06-03",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-03|1",
+  "fecha": "2026-06-03",
+  "servicioId": 1,
+  "comensalesPrevistos": 39,
+  "comensalesReales": 37,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-04|0",
+  "fecha": "2026-06-04",
+  "servicioId": 0,
+  "comensalesPrevistos": 532,
+  "comensalesReales": 527,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-04|3",
+  "fecha": "2026-06-04",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-04|1",
+  "fecha": "2026-06-04",
+  "servicioId": 1,
+  "comensalesPrevistos": 54,
+  "comensalesReales": 50,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-05|0",
+  "fecha": "2026-06-05",
+  "servicioId": 0,
+  "comensalesPrevistos": 540,
+  "comensalesReales": 535,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-05|3",
+  "fecha": "2026-06-05",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-05|1",
+  "fecha": "2026-06-05",
+  "servicioId": 1,
+  "comensalesPrevistos": 54,
+  "comensalesReales": 47,
+  "produccion": [
+   {
+    "recetaId": 36,
+    "porciones": 130
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-06|0",
+  "fecha": "2026-06-06",
+  "servicioId": 0,
+  "comensalesPrevistos": 516,
+  "comensalesReales": 498,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-06|3",
+  "fecha": "2026-06-06",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-06|1",
+  "fecha": "2026-06-06",
+  "servicioId": 1,
+  "comensalesPrevistos": 62,
+  "comensalesReales": 56,
+  "produccion": [
+   {
+    "recetaId": 146,
+    "porciones": 60
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-07|0",
+  "fecha": "2026-06-07",
+  "servicioId": 0,
+  "comensalesPrevistos": 544,
+  "comensalesReales": 539,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-07|3",
+  "fecha": "2026-06-07",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-07|1",
+  "fecha": "2026-06-07",
+  "servicioId": 1,
+  "comensalesPrevistos": 67,
+  "comensalesReales": 66,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-08|0",
+  "fecha": "2026-06-08",
+  "servicioId": 0,
+  "comensalesPrevistos": 531,
+  "comensalesReales": 521,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-08|3",
+  "fecha": "2026-06-08",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-08|1",
+  "fecha": "2026-06-08",
+  "servicioId": 1,
+  "comensalesPrevistos": 40,
+  "comensalesReales": 37,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-09|0",
+  "fecha": "2026-06-09",
+  "servicioId": 0,
+  "comensalesPrevistos": 514,
+  "comensalesReales": 497,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-09|3",
+  "fecha": "2026-06-09",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-09|1",
+  "fecha": "2026-06-09",
+  "servicioId": 1,
+  "comensalesPrevistos": 42,
+  "comensalesReales": 40,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 153
+   },
+   {
+    "recetaId": 137,
+    "porciones": 42
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-10|0",
+  "fecha": "2026-06-10",
+  "servicioId": 0,
+  "comensalesPrevistos": 534,
+  "comensalesReales": 530,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-10|3",
+  "fecha": "2026-06-10",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-10|1",
+  "fecha": "2026-06-10",
+  "servicioId": 1,
+  "comensalesPrevistos": 44,
+  "comensalesReales": 35,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-11|0",
+  "fecha": "2026-06-11",
+  "servicioId": 0,
+  "comensalesPrevistos": 532,
+  "comensalesReales": 524,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-11|3",
+  "fecha": "2026-06-11",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-11|1",
+  "fecha": "2026-06-11",
+  "servicioId": 1,
+  "comensalesPrevistos": 43,
+  "comensalesReales": 37,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-12|0",
+  "fecha": "2026-06-12",
+  "servicioId": 0,
+  "comensalesPrevistos": 518,
+  "comensalesReales": 509,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-12|3",
+  "fecha": "2026-06-12",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-12|1",
+  "fecha": "2026-06-12",
+  "servicioId": 1,
+  "comensalesPrevistos": 45,
+  "comensalesReales": 44,
+  "produccion": [
+   {
+    "recetaId": 36,
+    "porciones": 133
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-13|0",
+  "fecha": "2026-06-13",
+  "servicioId": 0,
+  "comensalesPrevistos": 537,
+  "comensalesReales": 525,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-13|3",
+  "fecha": "2026-06-13",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-13|1",
+  "fecha": "2026-06-13",
+  "servicioId": 1,
+  "comensalesPrevistos": 61,
+  "comensalesReales": 59,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-14|0",
+  "fecha": "2026-06-14",
+  "servicioId": 0,
+  "comensalesPrevistos": 545,
+  "comensalesReales": 534,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-14|3",
+  "fecha": "2026-06-14",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-14|1",
+  "fecha": "2026-06-14",
+  "servicioId": 1,
+  "comensalesPrevistos": 53,
+  "comensalesReales": 46,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-15|0",
+  "fecha": "2026-06-15",
+  "servicioId": 0,
+  "comensalesPrevistos": 506,
+  "comensalesReales": 500,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-15|3",
+  "fecha": "2026-06-15",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-15|1",
+  "fecha": "2026-06-15",
+  "servicioId": 1,
+  "comensalesPrevistos": 72,
+  "comensalesReales": 63,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-16|0",
+  "fecha": "2026-06-16",
+  "servicioId": 0,
+  "comensalesPrevistos": 547,
+  "comensalesReales": 541,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-16|3",
+  "fecha": "2026-06-16",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-16|1",
+  "fecha": "2026-06-16",
+  "servicioId": 1,
+  "comensalesPrevistos": 51,
+  "comensalesReales": 49,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 132
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-17|0",
+  "fecha": "2026-06-17",
+  "servicioId": 0,
+  "comensalesPrevistos": 579,
+  "comensalesReales": 561,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-17|3",
+  "fecha": "2026-06-17",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-17|1",
+  "fecha": "2026-06-17",
+  "servicioId": 1,
+  "comensalesPrevistos": 63,
+  "comensalesReales": 61,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 91
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-18|0",
+  "fecha": "2026-06-18",
+  "servicioId": 0,
+  "comensalesPrevistos": 544,
+  "comensalesReales": 537,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-18|3",
+  "fecha": "2026-06-18",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-18|1",
+  "fecha": "2026-06-18",
+  "servicioId": 1,
+  "comensalesPrevistos": 47,
+  "comensalesReales": 44,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 89
+   },
+   {
+    "recetaId": 139,
+    "porciones": 74
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-19|0",
+  "fecha": "2026-06-19",
+  "servicioId": 0,
+  "comensalesPrevistos": 514,
+  "comensalesReales": 508,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-19|3",
+  "fecha": "2026-06-19",
+  "servicioId": 3,
+  "comensalesPrevistos": 23,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-19|1",
+  "fecha": "2026-06-19",
+  "servicioId": 1,
+  "comensalesPrevistos": 71,
+  "comensalesReales": 67,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 152
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-20|0",
+  "fecha": "2026-06-20",
+  "servicioId": 0,
+  "comensalesPrevistos": 552,
+  "comensalesReales": 544,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-20|3",
+  "fecha": "2026-06-20",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-20|1",
+  "fecha": "2026-06-20",
+  "servicioId": 1,
+  "comensalesPrevistos": 65,
+  "comensalesReales": 64,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-21|0",
+  "fecha": "2026-06-21",
+  "servicioId": 0,
+  "comensalesPrevistos": 588,
+  "comensalesReales": 574,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-21|3",
+  "fecha": "2026-06-21",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-21|1",
+  "fecha": "2026-06-21",
+  "servicioId": 1,
+  "comensalesPrevistos": 50,
+  "comensalesReales": 49,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-22|0",
+  "fecha": "2026-06-22",
+  "servicioId": 0,
+  "comensalesPrevistos": 496,
+  "comensalesReales": 483,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-22|3",
+  "fecha": "2026-06-22",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-22|1",
+  "fecha": "2026-06-22",
+  "servicioId": 1,
+  "comensalesPrevistos": 67,
+  "comensalesReales": 58,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 161
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-23|0",
+  "fecha": "2026-06-23",
+  "servicioId": 0,
+  "comensalesPrevistos": 528,
+  "comensalesReales": 511,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-23|3",
+  "fecha": "2026-06-23",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-23|1",
+  "fecha": "2026-06-23",
+  "servicioId": 1,
+  "comensalesPrevistos": 54,
+  "comensalesReales": 53,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 92
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-24|0",
+  "fecha": "2026-06-24",
+  "servicioId": 0,
+  "comensalesPrevistos": 558,
+  "comensalesReales": 548,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-24|3",
+  "fecha": "2026-06-24",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-24|1",
+  "fecha": "2026-06-24",
+  "servicioId": 1,
+  "comensalesPrevistos": 68,
+  "comensalesReales": 66,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 94
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-25|0",
+  "fecha": "2026-06-25",
+  "servicioId": 0,
+  "comensalesPrevistos": 527,
+  "comensalesReales": 521,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-25|3",
+  "fecha": "2026-06-25",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-25|1",
+  "fecha": "2026-06-25",
+  "servicioId": 1,
+  "comensalesPrevistos": 76,
+  "comensalesReales": 69,
+  "produccion": [
+   {
+    "recetaId": 31,
+    "porciones": 147
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-26|0",
+  "fecha": "2026-06-26",
+  "servicioId": 0,
+  "comensalesPrevistos": 554,
+  "comensalesReales": 541,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-26|3",
+  "fecha": "2026-06-26",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-26|1",
+  "fecha": "2026-06-26",
+  "servicioId": 1,
+  "comensalesPrevistos": 73,
+  "comensalesReales": 70,
+  "produccion": [
+   {
+    "recetaId": 36,
+    "porciones": 142
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-27|0",
+  "fecha": "2026-06-27",
+  "servicioId": 0,
+  "comensalesPrevistos": 539,
+  "comensalesReales": 525,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-27|3",
+  "fecha": "2026-06-27",
+  "servicioId": 3,
+  "comensalesPrevistos": 20,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-27|1",
+  "fecha": "2026-06-27",
+  "servicioId": 1,
+  "comensalesPrevistos": 64,
+  "comensalesReales": 56,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-28|0",
+  "fecha": "2026-06-28",
+  "servicioId": 0,
+  "comensalesPrevistos": 548,
+  "comensalesReales": 543,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-28|3",
+  "fecha": "2026-06-28",
+  "servicioId": 3,
+  "comensalesPrevistos": 22,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-28|1",
+  "fecha": "2026-06-28",
+  "servicioId": 1,
+  "comensalesPrevistos": 53,
+  "comensalesReales": 45,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-29|0",
+  "fecha": "2026-06-29",
+  "servicioId": 0,
+  "comensalesPrevistos": 546,
+  "comensalesReales": 542,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-29|3",
+  "fecha": "2026-06-29",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-29|1",
+  "fecha": "2026-06-29",
+  "servicioId": 1,
+  "comensalesPrevistos": 67,
+  "comensalesReales": 58,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-30|0",
+  "fecha": "2026-06-30",
+  "servicioId": 0,
+  "comensalesPrevistos": 533,
+  "comensalesReales": 523,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-30|3",
+  "fecha": "2026-06-30",
+  "servicioId": 3,
+  "comensalesPrevistos": 21,
+  "comensalesReales": 20,
+  "produccion": []
+ },
+ {
+  "_id": "2026-06-30|1",
+  "fecha": "2026-06-30",
+  "servicioId": 1,
+  "comensalesPrevistos": 58,
+  "comensalesReales": 53,
+  "produccion": [
+   {
+    "recetaId": 36,
+    "porciones": 96
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-01|4",
+  "fecha": "2026-01-01",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 43,
+    "porciones": 202
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-02|5",
+  "fecha": "2026-01-02",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 26,
+    "porciones": 32
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-04|6",
+  "fecha": "2026-01-04",
+  "servicioId": 6,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 54,
+    "porciones": 583
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-05|5",
+  "fecha": "2026-01-05",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 16,
+    "porciones": 36
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-05|7",
+  "fecha": "2026-01-05",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 22
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-06|5",
+  "fecha": "2026-01-06",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 15,
+    "porciones": 30
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-06|4",
+  "fecha": "2026-01-06",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 54,
+    "porciones": 212
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-06|7",
+  "fecha": "2026-01-06",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-07|5",
+  "fecha": "2026-01-07",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 8,
+    "porciones": 29
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-07|4",
+  "fecha": "2026-01-07",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 70,
+    "porciones": 208
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-08|5",
+  "fecha": "2026-01-08",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 8,
+    "porciones": 23
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-09|5",
+  "fecha": "2026-01-09",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 26,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-12|5",
+  "fecha": "2026-01-12",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 13,
+    "porciones": 33
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-12|8",
+  "fecha": "2026-01-12",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 225
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-13|5",
+  "fecha": "2026-01-13",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 11,
+    "porciones": 37
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-13|8",
+  "fecha": "2026-01-13",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 26,
+    "porciones": 243
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-14|5",
+  "fecha": "2026-01-14",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 16,
+    "porciones": 22
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-15|8",
+  "fecha": "2026-01-15",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 42,
+    "porciones": 223
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-16|5",
+  "fecha": "2026-01-16",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 26,
+    "porciones": 33
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-16|8",
+  "fecha": "2026-01-16",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 72,
+    "porciones": 250
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-18|6",
+  "fecha": "2026-01-18",
+  "servicioId": 6,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 65,
+    "porciones": 574
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-19|5",
+  "fecha": "2026-01-19",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 14,
+    "porciones": 28
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-20|8",
+  "fecha": "2026-01-20",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 38,
+    "porciones": 232
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-22|5",
+  "fecha": "2026-01-22",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 15,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-23|5",
+  "fecha": "2026-01-23",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 24,
+    "porciones": 20
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-24|6",
+  "fecha": "2026-01-24",
+  "servicioId": 6,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 39,
+    "porciones": 595
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-26|5",
+  "fecha": "2026-01-26",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 15,
+    "porciones": 28
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-27|5",
+  "fecha": "2026-01-27",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 5,
+    "porciones": 29
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-28|5",
+  "fecha": "2026-01-28",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 4,
+    "porciones": 24
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-29|5",
+  "fecha": "2026-01-29",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 9,
+    "porciones": 28
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-30|5",
+  "fecha": "2026-01-30",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 24,
+    "porciones": 32
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-03|5",
+  "fecha": "2026-02-03",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 1,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-04|5",
+  "fecha": "2026-02-04",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 24,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-05|5",
+  "fecha": "2026-02-05",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 12,
+    "porciones": 24
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-06|5",
+  "fecha": "2026-02-06",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 16,
+    "porciones": 29
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-07|6",
+  "fecha": "2026-02-07",
+  "servicioId": 6,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 48,
+    "porciones": 526
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-09|7",
+  "fecha": "2026-02-09",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-10|7",
+  "fecha": "2026-02-10",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-11|5",
+  "fecha": "2026-02-11",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 26,
+    "porciones": 27
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-11|8",
+  "fecha": "2026-02-11",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 69,
+    "porciones": 237
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-11|7",
+  "fecha": "2026-02-11",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-12|5",
+  "fecha": "2026-02-12",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 24,
+    "porciones": 30
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-12|4",
+  "fecha": "2026-02-12",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 202
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-13|5",
+  "fecha": "2026-02-13",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 7,
+    "porciones": 27
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-15|6",
+  "fecha": "2026-02-15",
+  "servicioId": 6,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 43,
+    "porciones": 616
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-17|5",
+  "fecha": "2026-02-17",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 4,
+    "porciones": 24
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-18|5",
+  "fecha": "2026-02-18",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 12,
+    "porciones": 27
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-18|8",
+  "fecha": "2026-02-18",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 57,
+    "porciones": 252
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-19|7",
+  "fecha": "2026-02-19",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 20
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-20|8",
+  "fecha": "2026-02-20",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 58,
+    "porciones": 230
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-23|5",
+  "fecha": "2026-02-23",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 10,
+    "porciones": 37
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-23|8",
+  "fecha": "2026-02-23",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 35,
+    "porciones": 243
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-24|5",
+  "fecha": "2026-02-24",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 10,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-24|4",
+  "fecha": "2026-02-24",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 58,
+    "porciones": 190
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-25|5",
+  "fecha": "2026-02-25",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 24,
+    "porciones": 30
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-26|5",
+  "fecha": "2026-02-26",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 16,
+    "porciones": 33
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-26|7",
+  "fecha": "2026-02-26",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-28|6",
+  "fecha": "2026-02-28",
+  "servicioId": 6,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 35,
+    "porciones": 562
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-03|7",
+  "fecha": "2026-03-03",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-05|5",
+  "fecha": "2026-03-05",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 5,
+    "porciones": 29
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-05|4",
+  "fecha": "2026-03-05",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 60,
+    "porciones": 204
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-09|5",
+  "fecha": "2026-03-09",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 11,
+    "porciones": 24
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-10|5",
+  "fecha": "2026-03-10",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 11,
+    "porciones": 29
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-11|5",
+  "fecha": "2026-03-11",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 4,
+    "porciones": 22
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-12|4",
+  "fecha": "2026-03-12",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 66,
+    "porciones": 199
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-15|6",
+  "fecha": "2026-03-15",
+  "servicioId": 6,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 72,
+    "porciones": 609
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-16|5",
+  "fecha": "2026-03-16",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 24,
+    "porciones": 25
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-16|8",
+  "fecha": "2026-03-16",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 39,
+    "porciones": 257
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-17|5",
+  "fecha": "2026-03-17",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 24,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-18|5",
+  "fecha": "2026-03-18",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 29,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-19|5",
+  "fecha": "2026-03-19",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 25,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-19|8",
+  "fecha": "2026-03-19",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 42,
+    "porciones": 234
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-20|5",
+  "fecha": "2026-03-20",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 25,
+    "porciones": 30
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-21|6",
+  "fecha": "2026-03-21",
+  "servicioId": 6,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 23,
+    "porciones": 600
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-24|7",
+  "fecha": "2026-03-24",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-25|5",
+  "fecha": "2026-03-25",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 1,
+    "porciones": 34
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-26|5",
+  "fecha": "2026-03-26",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 16,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-27|5",
+  "fecha": "2026-03-27",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 24,
+    "porciones": 34
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-31|5",
+  "fecha": "2026-03-31",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 26,
+    "porciones": 24
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-01|5",
+  "fecha": "2026-04-01",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 12,
+    "porciones": 24
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-01|8",
+  "fecha": "2026-04-01",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 39,
+    "porciones": 258
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-02|5",
+  "fecha": "2026-04-02",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 25,
+    "porciones": 33
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-06|5",
+  "fecha": "2026-04-06",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 13,
+    "porciones": 22
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-06|4",
+  "fecha": "2026-04-06",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 54,
+    "porciones": 193
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-07|4",
+  "fecha": "2026-04-07",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 33,
+    "porciones": 202
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-07|7",
+  "fecha": "2026-04-07",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-08|5",
+  "fecha": "2026-04-08",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 10,
+    "porciones": 30
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-08|4",
+  "fecha": "2026-04-08",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 218
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-09|7",
+  "fecha": "2026-04-09",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-10|5",
+  "fecha": "2026-04-10",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 26,
+    "porciones": 26
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-14|5",
+  "fecha": "2026-04-14",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 24
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-15|5",
+  "fecha": "2026-04-15",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 26,
+    "porciones": 33
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-16|5",
+  "fecha": "2026-04-16",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 16,
+    "porciones": 32
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-16|8",
+  "fecha": "2026-04-16",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 39,
+    "porciones": 238
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-17|5",
+  "fecha": "2026-04-17",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 4,
+    "porciones": 27
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-18|6",
+  "fecha": "2026-04-18",
+  "servicioId": 6,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 57,
+    "porciones": 595
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-20|5",
+  "fecha": "2026-04-20",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 11,
+    "porciones": 20
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-23|5",
+  "fecha": "2026-04-23",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 16,
+    "porciones": 25
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-24|5",
+  "fecha": "2026-04-24",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 25,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-25|6",
+  "fecha": "2026-04-25",
+  "servicioId": 6,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 35,
+    "porciones": 535
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-27|5",
+  "fecha": "2026-04-27",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 19,
+    "porciones": 24
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-28|5",
+  "fecha": "2026-04-28",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 5,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-29|5",
+  "fecha": "2026-04-29",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 25,
+    "porciones": 35
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-30|5",
+  "fecha": "2026-04-30",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 15,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-01|5",
+  "fecha": "2026-05-01",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 15,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-04|5",
+  "fecha": "2026-05-04",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 14,
+    "porciones": 33
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-04|4",
+  "fecha": "2026-05-04",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 58,
+    "porciones": 214
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-05|5",
+  "fecha": "2026-05-05",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 4,
+    "porciones": 27
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-06|8",
+  "fecha": "2026-05-06",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 33,
+    "porciones": 271
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-06|7",
+  "fecha": "2026-05-06",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-07|5",
+  "fecha": "2026-05-07",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 19,
+    "porciones": 30
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-08|5",
+  "fecha": "2026-05-08",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 24,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-11|5",
+  "fecha": "2026-05-11",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 7,
+    "porciones": 20
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-12|5",
+  "fecha": "2026-05-12",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 11,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-12|7",
+  "fecha": "2026-05-12",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-13|5",
+  "fecha": "2026-05-13",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 11,
+    "porciones": 34
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-14|5",
+  "fecha": "2026-05-14",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 7,
+    "porciones": 37
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-14|4",
+  "fecha": "2026-05-14",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 54,
+    "porciones": 179
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-15|4",
+  "fecha": "2026-05-15",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 23,
+    "porciones": 194
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-18|5",
+  "fecha": "2026-05-18",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 15,
+    "porciones": 36
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-19|5",
+  "fecha": "2026-05-19",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 16,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-19|4",
+  "fecha": "2026-05-19",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 69,
+    "porciones": 195
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-21|8",
+  "fecha": "2026-05-21",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 26,
+    "porciones": 232
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-22|5",
+  "fecha": "2026-05-22",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 14,
+    "porciones": 36
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-25|5",
+  "fecha": "2026-05-25",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 12,
+    "porciones": 32
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-25|8",
+  "fecha": "2026-05-25",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 51,
+    "porciones": 238
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-25|7",
+  "fecha": "2026-05-25",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-26|5",
+  "fecha": "2026-05-26",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 29,
+    "porciones": 30
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-26|8",
+  "fecha": "2026-05-26",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 56,
+    "porciones": 254
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-27|8",
+  "fecha": "2026-05-27",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 48,
+    "porciones": 241
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-29|5",
+  "fecha": "2026-05-29",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 1,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-29|8",
+  "fecha": "2026-05-29",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 34,
+    "porciones": 237
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-01|5",
+  "fecha": "2026-06-01",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 12,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-01|8",
+  "fecha": "2026-06-01",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 57,
+    "porciones": 225
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-02|5",
+  "fecha": "2026-06-02",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 24,
+    "porciones": 30
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-03|5",
+  "fecha": "2026-06-03",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 16,
+    "porciones": 22
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-03|4",
+  "fecha": "2026-06-03",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 72,
+    "porciones": 203
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-04|5",
+  "fecha": "2026-06-04",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 4,
+    "porciones": 26
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-05|5",
+  "fecha": "2026-06-05",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 20
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-06|6",
+  "fecha": "2026-06-06",
+  "servicioId": 6,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 64,
+    "porciones": 546
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-08|5",
+  "fecha": "2026-06-08",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 11,
+    "porciones": 37
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-09|5",
+  "fecha": "2026-06-09",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 12,
+    "porciones": 32
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-10|5",
+  "fecha": "2026-06-10",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 26,
+    "porciones": 20
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-11|5",
+  "fecha": "2026-06-11",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 31
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-12|4",
+  "fecha": "2026-06-12",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 70,
+    "porciones": 204
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-15|5",
+  "fecha": "2026-06-15",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 32
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-16|5",
+  "fecha": "2026-06-16",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 4,
+    "porciones": 23
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-16|8",
+  "fecha": "2026-06-16",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 30,
+    "porciones": 247
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-17|5",
+  "fecha": "2026-06-17",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 15,
+    "porciones": 32
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-17|7",
+  "fecha": "2026-06-17",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-18|5",
+  "fecha": "2026-06-18",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 5,
+    "porciones": 35
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-18|4",
+  "fecha": "2026-06-18",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 69,
+    "porciones": 196
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-23|5",
+  "fecha": "2026-06-23",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 16,
+    "porciones": 32
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-24|5",
+  "fecha": "2026-06-24",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 15,
+    "porciones": 33
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-24|4",
+  "fecha": "2026-06-24",
+  "servicioId": 4,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 199
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-25|5",
+  "fecha": "2026-06-25",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 26,
+    "porciones": 26
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-25|8",
+  "fecha": "2026-06-25",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 47,
+    "porciones": 255
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-26|5",
+  "fecha": "2026-06-26",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 9,
+    "porciones": 35
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-26|7",
+  "fecha": "2026-06-26",
+  "servicioId": 7,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 2,
+    "porciones": 21
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-29|8",
+  "fecha": "2026-06-29",
+  "servicioId": 8,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 57,
+    "porciones": 260
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-30|5",
+  "fecha": "2026-06-30",
+  "servicioId": 5,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 25,
+    "porciones": 28
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-07|9",
+  "fecha": "2026-01-07",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 87,
+    "porciones": 121
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-10|9",
+  "fecha": "2026-01-10",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 113,
+    "porciones": 103
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-13|9",
+  "fecha": "2026-01-13",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 106,
+    "porciones": 90
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-19|10",
+  "fecha": "2026-01-19",
+  "servicioId": 10,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 135,
+    "porciones": 76
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-25|10",
+  "fecha": "2026-01-25",
+  "servicioId": 10,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 131,
+    "porciones": 33
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-28|10",
+  "fecha": "2026-01-28",
+  "servicioId": 10,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 126,
+    "porciones": 74
+   }
+  ]
+ },
+ {
+  "_id": "2026-01-31|9",
+  "fecha": "2026-01-31",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 91,
+    "porciones": 157
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-03|9",
+  "fecha": "2026-02-03",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 110,
+    "porciones": 103
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-06|9",
+  "fecha": "2026-02-06",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 101,
+    "porciones": 128
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-12|9",
+  "fecha": "2026-02-12",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 103,
+    "porciones": 153
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-15|9",
+  "fecha": "2026-02-15",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 96,
+    "porciones": 129
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-18|9",
+  "fecha": "2026-02-18",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 111,
+    "porciones": 130
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-24|10",
+  "fecha": "2026-02-24",
+  "servicioId": 10,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 128,
+    "porciones": 57
+   }
+  ]
+ },
+ {
+  "_id": "2026-02-27|9",
+  "fecha": "2026-02-27",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 93,
+    "porciones": 148
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-02|10",
+  "fecha": "2026-03-02",
+  "servicioId": 10,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 127,
+    "porciones": 63
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-05|9",
+  "fecha": "2026-03-05",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 99,
+    "porciones": 149
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-08|9",
+  "fecha": "2026-03-08",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 108,
+    "porciones": 139
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-14|9",
+  "fecha": "2026-03-14",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 108,
+    "porciones": 106
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-17|9",
+  "fecha": "2026-03-17",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 99,
+    "porciones": 146
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-20|9",
+  "fecha": "2026-03-20",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 95,
+    "porciones": 123
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-26|9",
+  "fecha": "2026-03-26",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 97,
+    "porciones": 156
+   }
+  ]
+ },
+ {
+  "_id": "2026-03-29|9",
+  "fecha": "2026-03-29",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 108,
+    "porciones": 120
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-01|9",
+  "fecha": "2026-04-01",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 110,
+    "porciones": 141
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-04|9",
+  "fecha": "2026-04-04",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 94,
+    "porciones": 115
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-07|10",
+  "fecha": "2026-04-07",
+  "servicioId": 10,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 131,
+    "porciones": 27
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-10|9",
+  "fecha": "2026-04-10",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 89,
+    "porciones": 114
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-13|9",
+  "fecha": "2026-04-13",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 104,
+    "porciones": 105
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-19|9",
+  "fecha": "2026-04-19",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 112,
+    "porciones": 105
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-22|9",
+  "fecha": "2026-04-22",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 88,
+    "porciones": 96
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-25|9",
+  "fecha": "2026-04-25",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 106,
+    "porciones": 107
+   }
+  ]
+ },
+ {
+  "_id": "2026-04-28|9",
+  "fecha": "2026-04-28",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 104,
+    "porciones": 113
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-01|9",
+  "fecha": "2026-05-01",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 110,
+    "porciones": 86
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-04|9",
+  "fecha": "2026-05-04",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 99,
+    "porciones": 120
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-10|9",
+  "fecha": "2026-05-10",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 105,
+    "porciones": 151
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-13|9",
+  "fecha": "2026-05-13",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 90,
+    "porciones": 112
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-16|9",
+  "fecha": "2026-05-16",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 104,
+    "porciones": 157
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-19|10",
+  "fecha": "2026-05-19",
+  "servicioId": 10,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 126,
+    "porciones": 39
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-22|9",
+  "fecha": "2026-05-22",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 100,
+    "porciones": 118
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-25|9",
+  "fecha": "2026-05-25",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 107,
+    "porciones": 160
+   }
+  ]
+ },
+ {
+  "_id": "2026-05-28|9",
+  "fecha": "2026-05-28",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 95,
+    "porciones": 87
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-03|9",
+  "fecha": "2026-06-03",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 111,
+    "porciones": 120
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-12|9",
+  "fecha": "2026-06-12",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 101,
+    "porciones": 103
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-15|9",
+  "fecha": "2026-06-15",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 93,
+    "porciones": 158
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-21|9",
+  "fecha": "2026-06-21",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 108,
+    "porciones": 158
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-24|9",
+  "fecha": "2026-06-24",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 93,
+    "porciones": 112
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-27|10",
+  "fecha": "2026-06-27",
+  "servicioId": 10,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 135,
+    "porciones": 30
+   }
+  ]
+ },
+ {
+  "_id": "2026-06-30|9",
+  "fecha": "2026-06-30",
+  "servicioId": 9,
+  "comensalesPrevistos": 0,
+  "comensalesReales": 0,
+  "produccion": [
+   {
+    "recetaId": 91,
+    "porciones": 119
+   }
+  ]
+ }
+]

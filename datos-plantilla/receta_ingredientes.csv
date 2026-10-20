@@ -1,0 +1,6 @@
+receta_codigo,ingrediente_codigo,cantidad,es_principal,admite_estado
+REC-0231,ING-001,6.0,si,cocido
+REC-0231,ING-005,8.0,si,ambos
+REC-0231,ING-007,2.2,no,ambos
+REC-0188,ING-001,5.5,si,cocido
+REC-0188,ING-007,3.0,no,ambos

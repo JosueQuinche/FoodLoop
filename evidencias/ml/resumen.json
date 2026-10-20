@@ -1,0 +1,278 @@
+{
+  "modelo": {
+    "version": "3.0.0+2026-10-20",
+    "algoritmo": "Regresión logística L2 (IRLS)",
+    "objetivo": "receta producida en el centro en ≤ 48 h desde el lote",
+    "entrenadoEn": "2026-10-20",
+    "periodoEntrenamiento": {
+      "desde": "2026-01-01",
+      "hasta": "2026-04-30"
+    },
+    "periodoPrueba": {
+      "desde": "2026-05-01",
+      "hasta": "2026-06-30"
+    },
+    "ejemplos": 43651,
+    "positivos": 1095,
+    "lambda": 1,
+    "intercepto": -6.70927,
+    "coeficientes": {
+      "cobertura": -1.678809,
+      "aporteMerma": -1.534165,
+      "urgencia": 0.539358,
+      "absorcion": 0.04645,
+      "jerarquia": 0.681465,
+      "aceptacion": 0,
+      "cargaArea": 2.000565,
+      "frecuenciaMenu": 3.606082,
+      "recenciaMenu": 0.257171
+    },
+    "sinVariacion": [
+      "aceptacion"
+    ],
+    "metricasPrueba": {
+      "hr1": 0.256,
+      "hr3": 0.4464,
+      "p3": 0.1746,
+      "ndcg3": 0.2759,
+      "mrr": 0.4048,
+      "map": 0.3167,
+      "aucProbabilidad": 0.784,
+      "apProbabilidad": 0.1134,
+      "logloss": 0.1081,
+      "brier": 0.0249,
+      "kgEjecutables": 83.59
+    }
+  },
+  "conjunto": {
+    "ejemplos": 66375,
+    "lotes": 1577,
+    "entrenamiento": 43651,
+    "prueba": 22724,
+    "lotesEntrenamiento": 1042,
+    "lotesPrueba": 535,
+    "positivosPrueba": 611
+  },
+  "comparacion": [
+    {
+      "modelo": "Aleatorio",
+      "listasEvaluables": 336,
+      "listas": 535,
+      "hr1": 0.03571428571428571,
+      "hr3": 0.0744047619047619,
+      "p3": 0.024801587301587293,
+      "ndcg3": 0.04391565844523469,
+      "mrr": 0.1122726974075335,
+      "map": 0.09971318471987704,
+      "kgEjecutables": 4.3100000000000005,
+      "auc": 0.48546200319249966,
+      "ap": 0.025660325217561467,
+      "apr1": 0.30280373831775703
+    },
+    {
+      "modelo": "Heurística de popularidad (sin ML)",
+      "listasEvaluables": 336,
+      "listas": 535,
+      "hr1": 0.25297619047619047,
+      "hr3": 0.46130952380952384,
+      "p3": 0.18055555555555564,
+      "ndcg3": 0.28311322183302706,
+      "mrr": 0.40338858178430864,
+      "map": 0.3173172032570643,
+      "kgEjecutables": 82.75,
+      "auc": 0.7936026478488745,
+      "ap": 0.11554327400310778,
+      "apr1": 0.09906542056074766
+    },
+    {
+      "modelo": "Modelo 2 · experto (v2.1)",
+      "listasEvaluables": 336,
+      "listas": 535,
+      "hr1": 0,
+      "hr3": 0.005952380952380952,
+      "p3": 0.001984126984126984,
+      "ndcg3": 0.003365862361819814,
+      "mrr": 0.05502982809090281,
+      "map": 0.05533292559563544,
+      "kgEjecutables": 0,
+      "auc": 0.420711487632746,
+      "ap": 0.02116600914914637,
+      "apr1": 0.680373831775701
+    },
+    {
+      "modelo": "Modelo 3 · solo ML (P)",
+      "listasEvaluables": 336,
+      "listas": 535,
+      "hr1": 0.24107142857142858,
+      "hr3": 0.4494047619047619,
+      "p3": 0.17460317460317465,
+      "ndcg3": 0.27398187426246856,
+      "mrr": 0.39500393064703987,
+      "map": 0.31276232554571437,
+      "kgEjecutables": 68.47999999999999,
+      "auc": 0.7839989111129319,
+      "ap": 0.11336657136803566,
+      "apr1": 0,
+      "logloss": 0.10806758128989237,
+      "brier": 0.024908007831929552
+    },
+    {
+      "modelo": "Modelo 3 · híbrido P×valor (v3)",
+      "listasEvaluables": 336,
+      "listas": 535,
+      "hr1": 0.25595238095238093,
+      "hr3": 0.44642857142857145,
+      "p3": 0.17460317460317468,
+      "ndcg3": 0.2759125656743062,
+      "mrr": 0.404764056345394,
+      "map": 0.316684594068634,
+      "kgEjecutables": 83.59,
+      "auc": 0.7751427480469124,
+      "ap": 0.11298076259032239,
+      "apr1": 0
+    }
+  ],
+  "validacionTemporal": [
+    {
+      "modelo": "Aleatorio",
+      "hr3": 0.06449689230198075,
+      "hr3_de": 0.03085300402455126,
+      "ndcg3": 0.03566339364347524,
+      "ndcg3_de": 0.01844127621396606,
+      "auc": 0.48433165421154606,
+      "auc_de": 0.009867149079432909,
+      "kg_mes": 1.4425,
+      "kg_mes_de": 1.5577414205616198
+    },
+    {
+      "modelo": "Heurística de popularidad (sin ML)",
+      "hr3": 0.49365411109803037,
+      "hr3_de": 0.08503929960358333,
+      "ndcg3": 0.29704478417097246,
+      "ndcg3_de": 0.060063769475363904,
+      "auc": 0.7836166561652255,
+      "auc_de": 0.04142544995202271,
+      "kg_mes": 41.4825,
+      "kg_mes_de": 16.049295675096364
+    },
+    {
+      "modelo": "Modelo 2 · experto (v2.1)",
+      "hr3": 0.011418062519477279,
+      "hr3_de": 0.010675034669583125,
+      "ndcg3": 0.008131510117316715,
+      "ndcg3_de": 0.01031210122825229,
+      "auc": 0.43062815485160644,
+      "auc_de": 0.014156885412832042,
+      "kg_mes": 0.7150000000000001,
+      "kg_mes_de": 1.4300000000000004
+    },
+    {
+      "modelo": "Modelo 3 · solo ML (P)",
+      "hr3": 0.4776335135958639,
+      "hr3_de": 0.08596521765837407,
+      "ndcg3": 0.28079563639703015,
+      "ndcg3_de": 0.05863288223900083,
+      "auc": 0.7879290094990752,
+      "auc_de": 0.02715603794750118,
+      "kg_mes": 27.527500000000003,
+      "kg_mes_de": 15.659317513863757
+    },
+    {
+      "modelo": "Modelo 3 · híbrido P×valor (v3)",
+      "hr3": 0.473442751824476,
+      "hr3_de": 0.1004978379412013,
+      "ndcg3": 0.28225067727672903,
+      "ndcg3_de": 0.06685088023772531,
+      "auc": 0.7819406262271147,
+      "auc_de": 0.02750835831585064,
+      "kg_mes": 38.21,
+      "kg_mes_de": 20.42393530476763
+    }
+  ],
+  "significacion": [
+    {
+      "comparacion": "v3 híbrido − v2 experto",
+      "metrica": "hr1",
+      "diferencia": 0.25595238095238093,
+      "ic_inf": 0.2113095238095238,
+      "ic_sup": 0.30357142857142855
+    },
+    {
+      "comparacion": "v3 híbrido − v2 experto",
+      "metrica": "hr3",
+      "diferencia": 0.44047619047619047,
+      "ic_inf": 0.38392857142857145,
+      "ic_sup": 0.49404761904761907
+    },
+    {
+      "comparacion": "v3 híbrido − v2 experto",
+      "metrica": "ndcg3",
+      "diferencia": 0.2725467033124864,
+      "ic_inf": 0.23584847523329935,
+      "ic_sup": 0.31140723137189524
+    },
+    {
+      "comparacion": "v3 híbrido − popularidad",
+      "metrica": "hr1",
+      "diferencia": 0.002976190476190476,
+      "ic_inf": 0,
+      "ic_sup": 0.011904761904761904
+    },
+    {
+      "comparacion": "v3 híbrido − popularidad",
+      "metrica": "hr3",
+      "diferencia": -0.01488095238095238,
+      "ic_inf": -0.02976190476190476,
+      "ic_sup": 0
+    },
+    {
+      "comparacion": "v3 híbrido − popularidad",
+      "metrica": "ndcg3",
+      "diferencia": -0.00720065615872086,
+      "ic_inf": -0.015842267069284002,
+      "ic_sup": 0.0005533695765379083
+    }
+  ],
+  "impacto": [
+    {
+      "modelo": "Procedimiento actual (registrado)",
+      "kg": 0,
+      "costo": 0,
+      "pctKg": 0
+    },
+    {
+      "modelo": "Aleatorio",
+      "kg": 4.3100000000000005,
+      "costo": 14.58,
+      "pctKg": 0.007440399123034159
+    },
+    {
+      "modelo": "Heurística de popularidad (sin ML)",
+      "kg": 82.75,
+      "costo": 287.7,
+      "pctKg": 0.14285221054085304
+    },
+    {
+      "modelo": "Modelo 2 · experto (v2.1)",
+      "kg": 0,
+      "costo": 0,
+      "pctKg": 0
+    },
+    {
+      "modelo": "Modelo 3 · solo ML (P)",
+      "kg": 68.47999999999999,
+      "costo": 279.34,
+      "pctKg": 0.1182177568318745
+    },
+    {
+      "modelo": "Modelo 3 · híbrido P×valor (v3)",
+      "kg": 83.59,
+      "costo": 287.96,
+      "pctKg": 0.14430231153002906
+    }
+  ],
+  "calibracionBase": {
+    "logloss": 0.12375180338615784,
+    "brier": 0.026164914200740616
+  }
+}

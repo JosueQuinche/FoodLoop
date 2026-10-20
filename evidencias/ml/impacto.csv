@@ -1,0 +1,7 @@
+modelo,kg,costo,pctKg
+"Procedimiento actual (registrado)",0,0,0
+"Aleatorio",4.310000,14.580000,0.007440
+"Heurística de popularidad (sin ML)",82.750000,287.700000,0.142852
+"Modelo 2 · experto (v2.1)",0,0,0
+"Modelo 3 · solo ML (P)",68.480000,279.340000,0.118218
+"Modelo 3 · híbrido P×valor (v3)",83.590000,287.960000,0.144302

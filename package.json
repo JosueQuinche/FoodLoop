@@ -1,0 +1,43 @@
+{
+  "name": "foodloop",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "dominio",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "semilla": "tsx backend/src/infraestructura/adaptadores/salida/mongo/semilla.ts",
+    "dev:backend": "npm run dev --workspace=@foodloop/backend",
+    "dev:frontend": "npm run dev --workspace=@foodloop/frontend",
+    "verificar": "node herramientas/verificar-arquitectura.mjs",
+    "build": "npm run verificar && npm run build --workspace=@foodloop/backend && npm run build --workspace=@foodloop/frontend",
+    "dev": "concurrently -n backend,frontend -c green,cyan \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "importar": "tsx backend/src/infraestructura/adaptadores/salida/mongo/importar.ts",
+    "fase1": "tsx backend/src/infraestructura/adaptadores/salida/mongo/fase1.ts",
+    "fase2": "tsx backend/src/infraestructura/adaptadores/salida/mongo/fase2.ts",
+    "fase3": "tsx backend/src/infraestructura/adaptadores/salida/mongo/fase3.ts",
+    "fase4": "tsx backend/src/infraestructura/adaptadores/salida/mongo/fase4.ts",
+    "fases": "tsx herramientas/ejecutar-fases.ts",
+    "modelo": "tsx herramientas/inspeccionar-modelo.ts",
+    "modelo:todos": "tsx herramientas/inspeccionar-modelo.ts --todos",
+    "modelo:probar": "tsx herramientas/probar-etapas.ts",
+    "modelo:caso": "tsx herramientas/fijar-caso.ts",
+    "modelo:volcar": "tsx herramientas/volcar-motor.ts",
+    "datos:convertir": "python3 herramientas/dataset/convertir.py",
+    "datos:importar": "tsx herramientas/importar-memoria.ts",
+    "datos:evaluar": "tsx herramientas/evaluar-historico.ts",
+    "prototipo": "concurrently -n backend,frontend -c green,cyan \"tsx herramientas/servidor-memoria.ts ./datos\" \"npm:dev:frontend\"",
+    "evidencias": "tsx herramientas/ejecutar-fases.ts --datos=./datos --reloj=porLote --evidencias=./evidencias",
+    "evidencias:potencial": "tsx herramientas/ejecutar-fases.ts --datos=./datos --reloj=porLote --modo=potencial --evidencias=./evidencias-potencial",
+    "esquema": "tsx herramientas/aplicar-esquema.ts",
+    "exportar:mongo": "tsx herramientas/exportar-mongo.ts ./datos ./mongo-export",
+    "ml:entrenar": "tsx herramientas/ml/entrenar.ts",
+    "ml:comparar": "python3 herramientas/ml/comparar.py evidencias/ml"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "mingo": "^7.2.4"
+  }
+}

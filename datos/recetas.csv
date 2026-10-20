@@ -1,0 +1,209 @@
+codigo,nombre,area,porciones_base,peso_porcion_g,minutos,tipo_proceso,temp_proceso_c,aceptacion_base
+SOP-001,Aguado de pollo,Cocina caliente,160,270,66,reproceso_termico,80,3.5
+SOP-002,Sopa de pollo,Cocina caliente,160,270,57,reproceso_termico,80,3.5
+SOP-003,Sopa oriental de pollo,Cocina caliente,160,270,66,reproceso_termico,80,3.5
+SOP-004,Sancocho de pollo,Cocina caliente,160,270,56,reproceso_termico,80,3.5
+SOP-005,Caldo de bola,Cocina caliente,160,270,52,reproceso_termico,80,3.5
+SOP-006,Caldo de carne,Cocina caliente,160,270,38,reproceso_termico,80,3.5
+SOP-007,Caldo de carne con habas,Cocina caliente,160,270,37,reproceso_termico,80,3.5
+SOP-008,Caldo de hueso blanco,Cocina caliente,160,270,57,reproceso_termico,80,3.5
+SOP-009,Caldo de pata,Cocina caliente,160,270,65,reproceso_termico,80,3.5
+SOP-010,Caldo de albacora,Cocina caliente,160,270,37,reproceso_termico,80,3.5
+SOP-011,Caldo de torreja,Cocina caliente,160,270,35,reproceso_termico,80,3.5
+SOP-012,Sopa de atún,Cocina caliente,160,270,57,reproceso_termico,80,3.5
+SOP-013,Chupe de pescado,Cocina caliente,160,270,48,reproceso_termico,80,3.5
+SOP-014,Sopa marinera,Cocina caliente,160,270,73,reproceso_termico,80,3.5
+SOP-015,Sopa de camarón,Cocina caliente,87,270,68,reproceso_termico,80,3.5
+SOP-016,Sopa de queso,Cocina caliente,160,270,43,reproceso_termico,80,3.5
+SOP-017,Locro de papa,Cocina caliente,160,270,65,reproceso_termico,80,3.5
+SOP-018,Locro de queso,Cocina caliente,160,270,36,reproceso_termico,80,3.5
+SOP-019,Crema de lentejas,Cocina caliente,160,270,35,reproceso_termico,80,3.5
+SOP-020,Crema de legumbres,Cocina caliente,160,270,49,reproceso_termico,80,3.5
+SOP-021,Sopa de lentejas,Cocina caliente,160,270,50,reproceso_termico,80,3.5
+SOP-023,Menestrón,Cocina caliente,160,270,47,reproceso_termico,80,3.5
+SOP-024,Menestrón de cerdo,Cocina caliente,160,270,58,reproceso_termico,80,3.5
+SOP-025,Raspado de verde,Cocina caliente,160,270,64,reproceso_termico,80,3.5
+SOP-026,Sopa de letras,Cocina caliente,160,270,74,reproceso_termico,80,3.5
+SOP-027,Sopa de cebada,Cocina caliente,160,270,53,reproceso_termico,80,3.5
+SOP-029,Viche de pescado,Cocina caliente,160,270,43,reproceso_termico,80,3.5
+SOP-030,Lluspas,Cocina caliente,160,270,51,reproceso_termico,80,3.5
+SOP-031,Sopa de polvo de arveja,Cocina caliente,160,270,61,reproceso_termico,80,3.5
+SOP-032,Sancocho de carne,Cocina caliente,160,270,57,reproceso_termico,80,3.5
+PLA-001,Arroz con pollo,Cocina caliente,100,377,63,reproceso_termico,80,3.5
+PLA-002,Seco de pollo,Cocina caliente,100,391,100,reproceso_termico,80,3.5
+PLA-003,Seco de carne,Cocina caliente,100,327,55,reproceso_termico,80,3.5
+PLA-004,Seco de chancho,Cocina caliente,100,415,43,reproceso_termico,80,3.5
+PLA-005,Estofado de pollo,Cocina caliente,100,421,78,reproceso_termico,80,3.5
+PLA-006,Estofado de carne,Cocina caliente,100,387,81,reproceso_termico,80,3.5
+PLA-007,Pollo al jugo,Cocina caliente,100,373,75,reproceso_termico,80,3.5
+PLA-008,Pollo a la naranja,Cocina caliente,100,418,63,reproceso_termico,80,3.5
+PLA-009,Pollo apanado,Panadería,100,110,91,panaderia,180,3.5
+PLA-010,Pollo broaster,Cocina caliente,100,356,41,reproceso_termico,80,3.5
+PLA-011,Pollo BBQ,Cocina caliente,100,330,104,reproceso_termico,80,3.5
+PLA-012,Pollo al horno,Cocina caliente,100,358,38,reproceso_termico,80,3.5
+PLA-013,Alitas BBQ,Cocina caliente,100,428,66,reproceso_termico,80,3.5
+PLA-014,Fritada,Cocina caliente,100,403,57,reproceso_termico,80,3.5
+PLA-015,Hornado,Cocina caliente,100,390,73,reproceso_termico,80,3.5
+PLA-016,Guatita,Cocina caliente,100,372,68,reproceso_termico,80,3.5
+PLA-017,Chili,Cocina caliente,100,382,62,reproceso_termico,80,3.5
+PLA-018,Carne guisada,Cocina caliente,100,402,81,reproceso_termico,80,3.5
+PLA-019,Churrasco,Cocina caliente,100,407,68,reproceso_termico,80,3.5
+PLA-020,Costilla BBQ,Cocina caliente,100,325,44,reproceso_termico,80,3.5
+PLA-021,Chuleta con menestra,Cocina caliente,100,388,96,reproceso_termico,80,3.5
+PLA-022,Pescado apanado,Panadería,100,110,44,panaderia,180,3.5
+PLA-023,Pescado frito,Cocina caliente,100,353,75,reproceso_termico,80,3.5
+PLA-024,Sudado de pescado,Cocina caliente,100,433,100,reproceso_termico,80,3.5
+PLA-025,Encocado de pescado,Cocina caliente,100,369,58,reproceso_termico,80,3.5
+PLA-026,Cazuela de pescado,Cocina caliente,100,416,47,reproceso_termico,80,3.5
+PLA-027,Ceviche de camarón,Cocina fría,100,170,38,ensamblaje_frio,0,3.5
+PLA-028,Sango de camarón,Cocina caliente,100,404,78,reproceso_termico,80,3.5
+PLA-029,Enrollado de atún,Cocina caliente,100,350,103,reproceso_termico,80,3.5
+PLA-030,Fideos con atún,Cocina caliente,100,301,84,reproceso_termico,80,3.5
+PLA-031,Arroz fiesta,Cocina caliente,100,425,50,reproceso_termico,80,3.5
+PLA-032,Arroz con menestra,Cocina caliente,100,385,54,reproceso_termico,80,3.5
+PLA-033,Arroz verde,Cocina caliente,100,384,92,reproceso_termico,80,3.5
+PLA-034,Moro,Cocina caliente,100,394,36,reproceso_termico,80,3.5
+PLA-035,Chaulafán,Cocina caliente,100,402,59,reproceso_termico,80,3.5
+PLA-036,Tallarín de pollo,Cocina caliente,100,413,73,reproceso_termico,80,3.5
+PLA-037,Tallarín de carne,Cocina caliente,100,379,100,reproceso_termico,80,3.5
+PLA-038,Tallarín verde,Cocina caliente,100,303,104,reproceso_termico,80,3.5
+PLA-039,Tallarín boloñesa,Cocina caliente,100,308,93,reproceso_termico,80,3.5
+PLA-040,Lasaña de pollo,Cocina caliente,100,421,92,reproceso_termico,80,3.5
+PLA-041,Yapingacho,Cocina caliente,100,427,99,reproceso_termico,80,3.5
+PLA-042,Ensalada rusa con pollo,Cocina fría,100,170,26,ensamblaje_frio,0,3.5
+PLA-043,Ensalada alemana con chuleta,Cocina fría,100,170,40,ensamblaje_frio,0,3.5
+PLA-044,Puré con chuleta,Cocina caliente,165,354,48,reproceso_termico,80,3.5
+PLA-045,Puré con pollo,Cocina caliente,100,434,100,reproceso_termico,80,3.5
+JUG-001,Mora,Cocina caliente,240,439,44,reproceso_termico,80,3.5
+JUG-002,Naranja,Cocina caliente,240,423,99,reproceso_termico,80,3.5
+JUG-003,Naranjilla,Cocina caliente,240,401,81,reproceso_termico,80,3.5
+JUG-004,Tomatillo,Cocina caliente,240,428,98,reproceso_termico,80,3.5
+JUG-005,Quaker,Cocina caliente,240,416,77,reproceso_termico,80,3.5
+JUG-006,Jamaica,Cocina caliente,240,380,55,reproceso_termico,80,3.5
+JUG-007,Limonada,Cocina caliente,240,321,92,reproceso_termico,80,3.5
+JUG-008,Limonada rosa,Cocina caliente,240,404,52,reproceso_termico,80,3.5
+JUG-010,Tamarindo,Cocina caliente,240,360,102,reproceso_termico,80,3.5
+JUG-011,Maracuyá,Cocina caliente,240,423,36,reproceso_termico,80,3.5
+JUG-012,Té,Cocina caliente,240,343,46,reproceso_termico,80,3.5
+JUG-013,Té de limón,Cocina caliente,240,344,68,reproceso_termico,80,3.5
+ADIC-001,Seco de pollo con arroz,Cocina caliente,80,365,61,reproceso_termico,80,3.5
+ADIC-002,Arroz con pollo y ensalada,Cocina caliente,200,344,86,reproceso_termico,80,3.5
+ADIC-003,Pollo al horno con papas,Cocina caliente,150,456,59,reproceso_termico,80,3.5
+ADIC-004,Pollo a la plancha con menestra,Cocina caliente,100,280,45,reproceso_termico,80,3.5
+ADIC-005,Pollo guisado con vegetales,Cocina caliente,150,429,35,reproceso_termico,80,3.5
+ADIC-006,Pollo en salsa de champiñones,Cocina caliente,80,324,49,reproceso_termico,80,3.5
+ADIC-007,Moro de lenteja con chuleta,Cocina caliente,150,330,69,reproceso_termico,80,3.5
+ADIC-008,Chuleta asada con arroz,Cocina caliente,80,284,47,reproceso_termico,80,3.5
+ADIC-009,Cerdo agridulce con vegetales,Cocina caliente,200,348,77,reproceso_termico,80,3.5
+ADIC-010,Estofado de cerdo con papas,Cocina caliente,100,422,37,reproceso_termico,80,3.5
+ADIC-011,Carne guisada con arroz,Cocina caliente,80,430,64,reproceso_termico,80,3.5
+ADIC-012,Carne en salsa de tomate,Cocina caliente,200,338,64,reproceso_termico,80,3.5
+ADIC-013,Albóndigas en salsa criolla,Cocina caliente,50,355,89,reproceso_termico,80,3.5
+ADIC-014,Chili de carne con fréjol,Cocina caliente,200,396,48,reproceso_termico,80,3.5
+ADIC-015,Pimientos rellenos de carne,Cocina caliente,100,299,51,reproceso_termico,80,3.5
+ADIC-016,Tallarines con pollo,Cocina caliente,50,454,69,reproceso_termico,80,3.5
+ADIC-017,Espagueti a la boloñesa,Cocina caliente,50,355,64,reproceso_termico,80,3.5
+ADIC-018,Arroz chaufa con pollo,Cocina caliente,50,458,38,reproceso_termico,80,3.5
+ADIC-019,Lasaña de carne,Cocina caliente,200,365,42,reproceso_termico,80,3.5
+ADIC-020,Tortilla de vegetales,Cocina caliente,100,340,55,reproceso_termico,80,3.5
+ADIC-021,Pescado al horno con arroz,Cocina caliente,50,327,42,reproceso_termico,80,3.5
+ADIC-022,Pescado apanado con ensalada,Cocina caliente,200,372,70,reproceso_termico,80,3.5
+ADIC-023,Atún guisado con papas,Cocina caliente,150,425,50,reproceso_termico,80,3.5
+ADIC-024,Menestra de fréjol con arroz y pollo,Cocina caliente,80,316,69,reproceso_termico,80,3.5
+ADIC-025,Menestra de lenteja con carne,Cocina caliente,200,424,67,reproceso_termico,80,3.5
+ADIC-026,Arroz con vegetales y huevo,Cocina caliente,200,377,45,reproceso_termico,80,3.5
+ADIC-027,Puré de papa con pollo,Cocina caliente,200,411,42,reproceso_termico,80,3.5
+ADIC-028,Pastel de papa con carne,Cocina caliente,100,413,79,reproceso_termico,80,3.5
+ADIC-029,Fideos salteados con vegetales,Cocina caliente,100,374,46,reproceso_termico,80,3.5
+ADIC-030,Locro de papa con queso,Cocina caliente,25,248,38,reproceso_termico,80,3.5
+ADIC-031,Locro de legumbres,Cocina caliente,20,266,85,reproceso_termico,80,3.5
+ADIC-032,Crema de zanahoria,Cocina caliente,25,271,48,reproceso_termico,80,3.5
+ADIC-033,Crema de zapallo,Cocina caliente,20,300,91,reproceso_termico,80,3.5
+ADIC-034,Sopa de verduras con fideo,Cocina caliente,25,252,90,reproceso_termico,80,3.5
+ADIC-035,Caldo de pollo con vegetales,Cocina caliente,40,264,68,reproceso_termico,80,3.5
+ADIC-036,Sopa de quinoa con vegetales,Cocina caliente,25,273,78,reproceso_termico,80,3.5
+ADIC-037,Crema de espinaca,Cocina caliente,30,313,70,reproceso_termico,80,3.5
+ADIC-038,Sopa de arroz con pollo,Cocina caliente,30,311,82,reproceso_termico,80,3.5
+ADIC-039,Caldo de pescado,Cocina caliente,20,310,93,reproceso_termico,80,3.5
+ADIC-040,Arroz blanco,Cocina caliente,150,172,31,reproceso_termico,80,3.5
+ADIC-041,Arroz amarillo,Cocina caliente,200,147,17,reproceso_termico,80,3.5
+ADIC-042,Arroz con choclo,Cocina caliente,50,184,54,reproceso_termico,80,3.5
+ADIC-043,Puré de papa,Cocina caliente,200,198,22,reproceso_termico,80,3.5
+ADIC-044,Ensalada fresca de tomate y lechuga,Cocina caliente,150,168,44,reproceso_termico,80,3.5
+ADIC-045,Ensalada de zanahoria y repollo,Cocina caliente,80,126,31,reproceso_termico,80,3.5
+ADIC-046,Papas al horno con hierbas,Cocina caliente,50,172,32,reproceso_termico,80,3.5
+ADIC-047,Menestra de lenteja,Cocina caliente,150,150,44,reproceso_termico,80,3.5
+ADIC-048,Menestra de fréjol,Cocina caliente,100,173,34,reproceso_termico,80,3.5
+ADIC-049,Ensalada de pepino y tomate,Cocina caliente,100,125,27,reproceso_termico,80,3.5
+ADIC-050,Yuca cocida con hierbas,Cocina caliente,200,124,47,reproceso_termico,80,3.5
+ADIC-051,Sánduche de pollo,Cocina fría,80,196,54,ensamblaje_frio,0,3.5
+ADIC-052,Sánduche de queso y tomate,Cocina fría,200,196,26,ensamblaje_frio,0,3.5
+ADIC-053,Empanada de pollo,Cocina fría,100,131,44,ensamblaje_frio,0,3.5
+ADIC-054,Empanada de queso,Cocina fría,80,126,37,ensamblaje_frio,0,3.5
+ADIC-055,Tortilla de verde con queso,Cocina fría,50,164,39,ensamblaje_frio,0,3.5
+ADIC-056,Bolón de verde con queso,Cocina fría,150,134,16,ensamblaje_frio,0,3.5
+ADIC-057,Pan de ajo,Cocina fría,150,235,36,ensamblaje_frio,0,3.5
+ADIC-058,Croquetas de papa,Cocina fría,50,235,44,ensamblaje_frio,0,3.5
+ADIC-059,Tortilla de huevo con vegetales,Cocina fría,50,186,24,ensamblaje_frio,0,3.5
+ADIC-060,Ensalada de frutas,Cocina fría,150,233,26,ensamblaje_frio,0,3.5
+ADIC-061,Sazonador deshidratado de tomate,Área de aprovechamiento,50,50,442,reproceso_termico,80,3.5
+ADIC-062,Sazonador vegetal de cebolla y zanahoria,Área de aprovechamiento,40,18,321,reproceso_termico,80,3.5
+ADIC-063,Polvo de hierbas aromáticas,Área de aprovechamiento,50,9,306,reproceso_termico,80,3.5
+ADIC-064,Fondo vegetal de recortes aptos,Área de aprovechamiento,30,52,126,reproceso_termico,80,3.5
+ADIC-065,Salsa de tomate con recortes aptos,Área de aprovechamiento,40,7,334,reproceso_termico,80,3.5
+ADIC-066,Crutones de pan no servido,Área de aprovechamiento,50,16,236,reproceso_termico,80,3.5
+ADIC-067,Pan rallado de pan no servido,Área de aprovechamiento,30,33,389,reproceso_termico,80,3.5
+ADIC-068,Polvo deshidratado de pimiento,Área de aprovechamiento,20,30,144,reproceso_termico,80,3.5
+APR-001,Tortitas de arroz con vegetales,Cocina caliente,80,130,35,reproceso_termico,80,3.5
+APR-002,Croquetas horneadas de arroz y queso,Cocina caliente,80,110,45,reproceso_termico,80,3.5
+APR-003,Arroz gratinado con vegetales,Cocina caliente,100,180,45,reproceso_termico,80,3.5
+APR-004,Arroz salteado con huevo y cebolla,Cocina caliente,100,190,25,reproceso_termico,80,3.5
+APR-005,Hamburguesitas de arroz y lenteja,Cocina caliente,80,135,40,reproceso_termico,80,3.5
+APR-006,Pastel de arroz y pollo,Cocina caliente,80,190,55,reproceso_termico,80,3.5
+APR-007,Arroz al horno con espinaca,Cocina caliente,90,170,50,reproceso_termico,80,3.5
+APR-008,Buñuelos salados de arroz,Cocina caliente,90,100,35,reproceso_termico,80,3.5
+APR-009,Croquetas de pollo y papa,Cocina caliente,80,130,50,reproceso_termico,80,3.5
+APR-010,Relleno de empanadas de pollo,Cocina caliente,100,120,45,reproceso_termico,80,3.5
+APR-011,Pastel de pollo y verduras,Cocina caliente,100,185,60,reproceso_termico,80,3.5
+APR-012,Tortillas de pollo y vegetales,Cocina caliente,80,135,40,reproceso_termico,80,3.5
+APR-013,Pollo desmenuzado en salsa criolla,Cocina caliente,100,160,40,reproceso_termico,80,3.5
+APR-014,Arroz relleno con pollo,Cocina caliente,100,190,45,reproceso_termico,80,3.5
+APR-015,Pastelitos horneados de pollo,Panadería,80,110,55,panaderia,180,3.5
+APR-016,Ensalada fría de pollo y vegetales,Cocina fría,90,160,30,ensamblaje_frio,0,3.5
+APR-017,Salsa base de tomate y cebolla,Cocina caliente,100,65,50,reproceso_termico,80,3.5
+APR-018,Concentrado de tomate cocido,Cocina caliente,100,40,100,reproceso_termico,80,3.5
+APR-019,Polvo de tomate deshidratado,Deshidratación,100,10,360,reproceso_termico,80,3.5
+APR-020,Aderezo de tomate y albahaca,Cocina fría,80,50,25,ensamblaje_frio,0,3.5
+APR-021,Sopa cremosa de tomate,Cocina caliente,30,250,45,reproceso_termico,80,3.5
+APR-022,Tomate asado para salsa,Cocina caliente,80,70,50,reproceso_termico,80,3.5
+APR-023,Crema de zanahoria y zapallo,Cocina caliente,30,250,50,reproceso_termico,80,3.5
+APR-024,Polvo de zanahoria deshidratada,Deshidratación,100,12,390,reproceso_termico,80,3.5
+APR-025,Tortitas de zanahoria y papa,Cocina caliente,100,125,45,reproceso_termico,80,3.5
+APR-026,Vegetales encurtidos de consumo inmediato,Cocina fría,100,60,35,ensamblaje_frio,0,3.5
+APR-027,Fondo de verduras con zanahoria,Cocina caliente,30,220,75,reproceso_termico,80,3.5
+APR-028,Sofrito de pimiento y cebolla,Cocina caliente,100,45,40,reproceso_termico,80,3.5
+APR-029,Pimiento deshidratado molido,Deshidratación,100,10,380,reproceso_termico,80,3.5
+APR-030,Salsa de pimiento asado,Cocina caliente,100,55,50,reproceso_termico,80,3.5
+APR-031,Arroz aromatizado con pimiento,Cocina caliente,100,170,35,reproceso_termico,80,3.5
+APR-032,Sal de hierbas y cilantro deshidratado,Deshidratación,100,8,350,reproceso_termico,80,3.5
+APR-033,Salsa verde de cilantro,Cocina fría,100,35,20,ensamblaje_frio,0,3.5
+APR-034,Aderezo de hierbas para vegetales,Cocina fría,100,30,20,ensamblaje_frio,0,3.5
+APR-035,Aceite aromatizado para uso inmediato,Cocina fría,100,20,20,ensamblaje_frio,0,3.5
+APR-036,Cebolla deshidratada granulada,Deshidratación,100,9,420,reproceso_termico,80,3.5
+APR-037,Pasta base de cebolla cocida,Cocina caliente,100,50,50,reproceso_termico,80,3.5
+APR-038,Fondo de cebolla y vegetales,Cocina caliente,30,220,70,reproceso_termico,80,3.5
+APR-039,Cebolla caramelizada para guarniciones,Cocina caliente,100,40,60,reproceso_termico,80,3.5
+APR-040,Pan rallado tostado,Panadería,100,25,50,panaderia,180,3.5
+APR-041,Crutones horneados con hierbas,Panadería,100,30,35,panaderia,180,3.5
+APR-042,Budín salado de pan y queso,Panadería,100,140,60,panaderia,180,3.5
+APR-043,Tostadas de ajo y hierbas,Panadería,100,55,25,panaderia,180,3.5
+APR-044,Tortitas de papa con queso,Cocina caliente,100,135,40,reproceso_termico,80,3.5
+APR-045,Croquetas de papa y vegetales,Cocina caliente,100,130,45,reproceso_termico,80,3.5
+APR-046,Pastel de papa con verduras,Cocina caliente,100,170,55,reproceso_termico,80,3.5
+APR-047,Compota de fruta cocida,Cocina caliente,100,90,45,reproceso_termico,80,3.5
+APR-048,Pulpa de fruta para preparación inmediata,Cocina fría,100,180,25,ensamblaje_frio,0,3.5
+APR-049,Láminas de fruta deshidratada,Deshidratación,100,25,400,reproceso_termico,80,3.5
+APR-050,Base vegetal deshidratada para sopas,Deshidratación,100,12,420,reproceso_termico,80,3.5
+APR-051,Fondo concentrado de vegetales,Cocina caliente,30,200,85,reproceso_termico,80,3.5
+APR-052,Croquetas de vegetales al horno,Cocina caliente,100,125,50,reproceso_termico,80,3.5
+APR-053,Salsa de vegetales asados,Cocina caliente,100,65,55,reproceso_termico,80,3.5
