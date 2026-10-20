@@ -16,6 +16,7 @@
 import {
   normalizarEntrada, aplicarRestricciones, REGLAS_LOTE,
   extraerCaracteristicas, puntuar, ordenar,
+<<<<<<< HEAD
   descomponer, descomponerEjecucion, resumir, contrafactual, senalesOperacion,
   CARACTERISTICAS, PESOS, cotaSuperior, ejecutarModelo, MODELO_APRENDIDO,
   ajustarLogistica, sigmoide, auc, metricasLista, ENTRADAS_APRENDIDAS,
@@ -30,6 +31,15 @@ const SIN_SENALES = {
   observacionesSenales: { frecuenciaMenu: "", recenciaMenu: "" },
 };
 
+=======
+  descomponer, resumir, contrafactual,
+  CARACTERISTICAS, PESOS, cotaSuperior, ejecutarModelo,
+} from "@foodloop/dominio";
+import type {
+  Lote, ItemCatalogo, EntradaModelo, Candidata, Caracteristica,
+} from "@foodloop/dominio";
+
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 let hechas = 0, fallos = 0;
 const grupos: string[] = [];
 
@@ -268,6 +278,7 @@ grupo("E4 · PUNTUACIÓN");
   const suma = CARACTERISTICAS.reduce((a, k) => a + p.contribuciones[k], 0);
   comprobar("las contribuciones suman el bruto",
     Math.abs(suma - p.bruto) < 1e-9, `${suma} vs ${p.bruto}`);
+<<<<<<< HEAD
   comprobar("el valor es el bruto recortado y redondeado",
     p.valor === Math.round(Math.max(0, Math.min(100, p.bruto)) * 10) / 10);
   comprobar("la probabilidad es σ del logit y está en (0,1)",
@@ -280,6 +291,10 @@ grupo("E4 · PUNTUACIÓN");
     Math.abs(p.aptitud - Math.round(p.probabilidad * p.valor * 10) / 10) <= 0.1);
   comprobar("el modo experto reproduce el modelo 2: aptitud = valor",
     puntuar(c, PESOS, MODELO_APRENDIDO, "experta").aptitud === p.valor);
+=======
+  comprobar("la aptitud es el bruto recortado y redondeado",
+    p.aptitud === Math.round(Math.max(0, Math.min(100, p.bruto)) * 10) / 10);
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   comprobar("no se recorta en un caso normal", p.recortada === false);
 }
 {
@@ -292,13 +307,21 @@ grupo("E4 · PUNTUACIÓN");
       CARACTERISTICAS.map((k) => [k, ""])) as Record<Caracteristica, string>,
     horasConjunto: 1, masUrgente: undefined,
     porIngrediente: new Map(), faltantes: [],
+<<<<<<< HEAD
     costoRecuperado: 0, valorEnRiesgo: 0, ...SIN_SENALES,
+=======
+    costoRecuperado: 0, valorEnRiesgo: 0,
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   };
   const p = puntuar(c);
   comprobar("el bruto máximo es la cota declarada, 106",
     Math.abs(p.bruto - cotaSuperior()) < 1e-9, `bruto=${p.bruto}`);
   comprobar("el recorte actúa y queda registrado",
+<<<<<<< HEAD
     p.valor === 100 && p.recortada === true);
+=======
+    p.aptitud === 100 && p.recortada === true);
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 }
 {
   const c = {
@@ -309,10 +332,16 @@ grupo("E4 · PUNTUACIÓN");
       CARACTERISTICAS.map((k) => [k, ""])) as Record<Caracteristica, string>,
     horasConjunto: 1, masUrgente: undefined,
     porIngrediente: new Map(), faltantes: [],
+<<<<<<< HEAD
     costoRecuperado: 0, valorEnRiesgo: 0, ...SIN_SENALES,
   };
   comprobar("vector nulo da valor 0 y aptitud 0",
     puntuar(c).valor === 0 && puntuar(c).aptitud === 0);
+=======
+    costoRecuperado: 0, valorEnRiesgo: 0,
+  };
+  comprobar("vector nulo da aptitud 0", puntuar(c).aptitud === 0);
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 }
 {
   const l = lote();
@@ -386,6 +415,7 @@ grupo("E6 · EXPLICACIÓN");
   const f = descomponer(c, p, PESOS);
   comprobar("devuelve un factor por característica, en orden canónico",
     f.length === 7);
+<<<<<<< HEAD
   comprobar("la suma de las contribuciones mostradas es el valor publicado",
     Math.round(f.reduce((a, x) => a + x.contribucion, 0) * 10) / 10 === p.valor);
   const fe = descomponerEjecucion(c, p);
@@ -394,6 +424,10 @@ grupo("E6 · EXPLICACIÓN");
   comprobar("intercepto + factores de ejecución reproducen la probabilidad",
     Math.abs(sigmoide(p.intercepto + fe.reduce((a, x) => a + x.contribucion, 0))
       - p.probabilidad) < 1e-12);
+=======
+  comprobar("la suma de las contribuciones mostradas es la aptitud publicada",
+    Math.round(f.reduce((a, x) => a + x.contribucion, 0) * 10) / 10 === p.aptitud);
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   comprobar("cada factor trae su valor observado, su peso y su justificación",
     f.every((x) => x.valorObservado.length > 0 && x.porQue.length > 0
       && typeof x.peso === "number"));
@@ -453,6 +487,7 @@ grupo("E6 · EXPLICACIÓN");
 }
 
 // =====================================================================
+<<<<<<< HEAD
 grupo("APRENDIZAJE · regresión logística, señales y métricas");
 
 {
@@ -509,6 +544,8 @@ grupo("APRENDIZAJE · regresión logística, señales y métricas");
 }
 
 // =====================================================================
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 grupo("MODELO COMPLETO · propiedades de la tubería");
 
 {

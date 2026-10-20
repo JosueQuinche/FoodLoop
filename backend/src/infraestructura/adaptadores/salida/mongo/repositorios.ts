@@ -246,6 +246,7 @@ export async function conteoDecisionesPorReceta(db: Db) {
   return new Map(filas.map((f) => [f._id, f]));
 }
 
+<<<<<<< HEAD
 /**
  * Fechas en que se produjo cada receta, de la colección de operación
  * diaria. Es la memoria de la que el componente aprendido saca sus dos
@@ -261,14 +262,22 @@ export async function produccionesPorReceta(db: Db): Promise<Map<number, string[
   return new Map(filas.map((f) => [f._id, [...f.fechas].sort()]));
 }
 
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 export class CatalogoMongo implements RepositorioCatalogo {
   constructor(private readonly db: Db) {}
 
   private async armar(recetas: DocReceta[]): Promise<ItemCatalogo[]> {
+<<<<<<< HEAD
     const [areas, conteo, producciones] = await Promise.all([
       col<DocArea>(this.db, "areas").find().toArray(),
       conteoDecisionesPorReceta(this.db),
       produccionesPorReceta(this.db),
+=======
+    const [areas, conteo] = await Promise.all([
+      col<DocArea>(this.db, "areas").find().toArray(),
+      conteoDecisionesPorReceta(this.db),
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
     ]);
     const nombreArea = new Map(areas.map((a) => [a._id, a.nombre]));
     return recetas.map((r) => {
@@ -284,7 +293,10 @@ export class CatalogoMongo implements RepositorioCatalogo {
         aceptacion: aceptacionEfectiva(r.aceptacionBase, c?.n ?? 0, c?.aprobadas ?? 0),
         pasos: r.pasos ?? [],
         requisitos: r.requisitos,
+<<<<<<< HEAD
         producciones: producciones.get(r._id) ?? [],
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
       };
     });
   }

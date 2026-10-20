@@ -1027,6 +1027,7 @@ export default function App(
                           <div className="rec-punt">
                             <div className="v">{r.aptitud}</div>
                             <div className="rotulo">Aptitud</div>
+<<<<<<< HEAD
                             {/* Las dos cifras de las que sale la aptitud:
                                 la probabilidad aprendida y el valor. */}
                             {r.probabilidadEjecucion !== undefined && (
@@ -1035,6 +1036,8 @@ export default function App(
                                 {fmt(r.valorAprovechamiento ?? 0, 0)}
                               </div>
                             )}
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
                           </div>
                         </div>
                         <div className="rec-pie">
@@ -1123,7 +1126,11 @@ export default function App(
                 <div className="pila">
                   <div className="xai">
                     <div className="xai-tit">
+<<<<<<< HEAD
                       <Icono n="cerebro" s={18} /> Valor de aprovechamiento · criterio experto
+=======
+                      <Icono n="cerebro" s={18} /> Factores evaluados por el modelo
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
                     </div>
                     <div style={{ marginTop: 13 }}>
                       {recSel.factores.map((f) => {
@@ -1158,6 +1165,7 @@ export default function App(
                     </div>
                   </div>
 
+<<<<<<< HEAD
                   {/* Componente aprendido. Mismo formato que los factores de
                       valor, pero en log-odds: el coeficiente lo estimó la
                       regresión logística sobre el histórico de producción. */}
@@ -1201,6 +1209,8 @@ export default function App(
                     </div>
                   )}
 
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
                   <div className="tarjeta">
                     <div className="tarjeta-cab"><h3>Si el lote fuera distinto</h3></div>
                     <div className="pila" style={{ gap: 10 }}>
@@ -1219,6 +1229,7 @@ export default function App(
                       <span className="pequeno apagado">de 100</span>
                     </div>
                     <div className="separador" />
+<<<<<<< HEAD
                     {recSel.probabilidadEjecucion !== undefined ? (
                       <>
                         <div className="fila" style={{ justifyContent: "space-between" }}>
@@ -1245,6 +1256,13 @@ export default function App(
                         posterior.
                       </p>
                     )}
+=======
+                    <p className="pequeno apagado">
+                      La puntuación se calcula ya descompuesta: lo que ves a la
+                      izquierda es la aritmética del modelo, no una reconstrucción
+                      posterior.
+                    </p>
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
                   </div>
 
                   {/* Valoración de la explicación. Se registra aparte de la

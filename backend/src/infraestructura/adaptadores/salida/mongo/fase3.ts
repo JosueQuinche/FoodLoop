@@ -37,7 +37,11 @@ import {
 import {
   ObtenerRecomendacionesUC, RegistrarDecisionUC, RegistrarMermaUC,
   ConsultarOperacionUC, RegistrarFeedbackUC, IniciarSesionUC,
+<<<<<<< HEAD
   recomendar, filtrosDuros, PESOS, VERSION_MODELO, MODELO_APRENDIDO,
+=======
+  recomendar, filtrosDuros, PESOS, VERSION_MODELO,
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 } from "@foodloop/dominio";
 import type { Rol, Lote } from "@foodloop/dominio";
 
@@ -286,6 +290,7 @@ export async function fase3(dbExterna?: Db, opciones: OpcionesFase = {}) {
     }
     const suma = propuesta.factores.reduce((a, f) => a + f.contribucion, 0);
     reg.linea("  " + "─".repeat(72));
+<<<<<<< HEAD
     reg.linea(`  ${"Valor de aprovechamiento".padEnd(42)} ${"".padStart(6)} `
       + `${suma.toFixed(2).padStart(8)}`);
 
@@ -312,6 +317,13 @@ export async function fase3(dbExterna?: Db, opciones: OpcionesFase = {}) {
     reg.linea(`  Las dos partes se leen de la aritmética del modelo, no de una`);
     reg.linea(`  cifra calculada aparte. Por eso la explicación no puede diferir`);
     reg.linea(`  del resultado.`);
+=======
+    reg.linea(`  ${"Aptitud resultante".padEnd(42)} ${"".padStart(6)} `
+      + `${suma.toFixed(2).padStart(8)}`);
+    reg.linea(`\n  La aptitud mostrada al usuario es ${propuesta.aptitud}: la suma de`);
+    reg.linea(`  las contribuciones, no una cifra calculada aparte. Por eso la`);
+    reg.linea(`  explicación no puede diferir del resultado.`);
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 
     // --- paso 3: contraste con la alternativa siguiente -------------
     if (salida.resultados[1]) {
@@ -330,6 +342,7 @@ export async function fase3(dbExterna?: Db, opciones: OpcionesFase = {}) {
           + (Math.abs(dif) > 3 ? `   ← ${dif > 0 ? "+" : ""}${dif.toFixed(1)}` : ""));
       }
       reg.linea("  " + "─".repeat(72));
+<<<<<<< HEAD
       reg.linea(`  ${"Valor de aprovechamiento".padEnd(38)} `
         + `${(propuesta.valorAprovechamiento ?? propuesta.aptitud).toFixed(1).padStart(14)} `
         + `${(otra.valorAprovechamiento ?? otra.aptitud).toFixed(1).padStart(14)}`);
@@ -338,6 +351,9 @@ export async function fase3(dbExterna?: Db, opciones: OpcionesFase = {}) {
           + `${(100 * propuesta.probabilidadEjecucion).toFixed(1).padStart(12)} % `
           + `${(100 * (otra.probabilidadEjecucion ?? 0)).toFixed(1).padStart(12)} %`);
       reg.linea(`  ${"Aptitud = P × valor".padEnd(38)} ${propuesta.aptitud.toFixed(1).padStart(14)} `
+=======
+      reg.linea(`  ${"Aptitud".padEnd(38)} ${propuesta.aptitud.toFixed(1).padStart(14)} `
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
         + `${otra.aptitud.toFixed(1).padStart(14)}`);
     }
 
@@ -374,6 +390,7 @@ export async function fase3(dbExterna?: Db, opciones: OpcionesFase = {}) {
     reg.linea("  " + "─".repeat(72));
     for (const [k, v] of Object.entries(PESOS))
       reg.linea(`  ${k.padEnd(42)} ${v.toFixed(2).padStart(6)}`);
+<<<<<<< HEAD
     reg.linea("\n  Pesos del valor: declarados en el código, de criterio experto.");
     reg.linea(`\n  COEFICIENTES APRENDIDOS · ${MODELO_APRENDIDO.algoritmo}`);
     reg.linea("  " + "─".repeat(72));
@@ -382,6 +399,9 @@ export async function fase3(dbExterna?: Db, opciones: OpcionesFase = {}) {
       reg.linea(`  ${k.padEnd(42)} ${v.toFixed(3).padStart(7)}`);
     reg.linea(`\n  Estimados con npm run ml:entrenar sobre ${MODELO_APRENDIDO.periodoEntrenamiento.desde} `
       + `a ${MODELO_APRENDIDO.periodoEntrenamiento.hasta}.`);
+=======
+    reg.linea("\n  Declarados en el código, no ajustados por caso.");
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   }
 
   reg.linea("\n  " + "═".repeat(72) + "\n");

@@ -15,7 +15,11 @@ import { aceptacionEfectiva, conteoDecisionesPorReceta } from "./repositorios";
 import type {
   DocMerma, DocIngrediente, DocRecomendacion, DocOperacion, DocReceta,
 } from "./repositorios";
+<<<<<<< HEAD
 import { PESOS, VERSION_MODELO, MODELO_APRENDIDO } from "@foodloop/dominio";
+=======
+import { PESOS, VERSION_MODELO } from "@foodloop/dominio";
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 
 const URI = process.env.MONGODB_URI ?? "mongodb://localhost:27017";
 const NOMBRE_DB = process.env.MONGODB_DB ?? "foodloop";
@@ -217,6 +221,7 @@ export async function fase4(
   // ------------------------------------------------------------------
   reg.linea("\n  PARÁMETROS DEL MODELO");
   reg.linea("  " + "─".repeat(66));
+<<<<<<< HEAD
   reg.linea("  Valor de aprovechamiento · criterio experto");
   for (const [k, v] of Object.entries(PESOS)) fila(`  ${k}`, v.toFixed(2));
   reg.linea(`\n  Probabilidad de ejecución · ${MODELO_APRENDIDO.algoritmo}`);
@@ -229,6 +234,9 @@ export async function fase4(
     fila("  NDCG@3", mp.ndcg3.toFixed(3));
     fila("  AUC de la probabilidad", mp.aucProbabilidad.toFixed(3));
   }
+=======
+  for (const [k, v] of Object.entries(PESOS)) fila(`  ${k}`, v.toFixed(2));
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   reg.linea("\n  Declarados en el código y auditables. Reportarlos es lo que");
   reg.linea("  permite que otro investigador reproduzca los resultados.");
   reg.linea("\n  " + "═".repeat(66) + "\n");

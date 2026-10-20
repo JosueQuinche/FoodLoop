@@ -216,6 +216,7 @@ const REQUERIMIENTOS: Requerimiento[] = [
         reloj(pend[0]), 1);
       const r = resultados[0];
       if (!r) return { ok: false, evidencia: "sin propuesta que explicar" };
+<<<<<<< HEAD
       // Desde el modelo 3 la explicación tiene dos partes exactas: los
       // siete factores suman el valor de aprovechamiento, y los nueve del
       // componente aprendido, con el intercepto, el logit de P.
@@ -233,6 +234,14 @@ const REQUERIMIENTOS: Requerimiento[] = [
           + `${r.contrafactuales.length} contrafactual; suman ${suma.toFixed(1)} = valor ${valor}`
           + (r.probabilidadEjecucion !== undefined
             ? `; los de ejecución reproducen P = ${(100 * pDesde).toFixed(1)} %` : ""),
+=======
+      const suma = r.factores.reduce((a, f) => a + f.contribucion, 0);
+      const coincide = Math.abs(suma - r.aptitud) < 0.15;
+      return {
+        ok: r.factores.length >= 7 && r.contrafactuales.length > 0 && coincide,
+        evidencia: `${r.factores.length} factores + ${r.contrafactuales.length} `
+          + `contrafactuales; suman ${suma.toFixed(1)} frente a aptitud ${r.aptitud}`,
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
       };
     },
   },

@@ -243,10 +243,17 @@ async function principal() {
   console.log("  Que estas cifras describan la operación real. El libro declara");
   console.log("  «RECONSTRUCCIÓN_REFERENCIAL» en las 1577 filas de merma, en las");
   console.log("  543 de servicios y en las 758 de producción; solo el recetario y");
+<<<<<<< HEAD
   console.log("  el catálogo de ingredientes son documentales. La decisión sobre");
   console.log("  cada lote viene «No autorizada» en las 1577 filas; por eso el");
   console.log("  componente aprendido se entrena con un sustituto —que la receta se");
   console.log("  produjera en ≤ 48 h— y se evalúa aparte: npm run ml:entrenar.");
+=======
+  console.log("  el catálogo de ingredientes son documentales. Y la variable que");
+  console.log("  diría si el modelo acierta —qué hizo la cocina con cada lote—");
+  console.log("  viene «No autorizada» en las 1577 filas, de modo que sigue sin");
+  console.log("  haber con qué ajustar los pesos ni contra qué comparar.");
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   console.log();
 }
 

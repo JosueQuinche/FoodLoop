@@ -4,6 +4,7 @@ Modelo de aprovechamiento de mermas alimentarias para operaciones de catering
 industrial. A partir de las mermas disponibles, recomienda recetas de
 reaprovechamiento y explica en qué se basa cada propuesta.
 
+<<<<<<< HEAD
 Desde la versión 3 el modelo incorpora **aprendizaje automático
 supervisado**: una regresión logística entrenada con el histórico de
 producción estima la probabilidad de que cada propuesta se ejecute, y la
@@ -12,6 +13,8 @@ sanitarias siguen siendo reglas duras que ningún coeficiente puede
 saltarse. Detalle, métricas y comparación en la sección
 [Componente de aprendizaje automático](#componente-de-aprendizaje-automático).
 
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 Frontend en React, backend en Express y MongoDB como base de datos no
 relacional, con un núcleo de dominio compartido por ambos extremos.
 
@@ -159,13 +162,21 @@ El motor vive en `dominio/src/servicios/motor/`, una etapa por archivo:
 ```
 motor/
   index.ts              la tubería: encadena las seis etapas y arma la traza
+<<<<<<< HEAD
   pesos.ts              los siete pesos de valor y la definición del componente aprendido
   modelo-aprendido.ts   coeficientes estimados (generado por npm run ml:entrenar)
+=======
+  pesos.ts              los siete parámetros, con la procedencia de cada uno
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   ficha.ts              qué hace cada etapa y por qué está separada
   e1-entrada.ts         E1 · entrada de datos
   e2-restricciones.ts   E2 · seis reglas binarias, cinco sanitarias
   e3-caracteristicas.ts E3 · la situación de cocina medida en siete ejes
+<<<<<<< HEAD
   e4-puntuacion.ts      E4 · valor (7 pesos) × probabilidad aprendida (9 coeficientes)
+=======
+  e4-puntuacion.ts      E4 · combinación lineal del vector con los pesos
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   e5-ordenamiento.ts    E5 · aptitud y tres desempates declarados
   e6-explicacion.ts     E6 · descomposición, resumen y contrafactual
 ```
@@ -447,6 +458,7 @@ decidir, no de una descripción escrita aparte: si una etapa cambia de
 responsabilidad y nadie actualiza su descripción, la discrepancia
 aparece en la pantalla que la muestra.
 
+<<<<<<< HEAD
 ## Componente de aprendizaje automático
 
 ```bash
@@ -487,6 +499,8 @@ señal dominante, y el modelo 3 la combina con el valor de
 aprovechamiento, una probabilidad calibrada y la explicación exacta.
 Las cifras completas quedan en `evidencias/ml/`.
 
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 ## Verificar la arquitectura
 
 ```bash

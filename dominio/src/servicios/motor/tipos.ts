@@ -10,9 +10,13 @@
 import type {
   Lote, ItemCatalogo, AporteLote, Descarte, Resultado, Requisito,
 } from "../../modelo/tipos";
+<<<<<<< HEAD
 import type {
   Caracteristica, VectorPesos, SenalOperacion, EntradaAprendida,
 } from "./pesos";
+=======
+import type { Caracteristica, VectorPesos } from "./pesos";
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 
 // =====================================================================
 // Etapa 1 · Entrada
@@ -104,12 +108,15 @@ export interface Caracteristicas {
   valores: Record<Caracteristica, number>;
   /** Lo observado en cada eje, en palabras, para la explicación. */
   observaciones: Record<Caracteristica, string>;
+<<<<<<< HEAD
   /**
    * Señales de operación del histórico de producción. Entran solo en el
    * componente aprendido, no en el valor de aprovechamiento.
    */
   senales: Record<SenalOperacion, number>;
   observacionesSenales: Record<SenalOperacion, string>;
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   /** Horas de vida útil del lote más comprometido del conjunto. */
   horasConjunto: number;
   /** El lote que fija esa ventana. */
@@ -128,6 +135,7 @@ export interface Caracteristicas {
 // Etapa 4 · Puntuación
 // =====================================================================
 
+<<<<<<< HEAD
 /**
  * Cómo se puntúa. `aprendida` es el modelo 3 y el valor por defecto;
  * `experta` reproduce el modelo 2 —aptitud = valor de aprovechamiento—
@@ -154,6 +162,12 @@ export interface Puntuacion {
   coeficientes: Record<EntradaAprendida, number>;
   modo: ModoPuntuacion;
   /** Aporte de cada característica al VALOR. Suma = bruto. */
+=======
+export interface Puntuacion {
+  /** Puntuación final, en [0,100] y con un decimal. */
+  aptitud: number;
+  /** Aporte de cada característica a la puntuación. Suma = bruto. */
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   contribuciones: Record<Caracteristica, number>;
   /** Suma antes de recortar al intervalo [0,100]. */
   bruto: number;
@@ -209,9 +223,12 @@ export interface TrazaModelo {
     receta: string;
     valores: Record<Caracteristica, number>;
     contribuciones: Record<Caracteristica, number>;
+<<<<<<< HEAD
     senales: Record<SenalOperacion, number>;
     valor: number;
     probabilidad: number;
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
     aptitud: number;
   }[];
   /** Reglas incumplidas por receta descartada. */

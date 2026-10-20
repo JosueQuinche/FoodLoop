@@ -1,6 +1,7 @@
 /**
  * FoodLoop · Parámetros del modelo
  *
+<<<<<<< HEAD
  * El modelo tiene dos conjuntos de parámetros, y se justifican de forma
  * distinta:
  *
@@ -25,6 +26,25 @@
  * proponía con frecuencia recetas que nunca se cocinan en el centro
  * —deshidratados, polvos— porque nada en él sabía qué entra en el menú.
  * El segundo conjunto es lo que la versión 3 añade.
+=======
+ * Este archivo contiene lo único del motor que es un parámetro y no una
+ * regla: los siete pesos con que se combinan las características
+ * observadas. Está separado del código que los aplica a propósito.
+ *
+ * La razón es que un peso y una regla se justifican de forma distinta.
+ * Una regla sanitaria se defiende con la norma que la obliga; un peso se
+ * defiende con el criterio de quien lo fijó, y más adelante con los datos
+ * que lo confirmen o lo corrijan. Teniéndolos en un archivo aparte, con
+ * su procedencia declarada, se puede sustituir el conjunto completo por
+ * uno ajustado sobre el histórico de decisiones sin tocar una sola línea
+ * de la lógica del motor: `puntuar()` recibe el vector de pesos como
+ * argumento.
+ *
+ * Mientras no exista ese histórico, la procedencia de los siete es
+ * `experto`. Declararlo es parte de la honestidad del modelo: un peso
+ * fijado por criterio y uno estimado sobre datos no sostienen las mismas
+ * afirmaciones.
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
  */
 
 /**
@@ -162,6 +182,7 @@ export const PESOS: VectorPesos = Object.fromEntries(
  */
 export const cotaSuperior = (pesos: VectorPesos = PESOS): number =>
   CARACTERISTICAS.reduce((a, c) => a + Math.max(0, pesos[c]), 0) * 100;
+<<<<<<< HEAD
 
 // =====================================================================
 // Componente aprendido · probabilidad de ejecución
@@ -232,3 +253,5 @@ export interface ModeloAprendido {
   /** Métricas sobre el periodo de prueba, que el modelo no vio. */
   metricasPrueba: Record<string, number>;
 }
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6

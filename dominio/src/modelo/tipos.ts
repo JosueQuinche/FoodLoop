@@ -117,6 +117,7 @@ export interface ItemCatalogo {
   aceptacion: number;
   requisitos: Requisito[];
   pasos: string[];
+<<<<<<< HEAD
   /**
    * Fechas (AAAA-MM-DD) en que el centro produjo esta receta. Es la
    * memoria de operación de la que el componente aprendido saca sus dos
@@ -124,6 +125,8 @@ export interface ItemCatalogo {
    * modelo sigue funcionando con las siete características.
    */
   producciones?: string[];
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 }
 
 /** Porción de un lote que una recomendación consume. */
@@ -181,6 +184,7 @@ export interface Resultado {
   autorizable?: boolean;
   /** Qué habría que medir para poder autorizarla. Una línea por falta. */
   faltaMedir?: string[];
+<<<<<<< HEAD
   /**
    * Componente aprendido (modelo 3). `aptitud` es el producto de las dos
    * cifras: probabilidad de ejecución × valor de aprovechamiento.
@@ -195,6 +199,8 @@ export interface Resultado {
    */
   factoresEjecucion?: Factor[];
   interceptoEjecucion?: number;
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 }
 
 /**

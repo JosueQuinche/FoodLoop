@@ -32,9 +32,13 @@
     "evidencias": "tsx herramientas/ejecutar-fases.ts --datos=./datos --reloj=porLote --evidencias=./evidencias",
     "evidencias:potencial": "tsx herramientas/ejecutar-fases.ts --datos=./datos --reloj=porLote --modo=potencial --evidencias=./evidencias-potencial",
     "esquema": "tsx herramientas/aplicar-esquema.ts",
+<<<<<<< HEAD
     "exportar:mongo": "tsx herramientas/exportar-mongo.ts ./datos ./mongo-export",
     "ml:entrenar": "tsx herramientas/ml/entrenar.ts",
     "ml:comparar": "python3 herramientas/ml/comparar.py evidencias/ml"
+=======
+    "exportar:mongo": "tsx herramientas/exportar-mongo.ts ./datos ./mongo-export"
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   },
   "devDependencies": {
     "concurrently": "^9.1.0",

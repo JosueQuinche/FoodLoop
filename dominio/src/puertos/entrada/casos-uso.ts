@@ -203,6 +203,7 @@ export interface FichaModelo {
   }[];
   cotaSuperior: number;
   pendiente: string[];
+<<<<<<< HEAD
   /** Componente de aprendizaje automático: qué se estimó y cómo rinde. */
   aprendido: {
     version: string; algoritmo: string; objetivo: string;
@@ -217,6 +218,8 @@ export interface FichaModelo {
     }[];
     metricasPrueba: Record<string, number>;
   };
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 }
 
 export interface InspeccionarModelo {

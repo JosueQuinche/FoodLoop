@@ -8,11 +8,16 @@
  * La explicación no se reconstruye: se lee de la aritmética que ya
  * calculó la etapa 4. La contribución que el usuario ve de cada factor
  * es exactamente el término que entró en la suma, no una estimación
+<<<<<<< HEAD
  * posterior de cuánto influyó. Por eso las siete contribuciones suman el
  * valor de aprovechamiento, las nueve del componente aprendido suman
  * (con el intercepto) el logit de la probabilidad de ejecución, y la
  * aptitud es el producto de las dos cifras. Todo se comprueba con una
  * calculadora.
+=======
+ * posterior de cuánto influyó. Por eso las siete contribuciones suman la
+ * aptitud, y puede comprobarse con una calculadora.
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
  *
  * Tres niveles, porque en la evaluación con usuarios quedó claro que no
  * todos quieren lo mismo:
@@ -25,7 +30,11 @@
  */
 
 import type { ItemCatalogo, Factor, Lote } from "../../modelo/tipos";
+<<<<<<< HEAD
 import { CARACTERISTICAS, PARAMETROS, ENTRADAS_APRENDIDAS, etiquetaEntrada } from "./pesos";
+=======
+import { CARACTERISTICAS, PARAMETROS } from "./pesos";
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 import type { VectorPesos } from "./pesos";
 import type { Caracteristicas, Puntuacion } from "./tipos";
 
@@ -50,6 +59,7 @@ export function descomponer(
   }));
 }
 
+<<<<<<< HEAD
 /**
  * Descompone el logit de la probabilidad de ejecución en sus nueve
  * términos. `peso` es el coeficiente aprendido y `contribucion` el
@@ -85,6 +95,8 @@ export function descomponerEjecucion(c: Caracteristicas, p: Puntuacion): Factor[
   });
 }
 
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 export function resumir(c: Caracteristicas, item: ItemCatalogo): string {
   const { aportes, horasConjunto: horas, escala } = c;
   const aporte = c.valores.aporteMerma;

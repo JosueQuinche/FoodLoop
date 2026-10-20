@@ -4,6 +4,7 @@
  *
  * ARQUITECTURA DEL MODELO
  *
+<<<<<<< HEAD
  * Desde la versión 3 el modelo es HÍBRIDO: restricciones sanitarias
  * duras, un valor de aprovechamiento de criterio experto y un
  * componente de APRENDIZAJE AUTOMÁTICO supervisado —regresión
@@ -21,6 +22,13 @@
  *   · SÍ se aprende qué propuestas llega a ejecutar la cocina: los
  *     nueve coeficientes de la probabilidad, estimados con
  *     `npm run ml:entrenar` y escritos en `modelo-aprendido.ts`.
+=======
+ * El modelo es un recomendador basado en conocimiento con explicación
+ * incorporada. No aprende de ejemplos: ordena alternativas según un
+ * criterio declarado, porque en el arranque de una operación no existe
+ * histórico de decisiones del que aprender, y porque las restricciones
+ * sanitarias no son algo que convenga inducir de datos.
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
  *
  * Se ejecuta en seis etapas, cada una en su propio archivo, con su
  * entrada y su salida declaradas:
@@ -39,7 +47,11 @@
  *   │  → vector de siete números en [0,1], sin pesos                  │
  *   ├──────────────────────────────────────────────────────────────────┤
  *   │  E4 · PUNTUACIÓN                            e4-puntuacion.ts    │
+<<<<<<< HEAD
  *   │  valor (7 pesos expertos) × P(ejecución) (regresión logística)  │
+=======
+ *   │  combinación lineal del vector con los pesos del modelo         │
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
  *   │  → aptitud en [0,100] y contribución de cada eje                │
  *   ├──────────────────────────────────────────────────────────────────┤
  *   │  E5 · ORDENAMIENTO                          e5-ordenamiento.ts  │
@@ -66,12 +78,22 @@
  *
  * LO QUE EL MODELO NO HACE TODAVÍA
  *
+<<<<<<< HEAD
  * La variable que el componente aprendido predice es un sustituto: que
  * la receta se produzca en el centro dentro de las 48 h siguientes al
  * lote. Dice que la propuesta encaja en el menú real, no que la merma
  * se usara efectivamente en ella; para eso hace falta registrar las
  * decisiones del chef sobre las propuestas, que es lo que el bucle de
  * retroalimentación empieza a acumular.
+=======
+ * Los pesos están fijados por criterio experto, no estimados sobre
+ * datos. El único componente que se ajusta con el uso es la aceptación
+ * histórica de cada plato, que se actualiza con las decisiones
+ * registradas. Para ajustar los siete pesos hace falta el histórico de
+ * decisiones del centro de producción: qué se hizo realmente con cada
+ * lote de merma. Mientras no exista, el modelo se verifica —cumple lo
+ * que promete— pero no se valida contra la práctica.
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
  */
 
 import type {
@@ -81,31 +103,46 @@ import type {
   Candidata, SalidaModelo, TrazaEtapa, TrazaModelo, EntradaModelo,
   CodigoRestriccion, Incumplimiento,
 } from "./tipos";
+<<<<<<< HEAD
 import type { VectorPesos, ModeloAprendido } from "./pesos";
 import { PESOS } from "./pesos";
 import { MODELO_APRENDIDO } from "./modelo-aprendido";
 import type { ModoPuntuacion } from "./tipos";
+=======
+import type { VectorPesos } from "./pesos";
+import { PESOS } from "./pesos";
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 import { normalizarEntrada, horasRestantes } from "./e1-entrada";
 import { aplicarRestricciones, REGLAS } from "./e2-restricciones";
 import { extraerCaracteristicas } from "./e3-caracteristicas";
 import { puntuar } from "./e4-puntuacion";
 import { ordenar } from "./e5-ordenamiento";
+<<<<<<< HEAD
 import {
   descomponer, descomponerEjecucion, resumir, contrafactual,
 } from "./e6-explicacion";
 
 export const VERSION_MODELO = "3.0.0";
+=======
+import { descomponer, resumir, contrafactual } from "./e6-explicacion";
+
+export const VERSION_MODELO = "2.1.0";
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 
 export * from "./pesos";
 export * from "./tipos";
 export * from "./ficha";
+<<<<<<< HEAD
 export { MODELO_APRENDIDO } from "./modelo-aprendido";
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 export { horasRestantes, horasDelConjunto, usablesEn, normalizarEntrada } from "./e1-entrada";
 export {
   aplicarRestricciones, REGLAS, REGLAS_LOTE, ORDEN_REGLAS,
   MARGEN_H, LIMITE_FRIO_C, TEMP_SEGURA_C,
 } from "./e2-restricciones";
 export {
+<<<<<<< HEAD
   extraerCaracteristicas, calcularEscala, repartir, senalesOperacion, diaLocal,
   JERARQUIA, HORIZONTE_URGENCIA_H, ESCALA_MAX, ESCALA_MIN,
 } from "./e3-caracteristicas";
@@ -114,6 +151,14 @@ export { ordenar } from "./e5-ordenamiento";
 export {
   descomponer, descomponerEjecucion, resumir, contrafactual,
 } from "./e6-explicacion";
+=======
+  extraerCaracteristicas, calcularEscala, repartir,
+  JERARQUIA, HORIZONTE_URGENCIA_H, ESCALA_MAX, ESCALA_MIN,
+} from "./e3-caracteristicas";
+export { puntuar } from "./e4-puntuacion";
+export { ordenar } from "./e5-ordenamiento";
+export { descomponer, resumir, contrafactual } from "./e6-explicacion";
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 
 /**
  * Modo de ejecución del modelo.
@@ -153,6 +198,7 @@ export interface OpcionesModelo {
   pesos?: VectorPesos;
   /** Por defecto `operacion`. */
   modo?: ModoModelo;
+<<<<<<< HEAD
   /** Coeficientes del componente aprendido. Por defecto, los entrenados. */
   modelo?: ModeloAprendido;
   /**
@@ -160,6 +206,8 @@ export interface OpcionesModelo {
    * el modelo 2 para poder comparar las dos versiones.
    */
   puntuacion?: ModoPuntuacion;
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 }
 
 /** Construye el `Resultado` que consume la interfaz, desde las etapas. */
@@ -172,12 +220,15 @@ function componer(
     item,
     aptitud: p.aptitud,
     factores: descomponer(car, p, pesos),
+<<<<<<< HEAD
     ...(p.modo === "aprendida" ? {
       probabilidadEjecucion: Math.round(p.probabilidad * 1000) / 1000,
       valorAprovechamiento: p.valor,
       factoresEjecucion: descomponerEjecucion(car, p),
       interceptoEjecucion: p.intercepto,
     } : {}),
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
     aportes: car.aportes,
     kgAprovechados: Math.round(car.kgUsados * 100) / 100,
     porciones: Math.round(item.porcionesBase * car.escala),
@@ -219,8 +270,11 @@ export function ejecutarModelo(
 ): SalidaModelo {
   const topN = opciones.topN ?? 3;
   const pesos = opciones.pesos ?? PESOS;
+<<<<<<< HEAD
   const modelo = opciones.modelo ?? MODELO_APRENDIDO;
   const modoPunt: ModoPuntuacion = opciones.puntuacion ?? "aprendida";
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   const modo: ModoModelo = opciones.modo ?? "operacion";
   const aplazar: CodigoRestriccion[] =
     modo === "potencial" ? ["R1", "R4"] : [];
@@ -303,18 +357,28 @@ export function ejecutarModelo(
   etapas.push({
     codigo: "E3", nombre: "Extracción de características",
     entra: `${admisibles.length} recetas admisibles`,
+<<<<<<< HEAD
     sale: `${conCaracteristicas.length} vectores de 7 características `
       + "y 2 señales de operación",
+=======
+    sale: `${conCaracteristicas.length} vectores de 7 características`,
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
     ms: marca() - t,
     detalle: {
       ejes: ["cobertura", "aporteMerma", "urgencia", "absorcion",
         "jerarquia", "aceptacion", "cargaArea"],
+<<<<<<< HEAD
       senales: ["frecuenciaMenu", "recenciaMenu"],
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
       vectores: conCaracteristicas.map((c) => ({
         receta: c.item.codigo,
         escala: Math.round(c.caracteristicas.escala * 100) / 100,
         valores: c.caracteristicas.valores,
+<<<<<<< HEAD
         senales: c.caracteristicas.senales,
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
       })),
     },
   });
@@ -324,19 +388,28 @@ export function ejecutarModelo(
   const candidatas: Candidata[] = conCaracteristicas.map((c) => ({
     item: c.item,
     caracteristicas: c.caracteristicas,
+<<<<<<< HEAD
     puntuacion: puntuar(c.caracteristicas, pesos, modelo, modoPunt),
+=======
+    puntuacion: puntuar(c.caracteristicas, pesos),
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   }));
   const recortadas = candidatas.filter((c) => c.puntuacion.recortada).length;
   etapas.push({
     codigo: "E4", nombre: "Puntuación",
+<<<<<<< HEAD
     entra: modoPunt === "aprendida"
       ? `${candidatas.length} vectores · 7 pesos de valor · 9 coeficientes aprendidos`
       : `${candidatas.length} vectores · 7 pesos`,
+=======
+    entra: `${candidatas.length} vectores · 7 pesos`,
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
     sale: `${candidatas.length} aptitudes en [0,100]`
       + (recortadas ? ` · ${recortadas} recortadas` : ""),
     ms: marca() - t,
     detalle: {
       pesos,
+<<<<<<< HEAD
       puntuacion: modoPunt,
       modeloAprendido: modoPunt === "aprendida"
         ? { version: modelo.version, intercepto: modelo.intercepto,
@@ -346,6 +419,10 @@ export function ejecutarModelo(
       aptitudes: candidatas.map((c) => [c.item.codigo, c.puntuacion.aptitud]),
       probabilidades: candidatas.map((c) =>
         [c.item.codigo, Math.round(c.puntuacion.probabilidad * 1000) / 1000]),
+=======
+      recortadas,
+      aptitudes: candidatas.map((c) => [c.item.codigo, c.puntuacion.aptitud]),
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
     },
   });
 
@@ -373,20 +450,29 @@ export function ejecutarModelo(
   etapas.push({
     codigo: "E6", nombre: "Explicación",
     entra: `${ranking.length} propuestas`,
+<<<<<<< HEAD
     sale: `${resultados.length} explicaciones · 7 factores de valor · `
       + (modoPunt === "aprendida" ? "9 de ejecución · " : "")
+=======
+    sale: `${resultados.length} explicaciones · 7 factores · `
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
       + "1 resumen · 1 contrafactual cada una",
     ms: marca() - t,
     detalle: {
       comprobacion: resultados.map((r) => ({
         receta: r.item.codigo,
         aptitud: r.aptitud,
+<<<<<<< HEAD
         valor: r.valorAprovechamiento ?? r.aptitud,
         // Las contribuciones deben sumar el valor. Es la comprobación
+=======
+        // Las contribuciones deben sumar la aptitud. Es la comprobación
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
         // de que la explicación es la aritmética del modelo y no un
         // relato construido aparte.
         sumaFactores: Math.round(
           r.factores.reduce((a, f) => a + f.contribucion, 0) * 10) / 10,
+<<<<<<< HEAD
         // Y las del componente aprendido, más el intercepto, el logit.
         probabilidad: r.probabilidadEjecucion ?? null,
         probabilidadDesdeFactores: r.factoresEjecucion
@@ -394,6 +480,8 @@ export function ejecutarModelo(
             (r.interceptoEjecucion ?? 0)
             + r.factoresEjecucion.reduce((a, f) => a + f.contribucion, 0))))) / 1000
           : null,
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
       })),
     },
   });
@@ -407,9 +495,12 @@ export function ejecutarModelo(
       receta: c.item.codigo,
       valores: c.caracteristicas.valores,
       contribuciones: c.puntuacion.contribuciones,
+<<<<<<< HEAD
       senales: c.caracteristicas.senales,
       valor: c.puntuacion.valor,
       probabilidad: c.puntuacion.probabilidad,
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
       aptitud: c.puntuacion.aptitud,
     })),
     descartesDetallados,
@@ -447,8 +538,11 @@ export function recomendar(
 export function evaluar(
   lotes: Lote[], item: ItemCatalogo, disponibles: Map<number, number>,
   cargaArea: number, ahora: Date, pesos: VectorPesos = PESOS,
+<<<<<<< HEAD
   modelo: ModeloAprendido = MODELO_APRENDIDO,
   modoPunt: ModoPuntuacion = "aprendida",
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 ): Resultado {
   const entrada: EntradaModelo = {
     lotes, catalogo: [item], inventario: disponibles,
@@ -457,8 +551,12 @@ export function evaluar(
   const usables = aplicarRestricciones(lotes, item, ahora).usables;
   const caracteristicas = extraerCaracteristicas(usables, item, entrada);
   const candidata: Candidata = {
+<<<<<<< HEAD
     item, caracteristicas,
     puntuacion: puntuar(caracteristicas, pesos, modelo, modoPunt),
+=======
+    item, caracteristicas, puntuacion: puntuar(caracteristicas, pesos),
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   };
   return componer(candidata, usables, pesos);
 }

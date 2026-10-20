@@ -27,6 +27,7 @@ evidencias-potencial/
 # los documentos de MongoDB SÍ se versionan: son el anexo de datos del
 # trabajo y la entrada con que se carga la base sin ejecutar el
 # convertidor. Se regeneran con `npm run exportar:mongo`.
+<<<<<<< HEAD
 entrega/
 # las métricas del componente aprendido sí se versionan (sin el conjunto,
 # que se regenera con `npm run ml:entrenar`)
@@ -34,3 +35,6 @@ entrega/
 evidencias/*
 !evidencias/ml/
 evidencias/ml/dataset.csv
+=======
+__pycache__/
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6

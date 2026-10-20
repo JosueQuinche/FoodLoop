@@ -48,8 +48,12 @@ export const ETAPAS: readonly DescripcionEtapa[] = [
     nombre: "Extracción de características",
     archivo: "dominio/src/servicios/motor/e3-caracteristicas.ts",
     entra: "una receta admisible y los lotes que puede usar",
+<<<<<<< HEAD
     sale: "siete números en [0,1] —el vector del modelo—, dos señales de "
       + "operación sacadas del histórico de producción y lo observado en "
+=======
+    sale: "siete números en [0,1] —el vector del modelo— y lo observado en "
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
       + "cada eje, en palabras",
     porQue: "Es la etapa que convierte una situación de cocina en una "
       + "representación comparable entre recetas distintas. No conoce los "
@@ -60,6 +64,7 @@ export const ETAPAS: readonly DescripcionEtapa[] = [
     codigo: "E4",
     nombre: "Puntuación",
     archivo: "dominio/src/servicios/motor/e4-puntuacion.ts",
+<<<<<<< HEAD
     entra: "el vector, los siete pesos de valor y los nueve coeficientes "
       + "aprendidos por regresión logística",
     sale: "la aptitud = P(ejecución) × valor de aprovechamiento, con la "
@@ -68,6 +73,14 @@ export const ETAPAS: readonly DescripcionEtapa[] = [
       + "probabilidad, qué ejecuta de verdad la cocina (aprendida de datos). "
       + "Las dos partes son lineales en su escala, de modo que la "
       + "explicación sigue siendo exacta y no una aproximación posterior.",
+=======
+    entra: "el vector de características y el vector de pesos",
+    sale: "la aptitud en [0,100] y la contribución de cada eje",
+    porQue: "Combinación lineal. Es lineal por decisión: permite afirmar que "
+      + "un eje aportó exactamente tantos puntos, y comprobarlo sumando. Con "
+      + "un modelo no lineal la explicación habría que aproximarla después, y "
+      + "el usuario leería una estimación de la decisión, no la decisión.",
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   },
   {
     codigo: "E5",
@@ -84,17 +97,24 @@ export const ETAPAS: readonly DescripcionEtapa[] = [
     nombre: "Explicación",
     archivo: "dominio/src/servicios/motor/e6-explicacion.ts",
     entra: "el vector, la puntuación y los pesos",
+<<<<<<< HEAD
     sale: "la descomposición por factores (valor y ejecución), el resumen y "
       + "el contrafactual",
     porQue: "La explicación se lee de la aritmética que ya calculó la etapa "
       + "4, no se reconstruye. Las siete contribuciones suman el valor, las "
       + "nueve del componente aprendido suman el logit de la probabilidad, y "
+=======
+    sale: "la descomposición por factores, el resumen y el contrafactual",
+    porQue: "La explicación se lee de la aritmética que ya calculó la etapa "
+      + "4, no se reconstruye. Las siete contribuciones suman la aptitud y "
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
       + "puede comprobarse con una calculadora.",
   },
 ] as const;
 
 /** Lo que el modelo todavía no hace, dicho sin adornos. */
 export const PENDIENTE: readonly string[] = [
+<<<<<<< HEAD
   "La probabilidad de ejecución se aprende sobre un sustituto: que la "
   + "receta se produjera en el centro en las 48 h siguientes al lote. Dice "
   + "que la propuesta encaja en el menú real, no que la merma se usara en "
@@ -111,3 +131,21 @@ export const TIPO_MODELO =
   + "restricciones sanitarias duras, valor de aprovechamiento de criterio "
   + "experto y probabilidad de ejecución estimada por regresión logística "
   + "sobre el histórico de producción. Aptitud = P(ejecución) × valor.";
+=======
+  "Los siete pesos están fijados por criterio experto, no estimados sobre "
+  + "datos. El único componente que se ajusta con el uso es la aceptación "
+  + "histórica de cada plato.",
+  "Para estimar los pesos hace falta el histórico de decisiones del centro "
+  + "de producción: qué se hizo realmente con cada lote de merma. Mientras "
+  + "no exista, el modelo se verifica —cumple lo que promete— pero no se "
+  + "valida contra la práctica.",
+  "El conjunto con que se ha probado es sintético. Las cifras de cobertura "
+  + "y de aptitud media describen el comportamiento del artefacto, no el de "
+  + "la operación real.",
+] as const;
+
+export const TIPO_MODELO =
+  "Recomendador basado en conocimiento con explicación incorporada, "
+  + "con restricciones duras sanitarias y puntuación lineal ponderada "
+  + "sobre siete características observables.";
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6

@@ -24,10 +24,14 @@
  */
 
 import type { ItemCatalogo, Lote, AporteLote, TipoProceso, Requisito } from "../../modelo/tipos";
+<<<<<<< HEAD
 import type { Caracteristica, SenalOperacion } from "./pesos";
 import {
   VENTANA_FRECUENCIA_DIAS, SATURACION_FRECUENCIA, DECAIMIENTO_RECENCIA_DIAS,
 } from "./pesos";
+=======
+import type { Caracteristica } from "./pesos";
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 import type { Caracteristicas, EntradaModelo } from "./tipos";
 import { horasRestantes, horasDelConjunto } from "./e1-entrada";
 
@@ -50,6 +54,7 @@ export const HORIZONTE_URGENCIA_H = 48;
 export const ESCALA_MAX = 4;
 export const ESCALA_MIN = 0.25;
 
+<<<<<<< HEAD
 /** Fecha local AAAA-MM-DD de un instante. */
 export function diaLocal(d: Date): string {
   const p = (n: number) => String(n).padStart(2, "0");
@@ -96,6 +101,8 @@ export function senalesOperacion(item: ItemCatalogo, ahora: Date): {
   };
 }
 
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 function agruparPorIngrediente(lotes: Lote[]): Map<number, number> {
   const m = new Map<number, number>();
   for (const l of lotes)
@@ -245,6 +252,7 @@ export function extraerCaracteristicas(
     cargaArea: `${item.area} al ${Math.round(cargaArea * 100)} %`,
   };
 
+<<<<<<< HEAD
   const senales = senalesOperacion(item, ahora);
 
   return {
@@ -252,6 +260,11 @@ export function extraerCaracteristicas(
     valores, observaciones,
     senales: senales.valores,
     observacionesSenales: senales.observaciones,
+=======
+  return {
+    escala, aportes, kgUsados, pesoRecetaKg,
+    valores, observaciones,
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
     horasConjunto, masUrgente, porIngrediente, faltantes,
     costoRecuperado: Math.round(
       aportes.reduce((a, x) => a + x.cantidadUsada * x.lote.costoUnitario, 0)

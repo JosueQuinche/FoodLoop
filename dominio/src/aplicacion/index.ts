@@ -30,7 +30,10 @@ import {
   sugerirLotes, horasRestantes, VERSION_MODELO,
   ejecutarModelo, ETAPAS, PENDIENTE, TIPO_MODELO,
   PARAMETROS, CARACTERISTICAS, REGLAS, cotaSuperior,
+<<<<<<< HEAD
   MODELO_APRENDIDO, ENTRADAS_APRENDIDAS, etiquetaEntrada,
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 } from "../servicios/motor/index";
 import { permisosDe } from "../servicios/autorizacion";
 
@@ -238,6 +241,7 @@ export class InspeccionarModeloUC implements InspeccionarModelo {
       })),
       cotaSuperior: cotaSuperior(),
       pendiente: [...PENDIENTE],
+<<<<<<< HEAD
       aprendido: {
         version: MODELO_APRENDIDO.version,
         algoritmo: MODELO_APRENDIDO.algoritmo,
@@ -257,6 +261,8 @@ export class InspeccionarModeloUC implements InspeccionarModelo {
         })),
         metricasPrueba: { ...MODELO_APRENDIDO.metricasPrueba },
       },
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
     };
   }
 

@@ -8,7 +8,10 @@
  */
 export * from "./modelo/tipos";
 export * from "./servicios/motor/index";
+<<<<<<< HEAD
 export * from "./servicios/aprendizaje/index";
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 export * from "./servicios/autorizacion";
 export * from "./servicios/unidades";
 export * from "./puertos/entrada/casos-uso";

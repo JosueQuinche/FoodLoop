@@ -13,9 +13,12 @@
  * Los desempates van en orden de objetivo del sistema:
  *
  *   1. aptitud, de mayor a menor;
+<<<<<<< HEAD
  *   1b. valor de aprovechamiento, de mayor a menor —desde la versión 3
  *      la aptitud es P × valor, y ante igual aptitud se prefiere la que
  *      más aprovecha si se ejecuta;
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
  *   2. kilos de merma aprovechados, de mayor a menor —ante igual
  *      puntuación, se prefiere la que da salida a más excedente;
  *   3. ventana sanitaria más corta primero —se atiende antes lo que
@@ -39,7 +42,10 @@ export function ordenar(candidatas: Candidata[], topN: number): {
 } {
   const ordenadas = [...candidatas].sort((a, b) =>
     b.puntuacion.aptitud - a.puntuacion.aptitud
+<<<<<<< HEAD
     || b.puntuacion.valor - a.puntuacion.valor
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
     || b.caracteristicas.kgUsados - a.caracteristicas.kgUsados
     || a.caracteristicas.horasConjunto - b.caracteristicas.horasConjunto
     || a.item.codigo.localeCompare(b.item.codigo));

@@ -180,6 +180,7 @@ Esa comparación queda pendiente del conjunto de datos reales del caso de
 estudio, con seis meses de producción, asistencia y mermas. Declararlo
 como limitación es preferible a reportar un número que no se sostiene.
 
+<<<<<<< HEAD
 ### Actualización · modelo 3
 
 Desde la versión 3 sí se mide acierto predictivo, sobre una variable
@@ -192,6 +193,8 @@ Sigue siendo un sustituto de la decisión real del chef; el cuestionario
 de esta fase y las decisiones registradas en las sesiones son lo que lo
 completa.
 
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 ## Nota sobre el bucle de retroalimentación
 
 La aceptación de cada receta se recalcula a partir de las decisiones

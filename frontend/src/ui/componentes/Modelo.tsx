@@ -250,10 +250,15 @@ export function Modelo({ salida }: { salida: SalidaRecomendacion | null }) {
           <div className="seccion-cab">
             <h2>Etapa 4 · de dónde sale la aptitud {fmt(primera.aptitud, 1)}</h2>
             <p className="pequeno apagado">
+<<<<<<< HEAD
               valor de aprovechamiento = suma de (valor × peso × 100), recortada
               a [0, 100]; aptitud = P(ejecución) × valor, con P estimada por el
               componente aprendido (sección más abajo). La cota de estos pesos
               es {ficha.cotaSuperior}.
+=======
+              aptitud = suma de (valor × peso × 100), recortada a [0, 100].
+              La cota de estos pesos es {ficha.cotaSuperior}.
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
             </p>
           </div>
           <div className="tarjeta sin-relleno">
@@ -288,13 +293,18 @@ export function Modelo({ salida }: { salida: SalidaRecomendacion | null }) {
               </tbody>
               <tfoot>
                 <tr>
+<<<<<<< HEAD
                   <td colSpan={3}>Suma de las siete contribuciones = valor de aprovechamiento</td>
+=======
+                  <td colSpan={3}>Suma de las siete contribuciones</td>
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
                   <td className="num mono fuerte">
                     {fmt(EJES.reduce(
                       (a, k) => a + eje(vectorGanador.contribuciones, k), 0), 1)}
                   </td>
                   <td />
                 </tr>
+<<<<<<< HEAD
                 {primera.probabilidadEjecucion !== undefined && (
                   <tr>
                     <td colSpan={3}>× probabilidad de ejecución (aprendida)</td>
@@ -304,6 +314,8 @@ export function Modelo({ salida }: { salida: SalidaRecomendacion | null }) {
                     <td />
                   </tr>
                 )}
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
                 <tr>
                   <td colSpan={3}>Aptitud publicada</td>
                   <td className="num mono fuerte">{fmt(primera.aptitud, 1)}</td>
@@ -389,10 +401,18 @@ export function Modelo({ salida }: { salida: SalidaRecomendacion | null }) {
       </div>
 
       <div className="seccion-cab">
+<<<<<<< HEAD
         <h2>Valor de aprovechamiento · los siete pesos</h2>
         <p className="pequeno apagado">
           El objetivo del sistema, de criterio experto. Viven en un archivo
           aparte y entran a la etapa 4 como argumento.
+=======
+        <h2>Los siete parámetros</h2>
+        <p className="pequeno apagado">
+          Viven en un archivo aparte y entran a la etapa 4 como argumento.
+          Sustituirlos por unos ajustados sobre datos no toca ninguna otra
+          etapa.
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
         </p>
       </div>
       <div className="tarjeta sin-relleno">
@@ -417,6 +437,7 @@ export function Modelo({ salida }: { salida: SalidaRecomendacion | null }) {
         </table>
       </div>
 
+<<<<<<< HEAD
       {/* ---------------- componente aprendido ---------------- */}
       {ficha.aprendido && (
         <>
@@ -475,6 +496,8 @@ export function Modelo({ salida }: { salida: SalidaRecomendacion | null }) {
         </>
       )}
 
+=======
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
       {/* ---------------- lo que falta ---------------- */}
       <div className="seccion-cab">
         <h2>Lo que este modelo todavía no hace</h2>

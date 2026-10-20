@@ -18,7 +18,11 @@
  * Requiere el caso congelado: npx tsx herramientas/fijar-caso.ts
  */
 import {
+<<<<<<< HEAD
   ejecutarModelo, CARACTERISTICAS, PARAMETROS, REGLAS, cotaSuperior, PENDIENTE,
+=======
+  ejecutarModelo, CARACTERISTICAS, PARAMETROS, REGLAS, cotaSuperior,
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
   horasRestantes, VERSION_MODELO,
 } from "@foodloop/dominio";
 import type { Caracteristica, TrazaModelo } from "@foodloop/dominio";
@@ -277,6 +281,7 @@ fila("Total", `${traza.ms} ms`);
 
 // ---------------------------------------------------------------------
 t("LO QUE ESTE MODELO TODAVÍA NO HACE");
+<<<<<<< HEAD
 for (const p of PENDIENTE) {
   // en párrafos de ~66 columnas, como el resto de la salida
   const palabras = p.split(" ");
@@ -288,5 +293,16 @@ for (const p of PENDIENTE) {
   console.log(lineaTxt);
   console.log();
 }
+=======
+console.log("  Los siete pesos están fijados por criterio experto, no estimados");
+console.log("  sobre datos. El único componente que se ajusta con el uso es la");
+console.log("  aceptación histórica de cada plato.");
+console.log();
+console.log("  Para estimar los pesos hace falta el histórico de decisiones del");
+console.log("  centro de producción: qué se hizo realmente con cada lote de merma.");
+console.log("  Con esa columna, los pesos pasan de «experto» a «aprendido» y el");
+console.log("  modelo puede validarse contra la práctica, no solo verificarse.");
+console.log();
+>>>>>>> 33e1b16b217a044946b76fd8cc42eb6b5a57bbe6
 
 export type { TrazaModelo };
