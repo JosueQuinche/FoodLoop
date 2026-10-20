@@ -1,0 +1,7 @@
+comparacion,metrica,diferencia,ic_inf,ic_sup
+"v3 híbrido − v2 experto","hr1",0.255952,0.211310,0.303571
+"v3 híbrido − v2 experto","hr3",0.440476,0.383929,0.494048
+"v3 híbrido − v2 experto","ndcg3",0.272547,0.235848,0.311407
+"v3 híbrido − popularidad","hr1",0.002976,0,0.011905
+"v3 híbrido − popularidad","hr3",-0.014881,-0.029762,0
+"v3 híbrido − popularidad","ndcg3",-0.007201,-0.015842,0.000553

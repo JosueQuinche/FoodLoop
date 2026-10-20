@@ -1,0 +1,57 @@
+[
+ {
+  "_id": 0,
+  "nombre": "Almuerzo",
+  "orden": 0
+ },
+ {
+  "_id": 1,
+  "nombre": "Merienda",
+  "orden": 1
+ },
+ {
+  "_id": 2,
+  "nombre": "Servicio en sitio",
+  "orden": 2
+ },
+ {
+  "_id": 3,
+  "nombre": "Dietas",
+  "orden": 3
+ },
+ {
+  "_id": 4,
+  "nombre": "Almuerzo opción 2",
+  "orden": 4
+ },
+ {
+  "_id": 5,
+  "nombre": "Sopa",
+  "orden": 5
+ },
+ {
+  "_id": 6,
+  "nombre": "Almuerzo único",
+  "orden": 6
+ },
+ {
+  "_id": 7,
+  "nombre": "Dieta",
+  "orden": 7
+ },
+ {
+  "_id": 8,
+  "nombre": "Almuerzo opción 1",
+  "orden": 8
+ },
+ {
+  "_id": 9,
+  "nombre": "Plato fuerte",
+  "orden": 9
+ },
+ {
+  "_id": 10,
+  "nombre": "Guarnición",
+  "orden": 10
+ }
+]

@@ -1,0 +1,1654 @@
+/* FoodLoop · estilos globales
+   Superficies translúcidas sobre un fondo con lavados de color de marca.
+   La jerarquía se construye con profundidad y espaciado regular, no con
+   tamaños tipográficos grandes. */
+
+:root {
+  --marca-texto: #1F3A14;
+  --verde: #5A9E1F;
+  --accion: #3F7317;
+  --accion-hover: #335E11;
+  --verde-suave: #EDF5E2;
+  --verde-linea: #CFE3B4;
+  --naranja: #E87722;
+  --naranja-texto: #A34F0C;
+  --naranja-suave: #FDEDE0;
+  --naranja-linea: #F7CFAE;
+  --critico: #C4342F;
+  --critico-suave: #FCEBEB;
+  --critico-linea: #F2C6C4;
+
+  --lienzo: #F4F6F1;
+  /* Superficie OPACA. El resto de superficies son translúcidas y se
+     componen sobre el fondo, pero el menú desplegable nativo lo dibuja
+     el sistema operativo fuera de la página: ahí la transparencia no se
+     compone con nada y el texto queda ilegible. */
+  --solido: #FFFFFF;
+  --vidrio: rgba(255, 255, 255, 0.62);
+  --vidrio-fuerte: rgba(255, 255, 255, 0.82);
+  --vidrio-tenue: rgba(255, 255, 255, 0.38);
+  --borde: rgba(28, 28, 25, 0.09);
+  --borde-fuerte: rgba(28, 28, 25, 0.16);
+  --brillo: rgba(255, 255, 255, 0.7);
+  --sombra: 0 1px 2px rgba(28, 40, 20, 0.04), 0 12px 32px -12px rgba(28, 40, 20, 0.12);
+  --sombra-alta: 0 2px 4px rgba(28, 40, 20, 0.05), 0 20px 48px -16px rgba(28, 40, 20, 0.18);
+
+  --texto: #1C1C19;
+  --texto-2: #5A5C54;
+  --texto-3: #8A8C82;
+
+  --r: 10px;
+  --r-lg: 16px;
+  --u: 8px;
+
+  /* ---- movimiento ----
+     La curva de la casa estaba escrita a mano once veces, con dos
+     ortografías distintas; aquí queda una sola vez. Las duraciones
+     siguen las bandas de referencia: el tacto de un botón por debajo
+     de 160 ms, lo demás de interfaz por debajo de 300 ms. Lo que
+     supera ese techo solo vive en la portada, que es una página de
+     presentación y admite un ritmo más narrado. */
+  --curva: cubic-bezier(.2, .7, .3, 1);          /* ease-out de la casa */
+  --curva-fuerte: cubic-bezier(.23, 1, .32, 1);  /* entradas y salidas */
+  --t-toque: .12s;      /* respuesta al pulsar */
+  --t-rapida: .15s;     /* color, borde, sombra */
+  --t-media: .22s;      /* paneles y emergentes */
+  --t-lenta: .28s;      /* superposiciones */
+  --t-relato: .6s;      /* solo portada */
+}
+
+:root[data-tema="oscuro"] {
+  --marca-texto: #EAEDE6;
+  --verde: #8CC63F;
+  --accion: #6FAF2A;
+  --accion-hover: #85C43C;
+  --verde-suave: rgba(140, 198, 63, 0.14);
+  --verde-linea: rgba(140, 198, 63, 0.28);
+  --naranja: #F5A05A;
+  --naranja-texto: #F5A05A;
+  --naranja-suave: rgba(245, 160, 90, 0.13);
+  --naranja-linea: rgba(245, 160, 90, 0.26);
+  --critico: #F09595;
+  --critico-suave: rgba(240, 149, 149, 0.13);
+  --critico-linea: rgba(240, 149, 149, 0.26);
+
+  --lienzo: #0E100D;
+  /* Un punto por encima del lienzo, para que el menú desplegable se
+     despegue del fondo en lugar de fundirse con él. */
+  --solido: #1B1E19;
+  --vidrio: rgba(255, 255, 255, 0.05);
+  --vidrio-fuerte: rgba(255, 255, 255, 0.08);
+  --vidrio-tenue: rgba(255, 255, 255, 0.03);
+  --borde: rgba(255, 255, 255, 0.09);
+  --borde-fuerte: rgba(255, 255, 255, 0.16);
+  --brillo: rgba(255, 255, 255, 0.06);
+  --sombra: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px -12px rgba(0, 0, 0, 0.6);
+  --sombra-alta: 0 2px 4px rgba(0, 0, 0, 0.5), 0 20px 48px -16px rgba(0, 0, 0, 0.7);
+
+  --texto: #EAEDE6;
+  --texto-2: #A5A89E;
+  --texto-3: #7B7E75;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; padding: 0; min-height: 100%; }
+
+body {
+  background: var(--lienzo);
+  color: var(--texto);
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Lavados de color que dan profundidad al vidrio. Fijos y sin coste. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(70ch 50ch at 12% -10%, rgba(90, 158, 31, 0.13), transparent 60%),
+    radial-gradient(60ch 45ch at 92% 4%, rgba(232, 119, 34, 0.10), transparent 60%),
+    radial-gradient(80ch 60ch at 50% 115%, rgba(90, 158, 31, 0.07), transparent 65%);
+}
+
+h1, h2, h3, h4 {
+  font-family: "Archivo", system-ui, sans-serif;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  line-height: 1.2;
+}
+h1 { font-size: 24px; }
+h2 { font-size: 18px; }
+h3 { font-size: 15px; }
+
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accion); outline-offset: 2px; border-radius: 6px; }
+
+.mono { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+
+.rotulo {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-3);
+}
+.rotulo-num { color: var(--naranja); margin-right: 8px; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* ---------------- Superficie de vidrio ---------------- */
+
+.tarjeta, .kpi, .rec, .aviso, .xai, .contra, .rolbar, .ambito {
+  background: var(--vidrio);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border: 1px solid var(--borde);
+}
+
+.tarjeta {
+  border-radius: var(--r-lg);
+  padding: calc(var(--u) * 2.5);
+  box-shadow: var(--sombra);
+}
+.tarjeta-cab {
+  display: flex; align-items: center; gap: var(--u);
+  margin-bottom: calc(var(--u) * 2);
+  padding-bottom: calc(var(--u) * 1.5);
+  border-bottom: 1px solid var(--borde);
+}
+.tarjeta-cab h3 { flex: 1; }
+
+.kpi {
+  border-radius: var(--r-lg);
+  padding: calc(var(--u) * 2);
+  box-shadow: var(--sombra);
+  position: relative;
+  overflow: hidden;
+}
+/* Filo superior claro: lo que hace que el panel se lea como vidrio */
+.kpi::before, .tarjeta::before, .rec::before {
+  content: "";
+  position: absolute; top: 0; left: 12%; right: 12%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brillo), transparent);
+}
+.tarjeta, .rec { position: relative; overflow: hidden; }
+.kpi .l { font-size: 12px; color: var(--texto-2); }
+.kpi .v {
+  font-family: "Archivo", system-ui, sans-serif; font-size: 26px; font-weight: 600;
+  letter-spacing: -0.02em; margin-top: 6px; font-variant-numeric: tabular-nums;
+}
+.kpi .d {
+  font-family: "IBM Plex Mono", monospace; font-size: 11px;
+  margin-top: 4px; color: var(--texto-3);
+}
+
+/* ---------------- Portada ---------------- */
+
+.portada { max-width: 1140px; margin: 0 auto; padding: 0 calc(var(--u) * 3); }
+
+.p-nav {
+  display: flex; align-items: center; gap: calc(var(--u) * 3);
+  padding: calc(var(--u) * 1.5) calc(var(--u) * 2.5);
+  margin-top: calc(var(--u) * 2);
+  border-radius: 999px;
+  background: var(--vidrio-fuerte);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra);
+  position: sticky; top: calc(var(--u) * 2); z-index: 40;
+}
+.p-nav .marca {
+  display: flex; align-items: center; gap: 10px;
+  font-family: "Archivo", system-ui, sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.02em;
+}
+.p-nav .enlaces { display: flex; gap: calc(var(--u) * 3); margin-left: auto; }
+.p-nav .enlaces > button {
+  background: none; border: 0; cursor: pointer; color: var(--texto-2);
+  font-size: 13px; display: flex; gap: 7px; align-items: center; padding: 4px 0;
+}
+.p-nav .enlaces > button:hover { color: var(--texto); }
+.p-nav .enlaces .n { font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--texto-3); }
+
+
+
+.seccion { padding: calc(var(--u) * 7) 0; }
+.seccion-cab { margin-bottom: calc(var(--u) * 3); max-width: 60ch; }
+.seccion-cab h2 { font-size: clamp(22px, 3vw, 30px); margin: 12px 0 10px; }
+.seccion-cab p { color: var(--texto-2); }
+
+.rejilla-3 {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: calc(var(--u) * 2);
+}
+.celda {
+  background: var(--vidrio); backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border: 1px solid var(--borde); border-radius: var(--r-lg);
+  padding: calc(var(--u) * 2.5); box-shadow: var(--sombra);
+}
+/* En táctil el :hover se dispara al tocar y el levantamiento se queda
+   pegado hasta que tocas en otro sitio. Por eso va tras la consulta de
+   puntero fino, aquí y en el resto de elevaciones del archivo. */
+@media (hover: hover) and (pointer: fine) {
+  .celda:hover { transform: translateY(-2px); box-shadow: var(--sombra-alta); border-color: var(--borde-fuerte); }
+}
+.celda .rotulo { display: block; margin-bottom: 12px; }
+.celda h3 { font-size: 17px; margin-bottom: 8px; }
+.celda p { color: var(--texto-2); font-size: 13.5px; }
+
+.pasos { display: grid; grid-template-columns: repeat(4, 1fr); gap: calc(var(--u) * 2); }
+.paso {
+  background: var(--vidrio-tenue); backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--borde); border-radius: var(--r-lg);
+  padding: calc(var(--u) * 2);
+}
+.paso .n { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--naranja); }
+.paso h3 { font-size: 15px; margin: 8px 0 6px; }
+.paso p { color: var(--texto-2); font-size: 13px; }
+
+.cta {
+  margin: calc(var(--u) * 4) 0 calc(var(--u) * 6);
+  padding: calc(var(--u) * 5);
+  border-radius: calc(var(--r-lg) * 1.5);
+  background: var(--vidrio-fuerte);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra-alta);
+  display: flex; align-items: center; gap: calc(var(--u) * 4); flex-wrap: wrap;
+}
+.cta h2 { font-size: clamp(24px, 3.6vw, 36px); max-width: 16ch; margin-top: 14px; }
+.cta .der { margin-left: auto; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+
+.pie {
+  padding: calc(var(--u) * 3) 0 calc(var(--u) * 6);
+  display: flex; gap: calc(var(--u) * 2); flex-wrap: wrap; align-items: center;
+  color: var(--texto-3); font-size: 12.5px;
+  border-top: 1px solid var(--borde);
+}
+
+/* ---------------- Botones ---------------- */
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 38px; padding: 0 16px; border-radius: var(--r);
+  border: 1px solid var(--borde-fuerte);
+  background: var(--vidrio-fuerte);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  cursor: pointer; font-weight: 500;
+  transition: background .15s, border-color .15s, transform .1s, box-shadow .15s;
+}
+.btn:hover { border-color: var(--accion); box-shadow: var(--sombra); }
+.btn:active { transform: translateY(1px); }
+.btn-primario {
+  background: var(--accion); border-color: var(--accion); color: #fff;
+  box-shadow: 0 4px 14px -4px rgba(63, 115, 23, 0.5);
+}
+.btn-primario:hover { background: var(--accion-hover); border-color: var(--accion-hover); }
+:root[data-tema="oscuro"] .btn-primario { color: #12240A; }
+.btn-fantasma { border-color: transparent; background: transparent; color: var(--texto-2); backdrop-filter: none; }
+.btn-fantasma:hover { background: var(--vidrio); color: var(--texto); box-shadow: none; }
+.btn-sm { height: 31px; padding: 0 11px; font-size: 13px; }
+.btn-icono { width: 38px; padding: 0; justify-content: center; }
+.btn-grande { height: 48px; padding: 0 24px; font-size: 15px; border-radius: 12px; }
+.btn[aria-disabled="true"] {
+  opacity: .45; cursor: not-allowed; border-style: dashed;
+  background: var(--vidrio-tenue); box-shadow: none;
+}
+.btn[aria-disabled="true"]:hover { border-color: var(--borde-fuerte); }
+
+/* ---------------- Aplicación ---------------- */
+
+.app { display: grid; grid-template-columns: 236px 1fr; min-height: 100vh; }
+
+.lateral {
+  display: flex; flex-direction: column;
+  position: sticky; top: 0; height: 100vh;
+  padding: calc(var(--u) * 1.5);
+}
+.lateral > * {
+  background: var(--vidrio);
+  backdrop-filter: blur(18px) saturate(1.5);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sombra);
+}
+.lateral .marca {
+  display: flex; align-items: center; gap: 10px;
+  padding: calc(var(--u) * 2);
+  font-family: "Archivo", system-ui, sans-serif; font-weight: 700; font-size: 16px;
+  margin-bottom: var(--u);
+}
+.nav { padding: var(--u); flex: 1; overflow-y: auto; margin-bottom: var(--u); }
+.nav-grupo { margin: 10px 0 6px 10px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 9px 11px; border: 1px solid transparent; background: none;
+  border-radius: var(--r); color: var(--texto-2); cursor: pointer;
+  text-align: left; font-size: 13.5px; transition: background .15s, color .15s;
+}
+.nav-item:hover { background: var(--vidrio-fuerte); color: var(--texto); }
+.nav-item[aria-current="true"] {
+  background: var(--verde-suave); color: var(--accion);
+  border-color: var(--verde-linea); font-weight: 500;
+}
+:root[data-tema="oscuro"] .nav-item[aria-current="true"] { color: var(--verde); }
+.nav-item .n { margin-left: auto; font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--texto-3); }
+.lateral-pie { padding: calc(var(--u) * 1.5); }
+
+.barra {
+  position: sticky; top: calc(var(--u) * 1.5); z-index: 30;
+  display: flex; align-items: center; gap: 12px;
+  margin: calc(var(--u) * 1.5) calc(var(--u) * 2.5) 0 0;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--vidrio-fuerte);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra);
+}
+.miga { font-size: 13px; color: var(--texto-3); }
+.miga b { color: var(--texto); font-weight: 500; }
+.barra .der { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+.principal { padding: calc(var(--u) * 3) calc(var(--u) * 2.5) calc(var(--u) * 8) 0; max-width: 1180px; }
+
+.ambito {
+  display: flex; gap: 12px; align-items: flex-start;
+  border-radius: var(--r-lg);
+  border-left: 3px solid var(--accion);
+  padding: 12px 16px; margin-bottom: calc(var(--u) * 3);
+  box-shadow: var(--sombra);
+}
+.ambito .quien {
+  font-family: "IBM Plex Mono", monospace; font-size: 10.5px;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accion); white-space: nowrap;
+}
+:root[data-tema="oscuro"] .ambito .quien { color: var(--verde); }
+.ambito .txt { font-size: 13px; color: var(--texto-2); }
+
+.cabecera { display: flex; align-items: flex-start; gap: 18px; margin-bottom: calc(var(--u) * 3); flex-wrap: wrap; }
+.cabecera p { color: var(--texto-2); margin-top: 6px; max-width: 66ch; }
+
+.rejilla { display: grid; gap: calc(var(--u) * 2); }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pila { display: flex; flex-direction: column; gap: calc(var(--u) * 2); }
+.fila { display: flex; align-items: center; gap: 10px; }
+.espacio { flex: 1; }
+.apagado { color: var(--texto-2); }
+.pequeno { font-size: 12.5px; }
+.separador { height: 1px; background: var(--borde); margin: calc(var(--u) * 2) 0; }
+
+/* ---------------- Distintivos ---------------- */
+
+.distintivo {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px; border-radius: 999px;
+  font-size: 11.5px; font-weight: 500;
+  border: 1px solid transparent; white-space: nowrap;
+}
+.d-ok { background: var(--verde-suave); color: var(--accion); border-color: var(--verde-linea); }
+:root[data-tema="oscuro"] .d-ok { color: var(--verde); }
+.d-aviso { background: var(--naranja-suave); color: var(--naranja-texto); border-color: var(--naranja-linea); }
+.d-critico { background: var(--critico-suave); color: var(--critico); border-color: var(--critico-linea); }
+.d-neutro { background: var(--vidrio-fuerte); color: var(--texto-2); border-color: var(--borde); }
+.punto { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
+
+/* ---------------- Tablas ---------------- */
+
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left; font-family: "IBM Plex Mono", monospace;
+  font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--texto-3); font-weight: 400;
+  padding: 0 12px 10px; border-bottom: 1px solid var(--borde);
+}
+td { padding: 12px; border-bottom: 1px solid var(--borde); font-size: 13.5px; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr { transition: background .12s; }
+tbody tr:hover { background: var(--vidrio-fuerte); }
+.num { text-align: right; font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+
+/* ---------------- Recomendaciones ---------------- */
+
+.rec { border-radius: var(--r-lg); box-shadow: var(--sombra); overflow: hidden; }
+.rec.top {
+  border-color: var(--verde-linea);
+  box-shadow: var(--sombra-alta), inset 0 0 0 1px var(--verde-linea);
+}
+.rec-cab { display: flex; gap: 14px; align-items: flex-start; padding: calc(var(--u) * 2.5); }
+.rec-pos {
+  width: 34px; height: 34px; flex: none; border-radius: var(--r);
+  background: var(--vidrio-fuerte); border: 1px solid var(--borde);
+  color: var(--texto-2); display: grid; place-items: center;
+  font-family: "IBM Plex Mono", monospace; font-size: 13px;
+}
+.rec.top .rec-pos { background: var(--accion); border-color: var(--accion); color: #fff; }
+:root[data-tema="oscuro"] .rec.top .rec-pos { color: #12240A; }
+.rec-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; font-size: 12.5px; color: var(--texto-2); }
+.rec-meta b { font-family: "IBM Plex Mono", monospace; font-weight: 500; color: var(--texto); }
+.rec-punt { text-align: right; flex: none; }
+.rec-punt .v {
+  font-family: "Archivo", system-ui, sans-serif; font-size: 24px; font-weight: 600;
+  color: var(--accion); font-variant-numeric: tabular-nums;
+}
+:root[data-tema="oscuro"] .rec-punt .v { color: var(--verde); }
+.rec-pie {
+  display: flex; gap: 9px; align-items: center; flex-wrap: wrap;
+  padding: 12px calc(var(--u) * 2.5);
+  border-top: 1px solid var(--borde);
+  background: var(--vidrio-tenue);
+}
+
+/* ---------------- Explicación XAI ---------------- */
+
+.xai {
+  border-radius: var(--r-lg);
+  border-color: var(--naranja-linea);
+  background: linear-gradient(var(--naranja-suave), var(--naranja-suave)), var(--vidrio);
+  padding: calc(var(--u) * 2.5);
+  box-shadow: var(--sombra);
+}
+.xai-tit {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--naranja-texto); font-family: "Archivo", system-ui, sans-serif;
+  font-weight: 600; font-size: 15px;
+}
+/* La primera columna lleva tres líneas —nombre con su peso, valor
+   observado y por qué pesa eso—, así que se alinea arriba y la barra
+   se baja para quedar a la altura del nombre. */
+.factor {
+  display: grid; grid-template-columns: 290px 1fr 62px;
+  gap: 14px; align-items: start;
+  padding: 13px 0; border-bottom: 1px solid var(--borde);
+}
+.factor:last-child { border-bottom: 0; }
+.factor .n {
+  font-size: 13px; display: flex; gap: 10px;
+  align-items: baseline; justify-content: space-between;
+}
+.factor .peso {
+  flex: none; font-family: "IBM Plex Mono", monospace; font-size: 11px;
+  color: var(--texto-2); background: var(--vidrio-fuerte);
+  border: 1px solid var(--borde); border-radius: 999px; padding: 1px 7px;
+}
+.factor .v {
+  font-size: 11px; color: var(--texto-3);
+  font-family: "IBM Plex Mono", monospace; margin-top: 3px;
+}
+.factor .porque {
+  font-size: 11.5px; color: var(--texto-2);
+  line-height: 1.45; margin-top: 5px; max-width: 42ch;
+}
+.factor .pista { margin-top: 7px; }
+.factor .pct { margin-top: 2px; }
+.pista { height: 8px; border-radius: 4px; background: var(--vidrio-fuerte); border: 1px solid var(--borde); overflow: hidden; }
+/* Igual que en las gráficas: se escala, no se cambia el ancho. La
+   duración baja de 550 ms a la banda de interfaz; 550 ms en un panel
+   que se consulta a diario se percibe como lentitud del sistema. */
+.relleno {
+  width: 100%; height: 100%; background: var(--naranja);
+  transform-origin: left;
+  transition: transform var(--t-media) var(--curva);
+}
+.relleno.neg { background: var(--critico); }
+.pct { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; text-align: right; font-variant-numeric: tabular-nums; }
+.contra {
+  border-radius: var(--r); border-left: 3px solid var(--naranja);
+  padding: 12px 15px; font-size: 13px;
+}
+
+/* ---------------- Otros ---------------- */
+
+.aviso {
+  display: flex; gap: 12px; align-items: flex-start;
+  border-radius: var(--r-lg); padding: 14px 16px; font-size: 13px;
+  box-shadow: var(--sombra);
+}
+
+.pasos-receta { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+.pasos-receta li {
+  counter-increment: s; position: relative;
+  padding: 0 0 18px 44px; border-left: 1px solid var(--borde);
+  margin-left: 14px; font-size: 13.5px;
+}
+.pasos-receta li:last-child { border-left-color: transparent; padding-bottom: 0; }
+.pasos-receta li::before {
+  content: counter(s, decimal-leading-zero);
+  position: absolute; left: -14px; top: -2px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--vidrio-fuerte); border: 1px solid var(--borde);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  display: grid; place-items: center;
+  font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--texto-2);
+}
+
+.aviso-flotante {
+  position: fixed; right: 24px; bottom: 24px; z-index: 60;
+  background: var(--vidrio-fuerte);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid var(--borde-fuerte);
+  border-left: 3px solid var(--accion);
+  border-radius: var(--r-lg); padding: 14px 18px;
+  max-width: 340px; box-shadow: var(--sombra-alta);
+}
+
+.rolbar {
+  display: flex; align-items: center; gap: 8px;
+  border-radius: 999px; padding: 3px 5px 3px 13px;
+}
+.selector { height: 30px; border: 0; background: transparent; font-weight: 500; cursor: pointer; padding-right: 6px; }
+.avatar {
+  width: 27px; height: 27px; border-radius: 50%;
+  background: var(--verde-suave); border: 1px solid var(--verde-linea);
+  color: var(--accion); display: grid; place-items: center;
+  font-size: 11px; font-weight: 600; font-family: "IBM Plex Mono", monospace;
+}
+:root[data-tema="oscuro"] .avatar { color: var(--verde); }
+.bloqueo { display: inline-flex; font-size: 12px; color: var(--texto-3); font-style: italic; }
+
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .lateral { position: relative; height: auto; flex-direction: row; overflow-x: auto; padding: var(--u); }
+  .lateral > * { border-radius: var(--r); }
+  .nav { display: flex; gap: 4px; padding: 6px; margin: 0; }
+  .nav-grupo, .nav-item .n, .lateral-pie, .lateral .marca { display: none; }
+  .nav-item { white-space: nowrap; }
+  .barra { margin: var(--u); }
+  .principal { padding: calc(var(--u) * 2); }
+  .g2, .g4, .rejilla-3, .pasos { grid-template-columns: 1fr; }
+  .factor { grid-template-columns: 1fr; gap: 6px; }
+  .factor .pista, .factor .pct { margin-top: 0; }
+  .factor .porque { max-width: none; }
+  .portada { padding: 0 var(--u) * 2; }
+  .cifras { flex-direction: column; }
+}
+
+/* Movimiento reducido no quiere decir "sin movimiento".
+   La regla anterior era `* { transition: none }`, que junto con los
+   adornos se llevaba por delante el anillo de foco del formulario de
+   merma, la fila marcada de la tabla y el elemento activo del menú. Son
+   justo las pistas que explican un cambio de estado, y quien activa
+   esta preferencia suele navegar con teclado.
+   Lo que se conserva: color, borde, sombra y opacidad. Lo que se
+   retira: todo desplazamiento y las animaciones de fondo. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-property: background-color, border-color, color,
+                         box-shadow, opacity, fill, stroke !important;
+    transition-duration: var(--t-rapida) !important;
+    /* No se anula la animación: se acorta. Varias entradas usan
+       `both`, y suprimirlas dejaría elementos en su estado inicial. */
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+  .celda:hover, .paso:hover, .cifra:hover .cifra-icono,
+  .portada .btn-primario:hover, .btn-contorno:hover,
+  .btn:active, .btn-primario:active { transform: none !important; }
+  .portada .btn-primario::after { display: none; }
+}
+
+/* ---------------- Gráficas ---------------- */
+
+.barra-h {
+  display: grid; grid-template-columns: 130px 1fr 76px;
+  gap: 12px; align-items: center; padding: 7px 0;
+}
+.barra-h .pista {
+  height: 9px; border-radius: 5px;
+  background: var(--vidrio-fuerte); border: 1px solid var(--borde); overflow: hidden;
+}
+/* Sin radio propio: la pista ya recorta, y al escalar el radio se
+   deformaría en el extremo derecho. */
+.barra-h .relleno {
+  width: 100%; height: 100%; transform-origin: left;
+  transition: transform var(--t-media) var(--curva);
+}
+
+.barras-v { display: flex; align-items: flex-end; gap: 10px; padding-top: 10px; }
+.barras-v .columna {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: flex-end; align-items: center; gap: 7px; height: 100%;
+}
+.barras-v .grupo {
+  display: flex; gap: 3px; align-items: stretch;
+  width: 100%; height: 100%; justify-content: center;
+}
+/* La barra mide siempre el alto completo y se desliza hacia abajo
+   dentro de una pista que recorta: lo que asoma es el valor. Se
+   prefiere a escalarla porque `scaleY` aplastaría el redondeo
+   superior, que quedaría ovalado en las barras bajas. El movimiento
+   sigue siendo `transform`, que no toca el diseño ni el pintado. */
+.barras-v .pista-v {
+  flex: 1; max-width: 18px; height: 100%; overflow: hidden;
+}
+.barras-v .barra {
+  width: 100%; height: 100%; border-radius: 4px 4px 0 0;
+  transition: transform var(--t-media) var(--curva);
+}
+.barras-v .eje { font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--texto-3); }
+
+.leyenda { display: flex; gap: 16px; font-size: 12px; color: var(--texto-2); margin-top: 12px; flex-wrap: wrap; }
+.leyenda i, .anillo-leyenda i {
+  width: 9px; height: 9px; border-radius: 3px;
+  display: inline-block; margin-right: 7px; vertical-align: -1px;
+}
+
+.anillo { display: flex; align-items: center; gap: calc(var(--u) * 3); flex-wrap: wrap; }
+.anillo-n { font-family: "Archivo", system-ui, sans-serif; font-size: 22px; font-weight: 600; fill: var(--texto); }
+.anillo-l { font-size: 10px; fill: var(--texto-3); font-family: "IBM Plex Mono", monospace; }
+.anillo-leyenda { flex: 1; min-width: 150px; display: flex; flex-direction: column; gap: 8px; }
+.anillo-leyenda > div { display: flex; align-items: center; gap: 4px; }
+.anillo-leyenda > div > span:first-of-type { flex: 1; }
+
+/* ---------------- Formulario ---------------- */
+
+.campo { display: flex; flex-direction: column; gap: 6px; }
+.campo label { font-size: 12.5px; font-weight: 500; color: var(--texto-2); }
+.campo .ayuda { font-size: 11.5px; color: var(--texto-3); }
+.req { color: var(--critico); }
+
+.entrada, select.entrada, textarea.entrada {
+  height: 38px; width: 100%; padding: 0 12px;
+  border-radius: var(--r);
+  border: 1px solid var(--borde-fuerte);
+  background: var(--vidrio-fuerte);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  color: var(--texto);
+  transition: border-color .15s, box-shadow .15s;
+}
+textarea.entrada { height: auto; padding: 10px 12px; resize: vertical; }
+.entrada:focus {
+  border-color: var(--accion);
+  box-shadow: 0 0 0 3px var(--verde-suave);
+  outline: none;
+}
+select.entrada { appearance: none; cursor: pointer; padding-right: 34px; }
+
+/* Las opciones del desplegable.
+   Windows las pinta fuera de la página, de modo que no heredan el fondo
+   translúcido del campo ni el color del tema: sin estas dos líneas, en
+   modo oscuro salían en gris sobre gris y no se leían. */
+select.entrada option,
+select.entrada optgroup,
+.selector option {
+  background-color: var(--solido);
+  color: var(--texto);
+}
+.select-envoltura { position: relative; }
+.select-envoltura::after {
+  content: ""; position: absolute; right: 14px; top: 16px;
+  width: 6px; height: 6px; pointer-events: none;
+  border-right: 1.5px solid var(--texto-3); border-bottom: 1.5px solid var(--texto-3);
+  transform: rotate(45deg);
+}
+
+.opciones { display: flex; gap: 8px; flex-wrap: wrap; }
+.opcion { position: relative; flex: 1 1 130px; }
+.opcion input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.opcion span {
+  display: block; padding: 9px 12px; text-align: center; font-size: 13px;
+  border: 1px solid var(--borde-fuerte); border-radius: var(--r);
+  background: var(--vidrio-fuerte);
+  /* Antes era `transition: .15s`, que equivale a `all`: al marcarse
+     cambia también el grosor de la letra, así que el texto se recolocaba
+     a mitad de la transición. Se nombran las propiedades. */
+  transition: background var(--t-rapida), border-color var(--t-rapida),
+              color var(--t-rapida);
+}
+.opcion input:checked + span {
+  border-color: var(--accion); background: var(--verde-suave);
+  color: var(--accion); font-weight: 500;
+}
+:root[data-tema="oscuro"] .opcion input:checked + span { color: var(--verde); }
+.opcion input:focus-visible + span { outline: 2px solid var(--accion); outline-offset: 2px; }
+
+.error-campo { font-size: 12.5px; color: var(--critico); }
+
+/* ---------------- Inicio de sesión ---------------- */
+
+.auth { min-height: 100vh; display: grid; grid-template-columns: 1.05fr 0.95fr; }
+
+.auth-lado {
+  background: var(--accion);
+  color: #fff;
+  padding: calc(var(--u) * 6);
+  display: flex; flex-direction: column; justify-content: space-between;
+  gap: calc(var(--u) * 4);
+  position: relative; overflow: hidden;
+}
+:root[data-tema="oscuro"] .auth-lado { background: var(--verde-suave); color: var(--texto); }
+.auth-lado h2 { font-size: clamp(28px, 3.6vw, 42px); max-width: 15ch; color: inherit; }
+.auth-lado::after {
+  content: ""; position: absolute; right: -90px; bottom: -60px;
+  width: 340px; height: 210px; opacity: .12;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 66 40'%3E%3Cpath d='M33 20 C27 8, 10 8, 8 20 C6 32, 27 32, 33 20' fill='none' stroke='%23000' stroke-width='5.5' stroke-linecap='round'/%3E%3Cpath d='M33 20 C39 32, 56 32, 58 20 C59.5 11, 50 6, 42 9.5' fill='none' stroke='%23000' stroke-width='5.5' stroke-linecap='round'/%3E%3Cpolygon points='36,10 47,4 47,16' fill='%23000'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 66 40'%3E%3Cpath d='M33 20 C27 8, 10 8, 8 20 C6 32, 27 32, 33 20' fill='none' stroke='%23000' stroke-width='5.5' stroke-linecap='round'/%3E%3Cpath d='M33 20 C39 32, 56 32, 58 20 C59.5 11, 50 6, 42 9.5' fill='none' stroke='%23000' stroke-width='5.5' stroke-linecap='round'/%3E%3Cpolygon points='36,10 47,4 47,16' fill='%23000'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+.auth-cifras { display: flex; gap: calc(var(--u) * 5); }
+.auth-cifras .n { font-family: "Archivo", system-ui, sans-serif; font-size: 30px; font-weight: 600; letter-spacing: -.025em; }
+.auth-cifras .l { font-size: 11.5px; opacity: .82; margin-top: 2px; }
+
+.auth-form { display: grid; place-items: center; padding: calc(var(--u) * 5); }
+.auth-caja { width: 100%; max-width: 400px; }
+
+.auth-resumen {
+  border-radius: var(--r-lg); padding: 14px 16px;
+  background: var(--vidrio); border: 1px solid var(--borde);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+}
+.auth-resumen ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 7px; }
+.auth-resumen li { display: flex; align-items: center; gap: 9px; font-size: 13px; }
+.auth-resumen li.si { color: var(--texto); }
+.auth-resumen li.si svg { color: var(--accion); }
+:root[data-tema="oscuro"] .auth-resumen li.si svg { color: var(--verde); }
+.auth-resumen li.no { color: var(--texto-3); text-decoration: line-through; }
+
+/* ---------------- Perfil ---------------- */
+
+.perfil-cab { display: flex; align-items: center; gap: calc(var(--u) * 2); }
+.avatar-grande {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--verde-suave); border: 1px solid var(--verde-linea);
+  color: var(--accion); display: grid; place-items: center;
+  font-size: 20px; font-weight: 600; font-family: "IBM Plex Mono", monospace; flex: none;
+}
+:root[data-tema="oscuro"] .avatar-grande { color: var(--verde); }
+
+.permiso {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--borde);
+}
+.permiso:last-child { border-bottom: 0; }
+.permiso .icono-p {
+  width: 30px; height: 30px; border-radius: 9px; flex: none;
+  display: grid; place-items: center;
+}
+.permiso.si .icono-p { background: var(--verde-suave); color: var(--accion); }
+:root[data-tema="oscuro"] .permiso.si .icono-p { color: var(--verde); }
+.permiso.no .icono-p { background: var(--vidrio-fuerte); color: var(--texto-3); }
+.permiso .texto { flex: 1; }
+.permiso .texto b { font-weight: 500; font-size: 13.5px; }
+.permiso .texto div { font-size: 12.5px; color: var(--texto-2); margin-top: 2px; }
+
+@media (max-width: 900px) {
+  .auth { grid-template-columns: 1fr; }
+  .auth-lado { display: none; }
+  .auth-form { padding: calc(var(--u) * 3); }
+}
+
+/* ---------------- Fondo con movimiento ---------------- */
+
+/* Tres manchas de color que derivan muy lentamente. El movimiento es
+   deliberadamente lento: a esta escala el ojo lo percibe como profundidad
+   y no como animación, que es lo que se busca en una página de trabajo. */
+
+.fondo-vivo {
+  position: fixed; inset: 0; z-index: -1;
+  overflow: hidden; pointer-events: none;
+}
+
+.orbe {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: .5;
+  will-change: transform;
+}
+
+.o1 {
+  width: 46vw; height: 46vw; min-width: 380px; min-height: 380px;
+  top: -14vw; left: -10vw;
+  background: radial-gradient(circle, rgba(90,158,31,.55), rgba(90,158,31,0) 70%);
+  animation: deriva1 26s ease-in-out infinite alternate;
+}
+.o2 {
+  width: 38vw; height: 38vw; min-width: 320px; min-height: 320px;
+  top: -6vw; right: -8vw;
+  background: radial-gradient(circle, rgba(232,119,34,.45), rgba(232,119,34,0) 70%);
+  animation: deriva2 32s ease-in-out infinite alternate;
+}
+.o3 {
+  width: 52vw; height: 52vw; min-width: 420px; min-height: 420px;
+  bottom: -22vw; left: 24vw;
+  background: radial-gradient(circle, rgba(140,198,63,.4), rgba(140,198,63,0) 70%);
+  animation: deriva3 38s ease-in-out infinite alternate;
+}
+
+:root[data-tema="oscuro"] .orbe { opacity: .32; filter: blur(110px); }
+
+@keyframes deriva1 {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(7vw, 5vw, 0) scale(1.12); }
+}
+@keyframes deriva2 {
+  from { transform: translate3d(0, 0, 0) scale(1.08); }
+  to   { transform: translate3d(-6vw, 8vw, 0) scale(1); }
+}
+@keyframes deriva3 {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-9vw, -6vw, 0) scale(1.15); }
+}
+
+/* El fondo animado sustituye al lavado estático: se pinta encima con el
+   color del lienzo para que no se sumen los dos y el resultado se sature. */
+.fondo-vivo::before {
+  content: ""; position: absolute; inset: 0;
+  background: var(--lienzo);
+}
+.fondo-vivo .orbe { z-index: 1; }
+
+/* Entrada escalonada de los bloques de la portada.
+   El escalonado estaba roto: apuntaba a `.cifras`, que no existe en el
+   marcado —la franja se llama `.franja-cifras`—, y a los hijos tercero
+   y cuarto de `.hero`, que solo tiene dos. El resultado era que la
+   franja de cifras, lo más visible tras el titular, entraba sin nada
+   mientras lo de arriba y lo de abajo sí se animaba. */
+.portada .hero > *,
+.portada .franja-cifras,
+.portada .seccion,
+.portada .cta { animation: subir var(--t-relato) var(--curva) both; }
+.portada .hero > *:nth-child(2) { animation-delay: .06s; }
+.portada .franja-cifras { animation-delay: .12s; }
+
+@keyframes subir {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Sección activa en el menú. */
+.p-nav .enlaces button[aria-current="true"] {
+  color: var(--accion); font-weight: 500;
+}
+:root[data-tema="oscuro"] .p-nav .enlaces button[aria-current="true"] { color: var(--verde); }
+.p-nav .enlaces > button { position: relative; }
+.p-nav .enlaces button[aria-current="true"]::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px;
+  height: 2px; border-radius: 2px; background: currentColor;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+
+/* ---------------- Filtros de la tabla ---------------- */
+
+.barra-filtros {
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  padding: 0 13px 16px; border-bottom: 1px solid var(--borde); margin-bottom: 4px;
+}
+
+.buscador { position: relative; flex: 1; min-width: 220px; }
+.buscador > svg {
+  position: absolute; left: 12px; top: 11px;
+  color: var(--texto-3); pointer-events: none;
+}
+.buscador .entrada { padding-left: 36px; padding-right: 34px; }
+.buscador .limpiar {
+  position: absolute; right: 8px; top: 8px;
+  width: 22px; height: 22px; border: 0; border-radius: 50%;
+  /* `--superficie-3` no estaba definida en ninguna parte, así que este
+     botón se dibujaba transparente sobre el campo de búsqueda. */
+  background: var(--vidrio-fuerte); color: var(--texto-2);
+  display: grid; place-items: center; cursor: pointer;
+}
+.buscador .limpiar:hover { color: var(--texto); }
+
+.fichas { display: flex; gap: 6px; flex-wrap: wrap; }
+.ficha {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 32px; padding: 0 12px; border-radius: 999px;
+  border: 1px solid var(--borde-fuerte);
+  background: var(--vidrio-fuerte);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  font-size: 13px; cursor: pointer;
+  transition: border-color .15s, background .15s, color .15s;
+}
+.ficha:hover { border-color: var(--accion); }
+.ficha .n {
+  font-family: "IBM Plex Mono", monospace; font-size: 11px;
+  color: var(--texto-3); font-variant-numeric: tabular-nums;
+}
+.ficha.activa {
+  background: var(--verde-suave); border-color: var(--verde-linea);
+  color: var(--accion); font-weight: 500;
+}
+:root[data-tema="oscuro"] .ficha.activa { color: var(--verde); }
+.ficha.activa .n { color: inherit; }
+
+/* ---------------- Selección múltiple ---------------- */
+
+.barra-seleccion {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin: 0 13px 14px; padding: 11px 15px;
+  border-radius: var(--r-lg);
+  background: var(--verde-suave);
+  border: 1px solid var(--verde-linea);
+}
+.barra-seleccion b { font-family: "IBM Plex Mono", monospace; }
+
+.casilla {
+  width: 16px; height: 16px; cursor: pointer;
+  accent-color: var(--accion);
+}
+.casilla:disabled { cursor: not-allowed; opacity: .4; }
+tbody tr.marcada { background: var(--verde-suave); }
+tbody tr.marcada:hover { background: var(--verde-suave); }
+
+/* ---------------- Aportes por lote ---------------- */
+
+.aportes { margin-top: 12px; }
+.aportes .rotulo { display: block; margin-bottom: 7px; }
+.aportes-lista { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.aporte {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 11px; border-radius: 999px;
+  background: var(--vidrio-fuerte); border: 1px solid var(--borde);
+  font-size: 12.5px; color: var(--texto-2);
+}
+.aporte b { color: var(--texto); font-weight: 500; font-size: 11.5px; }
+.aporte .mono { color: var(--accion); font-weight: 500; }
+:root[data-tema="oscuro"] .aporte .mono { color: var(--verde); }
+.marca-principal {
+  font-size: 10px; text-transform: uppercase; letter-spacing: .08em;
+  padding: 1px 6px; border-radius: 999px;
+  background: var(--naranja-suave); color: var(--naranja-texto);
+  border: 1px solid var(--naranja-linea);
+}
+
+/* ---------------- Sugerencias ---------------- */
+
+.sugerencias { border-color: var(--naranja-linea); }
+.sugerencia {
+  display: flex; align-items: center; gap: 13px;
+  padding: 11px 13px; border-radius: var(--r);
+  background: var(--vidrio-tenue); border: 1px solid var(--borde);
+}
+.sugerencia .ganancia {
+  flex: none; min-width: 48px; text-align: center;
+  padding: 5px 9px; border-radius: 8px;
+  background: var(--naranja-suave); border: 1px solid var(--naranja-linea);
+  color: var(--naranja-texto);
+  font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 500;
+}
+
+/* ---------------- Pestañas de acceso ---------------- */
+
+.pestanas {
+  display: flex; gap: 4px; padding: 4px;
+  border-radius: var(--r); background: var(--vidrio);
+  border: 1px solid var(--borde);
+}
+.pestanas button {
+  flex: 1; height: 34px; border: 0; border-radius: 8px;
+  background: transparent; color: var(--texto-2);
+  font-size: 13.5px; cursor: pointer;
+  transition: background var(--t-rapida), color var(--t-rapida),
+              box-shadow var(--t-rapida);
+}
+.pestanas button:hover { color: var(--texto); }
+.pestanas button.activa {
+  background: var(--vidrio-fuerte); color: var(--accion);
+  font-weight: 500; box-shadow: var(--sombra);
+}
+:root[data-tema="oscuro"] .pestanas button.activa { color: var(--verde); }
+
+/* ---------------- Logotipo ---------------- */
+
+/* Sobre el panel verde del login, un fondo claro translúcido separa el
+   logotipo del color de marca y evita que el verde del bucle se pierda. */
+.logo-caja {
+  display: inline-block; padding: 18px 22px;
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 28px -12px rgba(0, 0, 0, 0.35);
+}
+:root[data-tema="oscuro"] .logo-caja {
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+}
+
+.pie img { max-height: 34px; width: auto; }
+
+/* ================================================================
+   PORTADA · diseño inspirado en el boceto del cliente
+   ================================================================ */
+
+/* ---------- ondas orgánicas de fondo ---------- */
+.portada { position: relative; }
+.portada::before, .portada::after {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+}
+/* onda verde a la izquierda, a la altura del hero */
+.portada::before {
+  left: -30vw; top: 380px; width: 60vw; height: 520px;
+  background: radial-gradient(closest-side, rgba(140,198,63,.30), rgba(140,198,63,0));
+  border-radius: 50% 60% 55% 45% / 55% 45% 60% 50%;
+  animation: flotar 22s ease-in-out infinite alternate;
+}
+/* onda naranja abajo a la derecha */
+.portada::after {
+  right: -24vw; top: 560px; width: 52vw; height: 460px;
+  background: radial-gradient(closest-side, rgba(245,160,90,.34), rgba(245,160,90,0));
+  border-radius: 60% 40% 45% 55% / 50% 60% 40% 50%;
+  animation: flotar 28s ease-in-out infinite alternate-reverse;
+}
+@keyframes flotar {
+  from { transform: translate3d(0,0,0) rotate(0deg); }
+  to   { transform: translate3d(3vw,-2vw,0) rotate(6deg); }
+}
+
+/* ---------- navegación ---------- */
+.p-nav { padding: 12px 14px 12px 24px; }
+.p-nav .enlaces { gap: 6px; margin-left: auto; margin-right: 16px; }
+.p-nav .enlaces > button {
+  position: relative;
+  padding: 8px 14px; border-radius: 999px;
+  font-size: 14.5px; font-weight: 500;
+  transition: color .2s, background .2s;
+}
+.p-nav .enlaces > button:hover {
+  color: var(--accion); background: var(--verde-suave);
+}
+:root[data-tema="oscuro"] .p-nav .enlaces > button:hover { color: var(--verde); }
+.p-nav .enlaces > button[aria-current="true"] { color: var(--accion); }
+.p-nav .enlaces > button[aria-current="true"]::after {
+  left: 14px; right: 14px; bottom: 1px;
+}
+
+/* ---------- botones: el efecto que faltaba ---------- */
+.btn-pildora { border-radius: 999px; }
+
+/* El adorno de este botón —el destello que lo recorre, el
+   levantamiento al pasar el cursor y el empujón del icono— nació para
+   la portada, pero el selector estaba suelto y se aplicaba también a
+   los seis botones primarios del panel. Ahí se pulsa decenas de veces
+   por turno: tres movimientos decorativos en un control de uso diario
+   cansan y hacen la herramienta más lenta de lo que es. El adorno
+   queda acotado a `.portada`; en el panel solo queda la respuesta al
+   pulsar, que es lo único que cumple una función. */
+.btn-primario {
+  position: relative; overflow: hidden;
+  transition: transform var(--t-toque) var(--curva),
+              box-shadow var(--t-rapida), background var(--t-rapida);
+}
+/* Respuesta al pulsar, en todas partes. Antes solo existía en forma de
+   "deshacer el levantamiento", de modo que con teclado o en táctil
+   —sin hover previo— pulsar no devolvía ninguna señal. */
+.btn-primario:active { transform: scale(.97); }
+
+.portada .btn-primario:active { transform: translateY(0) scale(.97); }
+@media (hover: hover) and (pointer: fine) {
+  .portada .btn-primario:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -8px rgba(63,115,23,.55);
+  }
+  /* destello que recorre el botón al pasar el cursor */
+  .portada .btn-primario::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(110deg, transparent 30%,
+      rgba(255,255,255,.28) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform var(--t-relato) ease;
+  }
+  .portada .btn-primario:hover::after { transform: translateX(120%); }
+  .portada .btn-primario svg { transition: transform var(--t-media) var(--curva); }
+  .portada .btn-primario:hover svg { transform: translateX(3px); }
+}
+
+.btn-contorno {
+  background: transparent;
+  border: 1.5px solid var(--accion);
+  color: var(--accion);
+  transition: transform var(--t-toque) var(--curva),
+              background var(--t-rapida), box-shadow var(--t-rapida);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn-contorno:hover {
+    background: var(--verde-suave);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -12px rgba(63,115,23,.4);
+    border-color: var(--accion);
+  }
+}
+/* Respuesta al pulsar: antes el :hover la tapaba, porque con ratón el
+   puntero siempre está encima al pulsar y ambas reglas empataban. */
+.btn-contorno:active { transform: scale(.97); }
+:root[data-tema="oscuro"] .btn-contorno { color: var(--verde); border-color: var(--verde); }
+
+/* ---------- hero ---------- */
+.hero {
+  display: grid; grid-template-columns: 1.08fr 1fr;
+  gap: calc(var(--u) * 4); align-items: center;
+  padding: calc(var(--u) * 7) 0 calc(var(--u) * 5);
+  max-width: none;
+}
+
+.antetitulo {
+  display: flex; align-items: center; gap: 14px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--accion); font-weight: 500;
+}
+.antetitulo::after {
+  content: ""; width: 140px; height: 1.5px;
+  background: var(--accion); opacity: .5;
+}
+:root[data-tema="oscuro"] .antetitulo { color: var(--verde); }
+:root[data-tema="oscuro"] .antetitulo::after { background: var(--verde); }
+
+.hero-texto h1 {
+  font-size: clamp(38px, 4.6vw, 70px);
+  font-weight: 700; letter-spacing: -0.035em; line-height: 1.02;
+  margin: 22px 0 22px;
+  color: #1F3A14;
+}
+:root[data-tema="oscuro"] .hero-texto h1 { color: var(--texto); }
+.hero-texto h1 .linea { display: block; white-space: nowrap; }
+.hero-texto h1 em { font-style: normal; color: var(--naranja); }
+.hero-texto p {
+  color: var(--texto-2); font-size: 17px; line-height: 1.6; max-width: 48ch;
+}
+.hero-acciones { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 32px; }
+.hero-acciones .btn-grande { height: 56px; padding: 0 30px; font-size: 16px; }
+
+.hero-arte { position: relative; }
+.hero-arte img {
+  width: 100%; height: auto; display: block;
+  /* bordes fundidos: la ilustración se integra con el fondo en lugar de
+     verse como un rectángulo pegado */
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
+          mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
+  animation: aparecer 1s var(--curva) both .15s,
+             levitar 7s ease-in-out infinite 1.2s;
+}
+:root[data-tema="oscuro"] .hero-arte img { filter: brightness(.92) saturate(1.05); }
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(24px) scale(.97); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes levitar {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* ---------- franja de cifras ---------- */
+.franja-cifras {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  margin: calc(var(--u) * 1) 0 calc(var(--u) * 6);
+  padding: calc(var(--u) * 3.5) calc(var(--u) * 2);
+  border-radius: calc(var(--r-lg) * 1.4);
+  background: var(--vidrio-fuerte);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra-alta);
+}
+.cifra {
+  display: flex; align-items: center; gap: 20px;
+  padding: 0 calc(var(--u) * 3);
+}
+.cifra + .cifra { border-left: 1px solid var(--borde); }
+.cifra-icono {
+  width: 68px; height: 68px; flex: none; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--verde-suave); color: var(--accion);
+  transition: transform var(--t-lenta) var(--curva);
+}
+:root[data-tema="oscuro"] .cifra-icono { color: var(--verde); }
+@media (hover: hover) and (pointer: fine) {
+  .cifra:hover .cifra-icono { transform: scale(1.08) rotate(-6deg); }
+}
+.cifra .n {
+  font-family: "Archivo", system-ui, sans-serif; font-size: 32px; font-weight: 700;
+  letter-spacing: -.025em; color: #1F3A14;
+}
+:root[data-tema="oscuro"] .cifra .n { color: var(--texto); }
+.cifra .l { font-size: 13.5px; color: var(--texto-2); margin-top: 2px; line-height: 1.45; }
+
+/* ---------- tarjetas con elevación al pasar ---------- */
+.celda, .paso {
+  transition: transform var(--t-media) var(--curva),
+              box-shadow var(--t-media), border-color var(--t-media);
+}
+.paso:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-alta);
+  border-color: var(--verde-linea);
+}
+
+/* ---------- responsivo ---------- */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding-top: calc(var(--u) * 4); }
+  .hero-arte { order: -1; max-width: 460px; margin: 0 auto; }
+  .franja-cifras { grid-template-columns: 1fr; gap: 20px; }
+  .cifra + .cifra { border-left: 0; border-top: 1px solid var(--borde); padding-top: 20px; }
+  .p-nav .enlaces { display: none; }
+}
+
+/* ---------------- Fotografía de la preparación ---------------- */
+
+/* La foto acompaña al nombre; no encabeza la tarjeta. En una
+   herramienta de apoyo a la decisión, una imagen que dominara el
+   espacio competiría con los factores que sostienen la recomendación. */
+.rec-cab > img,
+.rec-cab > [role="img"] {
+  box-shadow: var(--sombra);
+}
+
+.cabecera > img,
+.cabecera > [role="img"] {
+  box-shadow: var(--sombra);
+  margin-right: 4px;
+}
+
+@media (max-width: 760px) {
+  .rec-cab > img,
+  .rec-cab > [role="img"] { width: 56px !important; height: 56px !important; }
+}
+
+/* Número de fase en las tarjetas del método. */
+.paso-n {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px; letter-spacing: .1em;
+  color: var(--accion); margin-bottom: 10px;
+}
+:root[data-tema="oscuro"] .paso-n { color: var(--verde); }
+
+/* ---------------- Plato terminado en la ficha ---------------- */
+
+.plato {
+  margin: 0 0 16px;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  background: var(--vidrio-fuerte);
+  box-shadow: var(--sombra);
+}
+
+/* Proporción panorámica con tope de altura: el plato se ve completo,
+   pero en pantallas anchas la imagen no empuja la receta fuera de la
+   vista. Sin el tope, a 1600 px la foto ocuparía media pantalla. */
+.plato > img,
+.plato > [role="img"] {
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  max-height: 330px;
+  object-fit: cover;
+  display: block;
+}
+
+.plato figcaption {
+  padding: 14px 18px;
+  border-top: 1px solid var(--borde);
+}
+.plato-datos {
+  display: flex; gap: 28px; flex-wrap: wrap; margin-top: 8px;
+  font-size: 13.5px; color: var(--texto-2);
+}
+.plato-datos b { color: var(--texto); font-weight: 500; }
+
+@media (max-width: 760px) {
+  .plato > img, .plato > [role="img"] { aspect-ratio: 16 / 10; }
+  .plato-datos { gap: 16px; }
+}
+
+/* ---------------- Pantalla de propósito ---------------- */
+
+/* Se muestra al entrar por primera vez. Responde "qué hace esto" y
+   "qué se espera de mí" antes de que el usuario toque nada: en la
+   evaluación con usuarios, quienes usan poco los sistemas informáticos
+   puntuaron casi un punto por debajo del resto y uno señaló que lo más
+   confuso fue entender el propósito. */
+
+.velo {
+  position: fixed; inset: 0; z-index: 60;
+  display: grid; place-items: center;
+  padding: calc(var(--u) * 3);
+  background: rgba(16, 20, 15, .52);
+  backdrop-filter: blur(5px);
+  animation: velo-entra var(--t-media) var(--curva-fuerte) both;
+  overflow-y: auto;
+}
+@keyframes velo-entra { from { opacity: 0 } to { opacity: 1 } }
+
+.bienvenida {
+  position: relative;
+  width: min(640px, 100%);
+  background: var(--lienzo);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sombra-alta);
+  padding: calc(var(--u) * 4);
+  animation: bienvenida-entra var(--t-lenta) var(--curva-fuerte) both;
+}
+@keyframes bienvenida-entra {
+  from { opacity: 0; transform: translateY(12px) scale(.96) }
+  to { opacity: 1; transform: none }
+}
+
+.bienvenida .cerrar {
+  position: absolute; top: 14px; right: 14px;
+  display: grid; place-items: center;
+  width: 30px; height: 30px; padding: 0;
+  border: 1px solid var(--borde); border-radius: 999px;
+  background: var(--vidrio); color: var(--texto-2); cursor: pointer;
+}
+.bienvenida .cerrar:hover { color: var(--texto); border-color: var(--borde-fuerte); }
+
+.bienvenida h2 {
+  font-family: Archivo, system-ui, sans-serif;
+  font-size: 25px; font-weight: 600; margin: 6px 0 0;
+}
+.b-texto {
+  font-size: 14.5px; line-height: 1.6; color: var(--texto-2);
+  margin: 12px 0 0; max-width: 54ch;
+}
+
+.b-pasos {
+  display: grid; gap: 2px; margin: calc(var(--u) * 2.5) 0;
+  border: 1px solid var(--borde); border-radius: var(--r-lg);
+  overflow: hidden; background: var(--borde);
+}
+.b-paso {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px 16px; background: var(--lienzo);
+}
+.b-n {
+  flex: none; display: grid; place-items: center;
+  width: 34px; height: 34px; border-radius: 10px;
+  background: var(--naranja-suave); color: var(--naranja-texto);
+  border: 1px solid var(--naranja-linea);
+}
+.b-orden {
+  font-family: "IBM Plex Mono", monospace; font-size: 10.5px;
+  text-transform: uppercase; letter-spacing: .07em; color: var(--texto-3);
+}
+.b-paso p { margin: 3px 0 0; font-size: 13.5px; line-height: 1.5; }
+
+.b-rol {
+  border-left: 3px solid var(--verde);
+  background: var(--verde-suave);
+  border-radius: var(--r);
+  padding: 13px 16px; margin-bottom: calc(var(--u) * 2.5);
+}
+.b-rol p { margin: 5px 0 0; font-size: 13.5px; line-height: 1.55; }
+
+.bienvenida .btn-pri {
+  width: 100%; justify-content: center;
+  background: var(--accion); color: #fff; border-color: transparent;
+  font-size: 14px; padding: 12px;
+}
+.bienvenida .btn-pri:hover { background: var(--accion-hover); }
+
+.b-pie {
+  margin: 12px 0 0; text-align: center;
+  font-size: 11.5px; color: var(--texto-3);
+}
+
+@media (max-width: 620px) {
+  .velo { padding: var(--u); align-items: start; }
+  .bienvenida { padding: calc(var(--u) * 2.5); }
+  .bienvenida h2 { font-size: 21px; }
+}
+
+/* ---------------- Valorización de la propuesta ---------------- */
+
+/* Contrasta lo que valen los lotes seleccionados con lo que rescata la
+   preparación. Una cifra aislada de costo recuperado no permite juzgar
+   si la propuesta resuelve el problema o solo una parte. */
+
+.valor {
+  border: 1px solid var(--borde); border-radius: var(--r-lg);
+  padding: calc(var(--u) * 2); margin-bottom: 16px;
+  background: var(--vidrio-tenue); box-shadow: var(--sombra);
+}
+.valor-cab {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--u); margin-bottom: 10px;
+}
+.valor-pct { font-size: 12.5px; color: var(--texto-2); white-space: nowrap; }
+.valor-pct b { color: var(--texto); font-variant-numeric: tabular-nums; }
+
+.valor-barra {
+  height: 9px; border-radius: 5px; overflow: hidden;
+  background: var(--critico-suave); border: 1px solid var(--critico-linea);
+}
+.valor-relleno {
+  height: 100%; background: var(--verde);
+  transform-origin: left;
+  transition: transform var(--t-media) var(--curva);
+}
+
+.valor-cifras {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: var(--u); margin-top: 14px;
+}
+/* Las celdas se estiran a la misma altura y la cifra se empuja al
+   fondo, para que no se desalineen cuando un rótulo ocupa dos líneas. */
+.valor-cifras > div { display: flex; flex-direction: column; }
+.valor-cifras .l {
+  font-size: 11px; color: var(--texto-3);
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.valor-cifras .v {
+  font-family: Archivo, system-ui, sans-serif; font-size: 19px;
+  font-weight: 600; margin-top: auto; padding-top: 3px;
+  font-variant-numeric: tabular-nums;
+}
+.valor-cifras .v.riesgo { color: var(--critico); }
+.valor-cifras .v.bien { color: var(--verde); }
+
+@media (max-width: 760px) {
+  .valor-cifras { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------------- Respuesta al pulsar ---------------- */
+
+/* Los controles más usados del panel no devolvían ninguna señal al
+   pulsarlos: el menú lateral, los filtros, las pestañas de rol y los
+   botones de cerrar. En una cocina se trabaja de pie y con prisa, a
+   veces en una pantalla táctil, y la confirmación de que el toque se
+   registró es lo que evita el segundo toque por duda.
+   El valor es deliberadamente corto y pequeño: .97 y 120 ms quedan
+   dentro de la banda de respuesta táctil y pasan casi inadvertidos,
+   que es lo que se busca en algo que se repite todo el turno. */
+.nav-item,
+.ficha,
+.pestanas button,
+.p-nav .enlaces > button,
+.rolbar,
+.buscador .limpiar,
+.bienvenida .cerrar {
+  transition: transform var(--t-toque) var(--curva),
+              background var(--t-rapida), color var(--t-rapida),
+              border-color var(--t-rapida), box-shadow var(--t-rapida);
+}
+.nav-item:active,
+.ficha:active,
+.pestanas button:active,
+.p-nav .enlaces > button:active,
+.rolbar:active,
+.buscador .limpiar:active,
+.bienvenida .cerrar:active { transform: scale(.97); }
+
+/* ---------------- Cambio de pantalla ---------------- */
+
+/* Solo opacidad y 120 ms. Sin desplazamiento y por debajo del umbral
+   en que un cambio empieza a notarse como espera: el contenido ya es
+   utilizable mientras termina de aparecer. Se descartó mover el
+   contenido porque esta es la acción más repetida de la jornada. */
+.principal.entra { animation: pantalla-entra var(--t-toque) var(--curva-fuerte) both; }
+@keyframes pantalla-entra { from { opacity: 0 } to { opacity: 1 } }
+
+/* =====================================================================
+   Pantalla del modelo
+   ---------------------------------------------------------------------
+   Solo usa los tokens del sistema, de modo que el modo oscuro sale sin
+   una sola regla extra. Las tablas son el formato adecuado aquí: lo que
+   se muestra son filas de atributos comparables —una regla y su
+   fundamento, un eje y su peso— y no texto corrido.
+   ===================================================================== */
+
+.etapas { gap: calc(var(--u) * 1.5); }
+
+.etapa {
+  display: grid; grid-template-columns: 76px 1fr;
+  gap: calc(var(--u) * 2);
+  background: var(--vidrio);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border: 1px solid var(--borde);
+  border-radius: var(--r-lg);
+  padding: calc(var(--u) * 2);
+  position: relative;
+}
+
+/* La línea que une una etapa con la siguiente: el modelo es una
+   secuencia, y verlo como una lista de tarjetas sueltas lo escondía. */
+.etapa::after {
+  content: ""; position: absolute;
+  left: calc(var(--u) * 2 + 17px); top: 100%;
+  width: 2px; height: calc(var(--u) * 1.5);
+  background: var(--borde-fuerte);
+}
+.etapa:last-child::after { display: none; }
+
+.etapa-id { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+
+.etapa-cod {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--verde-suave); border: 1px solid var(--verde-linea);
+  color: var(--accion); font-size: 12.5px; font-weight: 600;
+}
+
+.etapa-ms { font-size: 11px; color: var(--texto-3); padding-left: 4px; }
+
+.etapa h3 { font-size: 15px; margin-bottom: calc(var(--u) * 1.5); }
+
+.etapa-flujo {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: calc(var(--u) * 2); margin-bottom: var(--u);
+}
+.etapa-flujo p { font-size: 13px; color: var(--texto-2); margin-top: 3px; }
+
+.etapa .porque {
+  font-size: 12.5px; color: var(--texto-2);
+  border-left: 2px solid var(--verde-linea);
+  padding-left: 10px; margin: var(--u) 0;
+}
+
+.etapa-archivo { font-size: 11px; color: var(--texto-3); }
+
+/* --- tablas del modelo --------------------------------------------- */
+
+.tarjeta.sin-relleno { padding: 0; overflow: hidden; }
+
+.tabla-modelo { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+.tabla-modelo th {
+  text-align: left; font-family: "IBM Plex Mono", monospace;
+  font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--texto-3); font-weight: 500;
+  padding: 12px 14px; border-bottom: 1px solid var(--borde-fuerte);
+  background: var(--vidrio-tenue);
+}
+
+.tabla-modelo td {
+  padding: 11px 14px; border-bottom: 1px solid var(--borde);
+  vertical-align: top;
+}
+.tabla-modelo tbody tr:last-child td { border-bottom: none; }
+
+.tabla-modelo .num { text-align: right; font-variant-numeric: tabular-nums; }
+.tabla-modelo .fuerte { font-weight: 600; color: var(--texto); }
+.tabla-modelo .neg { color: var(--critico); }
+
+.tabla-modelo tbody tr.destacada { background: var(--verde-suave); }
+.tabla-modelo tbody tr.aplazada { background: var(--naranja-suave); }
+
+.tabla-modelo tfoot td {
+  padding: 11px 14px; border-top: 1px solid var(--borde-fuerte);
+  background: var(--vidrio-tenue); font-weight: 500;
+}
+.tabla-modelo tfoot tr:first-child td { border-top: 1px solid var(--borde-fuerte); }
+
+/* La matriz de características es ancha: se desplaza sola en móvil en
+   lugar de empujar la página entera. */
+.tarjeta.sin-relleno { overflow-x: auto; }
+.tabla-modelo.matriz { min-width: 560px; }
+
+.ranking-fila {
+  gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--borde);
+}
+.ranking-fila:last-child { border-bottom: none; }
+
+@media (max-width: 760px) {
+  .etapa { grid-template-columns: 1fr; gap: var(--u); }
+  .etapa::after { display: none; }
+  .etapa-id { flex-direction: row; align-items: center; gap: 10px; }
+  .etapa-flujo { grid-template-columns: 1fr; gap: var(--u); }
+}
+
+/* Aviso de potencial: ámbar, no rojo. Lo que dice no es que algo esté
+   mal, es que falta medir algo antes de poder autorizarlo. */
+.aviso-potencial {
+  background: linear-gradient(var(--naranja-suave), var(--naranja-suave)), var(--vidrio);
+  border-color: var(--naranja-linea);
+  color: var(--naranja-texto);
+}
+.aviso-potencial b { color: var(--naranja-texto); }
+
+.falta-medir {
+  margin: 10px 0 0; padding-left: 18px;
+  font-size: 12.5px; color: var(--texto-2);
+}
+.falta-medir li { margin-bottom: 3px; }
+
+/* Resumen del formulario de registro: etiqueta a la izquierda, valor a
+   la derecha. Sin estas reglas la lista salía con viñetas y los dos
+   textos pegados, «IngredienteAceite», porque la clase nunca se estiló. */
+.ingredientes { list-style: none; margin: 0; padding: 0; }
+
+.ingredientes li {
+  display: flex; align-items: baseline; gap: calc(var(--u) * 2);
+  padding: 9px 0; border-bottom: 1px solid var(--borde);
+  font-size: 13px;
+}
+.ingredientes li:last-child { border-bottom: none; }
+
+.ingredientes li > span:first-child { color: var(--texto-2); flex: 1; }
+.ingredientes li > span:last-child {
+  color: var(--texto); font-weight: 500; text-align: right;
+}
+
+/* Aviso de revisión histórica: visible pero sin alarma. Informa de que
+   el reloj está situado en el pasado, no de que algo vaya mal. */
+.aviso-revision {
+  background: var(--vidrio-fuerte);
+  border-color: var(--borde-fuerte);
+  color: var(--texto-2);
+  margin-bottom: calc(var(--u) * 3);
+}
+.aviso-revision b { color: var(--texto); }

@@ -1,0 +1,33 @@
+{
+  "name": "@foodloop/backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/servidor.ts",
+    "start": "tsx src/servidor.ts",
+    "semilla": "tsx src/infraestructura/adaptadores/salida/mongo/semilla.ts",
+    "build": "tsc --noEmit",
+    "importar": "tsx src/infraestructura/adaptadores/salida/mongo/importar.ts",
+    "fase1": "tsx src/infraestructura/adaptadores/salida/mongo/fase1.ts",
+    "fase2": "tsx src/infraestructura/adaptadores/salida/mongo/fase2.ts",
+    "fase3": "tsx src/infraestructura/adaptadores/salida/mongo/fase3.ts",
+    "fase4": "tsx src/infraestructura/adaptadores/salida/mongo/fase4.ts"
+  },
+  "dependencies": {
+    "@foodloop/dominio": "1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "tsx": "^4.19.1",
+    "mongodb": "^6.10.0",
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.7.5",
+    "typescript": "^5.6.3",
+    "@types/bcryptjs": "^2.4.6"
+  }
+}

@@ -1,0 +1,27 @@
+[
+ {
+  "_id": 0,
+  "nombre": "Cocina caliente",
+  "capacidadKg": 60
+ },
+ {
+  "_id": 1,
+  "nombre": "Panadería",
+  "capacidadKg": 60
+ },
+ {
+  "_id": 2,
+  "nombre": "Cocina fría",
+  "capacidadKg": 60
+ },
+ {
+  "_id": 3,
+  "nombre": "Área de aprovechamiento",
+  "capacidadKg": 60
+ },
+ {
+  "_id": 4,
+  "nombre": "Deshidratación",
+  "capacidadKg": 60
+ }
+]

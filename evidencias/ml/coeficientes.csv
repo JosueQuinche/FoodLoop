@@ -1,0 +1,11 @@
+entrada,etiqueta,coeficiente
+"intercepto","intercepto",-6.709270
+"cobertura","Cobertura de la receta con los lotes elegidos",-1.678809
+"aporteMerma","Proporción del plato que proviene de merma",-1.534165
+"urgencia","Vida útil del lote más comprometido",0.539358
+"absorcion","Parte de lo seleccionado que consume la preparación",0.046450
+"jerarquia","Nivel en la jerarquía de aprovechamiento",0.681465
+"aceptacion","Aceptación histórica del plato",0
+"cargaArea","Carga de trabajo del área",2.000565
+"frecuenciaMenu","Frecuencia de la receta en el menú (90 días)",3.606082
+"recenciaMenu","Producción reciente de la receta",0.257171
